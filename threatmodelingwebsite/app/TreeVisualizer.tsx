@@ -69,6 +69,7 @@ export default function TreeVisualizer({ data, setTreeData }: TreeVisualizerProp
       {/* NODES */}
       {nodes.map((node, i) => (
         <div
+            className="cursor-pointer transition-all duration-200 hover:ring-2 hover:ring-blue-500 hover:bg-blue-100 rounded-md"
             key={i}
             style={{
             position: "absolute",
@@ -80,37 +81,37 @@ export default function TreeVisualizer({ data, setTreeData }: TreeVisualizerProp
             <Node name={node.data.name} /> {/* pass the whole node */}
             
             <div className="flex justify-between mt-1">
-            <button
-                className="text-black font-bold px-1"
-                onClick={e => {
-                e.stopPropagation();
-                const newChildName = prompt("Enter child node name:");
-                if (!newChildName) return;
-                if (!node.data.children) node.data.children = [];
-                node.data.children.push({ name: newChildName });
-                setTreeData({ ...data });
-                }}
-            >
-                +
-            </button>
-            <button
-                className="text-black font-bold px-1"
-                onClick={e => {
-                e.stopPropagation();
-                
-                if (node.data.children) {
-                    node.data._children = node.data.children;
-                    node.data.children = undefined;
-                } else if (node.data._children) {
-                    node.data.children = node.data._children;
-                    node.data._children = undefined;
-                    }
+                <button
+                    className="text-black font-bold px-1 opacity-20 hover:opacity-100"
+                    onClick={e => {
+                    e.stopPropagation();
+                    const newChildName = prompt("Enter child node name:");
+                    if (!newChildName) return;
+                    if (!node.data.children) node.data.children = [];
+                    node.data.children.push({ name: newChildName });
+                    setTreeData({ ...data });
+                    }}
+                >
+                    +
+                </button>
+                <button
+                    className="text-black opacity-20 hover:opacity-100 font-bold px-1"
+                    onClick={e => {
+                    e.stopPropagation();
+                    
+                    if (node.data.children) {
+                        node.data._children = node.data.children;
+                        node.data.children = undefined;
+                    } else if (node.data._children) {
+                        node.data.children = node.data._children;
+                        node.data._children = undefined;
+                        }
 
-                setTreeData({ ...data });
-                }}
-            >
-                {node.data.children ? "▼" : "▶"}
-            </button>
+                    setTreeData({ ...data });
+                    }}
+                    >
+                    {node.data.children ? "▼" : "▶"}
+                </button>
             </div>
         </div>
         )
