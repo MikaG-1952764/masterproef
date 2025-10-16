@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 export interface TreeNode {
     name: string;
     children?: TreeNode[];
+    _children?: TreeNode[];
 }
 
 interface TreeVisualizerProps {
@@ -27,10 +28,7 @@ export default function TreeVisualizer({ data }: TreeVisualizerProps) {
         const svg = d3.select(ref.current);
         svg.selectAll("*").remove(); // reset
 
-        const width = window.innerWidth;
-        const dx = width - 100;
-        const dy = 150;
-        const tree = d3.tree<TreeNode>().size([dx, dy]);
+        const tree = d3.tree<TreeNode>().nodeSize([140, 140]);
         const root = d3.hierarchy(treeData);
         tree(root);
 
@@ -40,15 +38,21 @@ export default function TreeVisualizer({ data }: TreeVisualizerProps) {
             d.y = temp;
         });
 
+        const svgWidth = window.innerWidth;
+
+        // desired position: middle top
+        const translateX = svgWidth / 2 - root.y!; // center horizontally
+        const translateY = 50 - root.x!;           // some top margin (50px)
+
+
         const g = svg
             .append("g")
             .attr("font-family", "sans-serif")
             .attr("font-size", 12)
-            .attr("transform", `translate(${width / 64}, 50)`);
+            .attr("transform", `translate(${translateX}, ${translateY})`);
 
         const nodes = root.descendants() as TreeNodeWithBBox[];
 
-        // GROUP for each node
         const nodeGroups = g.selectAll("g.node")
             .data(nodes)
             .join("g")
@@ -62,7 +66,7 @@ export default function TreeVisualizer({ data }: TreeVisualizerProps) {
                 const textElem = d3.select(this).select("text");
                 textElem.text(newText);
 
-                const bbox = (textElem.node() as SVGTextElement).getBBox();
+                var bbox = (textElem.node() as SVGTextElement).getBBox();
                 d.bbox = bbox;
 
                 d3.select(this).select("rect")
@@ -71,7 +75,8 @@ export default function TreeVisualizer({ data }: TreeVisualizerProps) {
                     .attr("width", bbox.width + 12)
                     .attr("height", bbox.height + 8);
 
-                d3.select(this).select("g").attr("transform", `translate(${(bbox.width ?? 0) / 2 + 20}, 10)`)
+                d3.select(this).select(".add-button").attr("transform", `translate(${(bbox.width ?? 0) / 2 + 20}, 10)`)
+                d3.select(this).select(".collapse-button").attr("transform", `translate(${(bbox.width ?? 0) / 2 + 20}, -20)`)
             });
 
         // TEXT for node
@@ -162,6 +167,46 @@ export default function TreeVisualizer({ data }: TreeVisualizerProps) {
             .attr("font-size", 14)
             .text("+");
 
+        const collapsButtons = nodeGroups.append("g")
+            .attr("class", "collapse-button")
+            .attr("transform", d => `translate(${(d.bbox?.width ?? 0) / 2 + 20}, -20)`)
+            .style("cursor", "pointer")
+            .on("mouseenter", function (event) {
+                event.stopPropagation();
+                d3.select(this).select("circle").attr("stroke", "black");
+                d3.select(this).select("text").attr("fill", "black");
+            })
+            .on("mouseleave", function (event) {
+                event.stopPropagation();
+                d3.select(this).select("circle").attr("stroke", "grey");
+                d3.select(this).select("text").attr("fill", "grey");
+            })
+            .on("click", (event, d) => {
+                event.stopPropagation();
+                
+                if (d.data.children) {
+                    d.data._children = d.data.children;
+                    d.data.children = undefined;
+                } else if (d.data._children) {
+                    d.data.children = d.data._children;
+                    d.data._children = undefined;
+                }
+
+                setTreeData({ ...treeData });
+            });
+
+            collapsButtons.append("circle")
+                .attr("r", 8)
+                .attr("fill", "none")
+                .attr("stroke", "grey")
+                .attr("stroke-width", 2);
+
+            collapsButtons.append("text")
+                .attr("text-anchor", "middle")
+                .attr("dominant-baseline", "middle")
+                .attr("fill", "grey")
+                .attr("font-size", 10)
+                .text(d => d.data.children ? "▼" : "▶");
         // LINKS
         g.selectAll("path")
             .data(root.links())
