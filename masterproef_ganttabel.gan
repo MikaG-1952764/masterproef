@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2025-09-08" view-index="0" gantt-divider-location="473" resource-divider-location="300" version="3.3.3316" locale="nl_BE">
+    <description/>
+    <view zooming-state="default:7" id="gantt-chart">
+        <field id="tpd3" name="Name" width="270" order="0"/>
+        <field id="tpd4" name="Begin date" width="100" order="1"/>
+        <field id="tpd5" name="End date" width="102" order="2"/>
+        <field id="tpd15" name="Notes" width="20" order="3"/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="filter.dueTodayTasks" value="false"/>
+        <option id="filter.overdueTasks" value="false"/>
+        <option id="filter.inProgressTodayTasks" value="false"/>
+        <option id="color.recent"><![CDATA[#ff3300 #0066cc #9999ff #00ffff #ff0000 #ff0033 #ff0066 #ffff00 #99ff00 #66ff00]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Name" width="210" order="0"/>
+        <field id="1" name="Default role" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" uid="a8566a5eba3f41b8abecfd0c063a0367" name="Masterproef" meeting="false" start="2025-09-18" duration="96" complete="0" expand="true">
+            <task id="19" uid="ead9abfd4532474696ea2399b2846b6e" name="Thesis opstellen" color="#0066cc" meeting="false" start="2025-11-03" duration="64" complete="0" expand="true">
+                <task id="27" uid="3a27f0dc3cbb4b3dbc09b0bcb16aa847" name="Finale versie abstract uploaden" color="#ff3300" meeting="true" start="2026-01-12" duration="0" complete="0" expand="true"/>
+                <task id="31" uid="bab52ab220ce41fda8baafa49c0f4f89" name="eerste versie abstract, poster en script" color="#ff3300" meeting="true" start="2025-12-08" duration="0" complete="0" expand="true"/>
+                <task id="25" uid="ace707083ed142b5ad264cef68709f37" name="Juryverdediging masterproef" color="#ff3300" meeting="true" start="2026-01-30" duration="0" complete="0" expand="true"/>
+                <task id="24" uid="681e0572ec5f4d768ce06ac931863985" name="Maken van presentatie" color="#ff3300" meeting="false" start="2026-01-19" duration="8" complete="0" expand="true"/>
+                <task id="23" uid="418c7023336942838fc167a19c394e45" name="Maken van poster" color="#ff3300" meeting="false" start="2025-11-03" duration="56" complete="0" expand="true"/>
+                <task id="22" uid="a29a1de34fa049f581eede0c83a4c304" name="Maken van thesis/scriptie" color="#ff3300" meeting="false" start="2025-11-03" duration="56" complete="0" expand="false"/>
+                <task id="20" uid="5734ba8226f7400cb2da5253339888b4" name="Maken van abstact versie 1" color="#ff3300" meeting="false" start="2025-11-03" duration="26" complete="0" expand="true"/>
+                <task id="28" uid="3c16c3f7d4f94bfc97654b676088cf62" name="Uploaden finlae poster/thesis" color="#ff3300" meeting="true" start="2026-01-19" duration="0" complete="0" expand="true"/>
+                <task id="32" uid="c2c8d41dca474cfc955552d423e137b0" name="Update abstract versie 2" color="#ff3300" meeting="false" start="2025-12-29" duration="8" complete="0" expand="true"/>
+                <task id="26" uid="a404d7ba5da5440da856c955b613c9b7" name="Proefverdediging masterproef" color="#ff3300" meeting="true" start="2026-01-28" duration="0" complete="0" expand="true"/>
+            </task>
+            <task id="33" uid="d22d5dea6e954a0c9c8d0d89988f0cec" name="Analyse uitvoeren" color="#0066cc" meeting="false" start="2025-12-15" duration="12" complete="0" expand="true">
+                <task id="34" uid="f81ecb87f7da43e8b337aafcf038d2bb" name="Analyse resultaten gebruikersonderzoek" color="#9999ff" meeting="false" start="2025-12-15" duration="12" complete="0" expand="true"/>
+            </task>
+            <task id="16" uid="3feae9be304d4658a0179a9e5b21c2be" name="Gebruikersonderzoek" color="#0066cc" meeting="false" start="2025-11-05" duration="33" complete="0" expand="true">
+                <task id="18" uid="3ab47b1cfb10455bafce505e819b3bea" name="uitvoeren van gebruikersonderzoek" color="#ffff00" meeting="false" start="2025-11-26" duration="18" complete="0" expand="true"/>
+                <task id="17" uid="a02b23d024f34530930b2cb1847089fb" name="Opstellen van gebruikersonderzoek" color="#ffff00" meeting="false" start="2025-11-05" duration="16" complete="0" expand="true"/>
+            </task>
+            <task id="9" uid="660ee8634dab4c90adb22d15b5abec69" name="Ontwerp- en implemnetatiefase" color="#0066cc" meeting="false" start="2025-10-07" duration="65" complete="0" expand="true">
+                <task id="15" uid="b3d30ee101dd4f20898021622c1b4664" name="Aanpassingen na gebruikersonderzoek" color="#99ff00" meeting="false" start="2025-12-18" duration="13" complete="0" expand="true"/>
+                <task id="14" uid="9c4dcc0296334a988cbf0ea0e4bb2e07" name="Toevoegen gebruiksvriendelijkheid features" color="#99ff00" meeting="false" start="2025-10-14" duration="30" complete="0" expand="true"/>
+                <task id="10" uid="c2fca69b27664a8199cf8d6296355ac5" name="Impementatie van boomstructuur" color="#99ff00" meeting="false" start="2025-10-07" duration="13" complete="0" expand="true"/>
+                <task id="11" uid="b4a05494649a4e588f63c764027b0e00" name="Toevoegen basisfunctionaliteiten" color="#99ff00" meeting="false" start="2025-10-07" duration="13" complete="0" expand="true"/>
+            </task>
+            <task id="5" uid="30f0f340fc5d43549e6b734a9813991d" name="Opstellen van vereisten" color="#0066cc" meeting="false" start="2025-09-23" duration="30" complete="0" expand="true">
+                <notes><![CDATA[Deze verseisten kunnen nog veranderen doorheen de loop van het project]]></notes>
+                <task id="8" uid="8a215df61026472b8b0dce9ab7683b74" name="Definiëren van bruikbaarheidseisen" color="#ff9900" meeting="false" start="2025-09-30" duration="6" complete="0" expand="true"/>
+                <task id="7" uid="ad62b2b3462b4f86a8911c9d77383a3e" name="Vastleggen van user-friendly features" color="#ff9900" meeting="false" start="2025-09-23" duration="30" complete="0" expand="true"/>
+                <task id="6" uid="985c16018b75482b8809f19680625acd" name="Vastleggen van minimum verseisten" color="#ff9900" meeting="false" start="2025-09-23" duration="11" complete="0" expand="true"/>
+            </task>
+            <task id="1" uid="c8bb800b2b744c60b59de17a44146e52" name="Literatuurstudie" color="#0066cc" meeting="false" start="2025-09-18" duration="9" complete="0" expand="true">
+                <task id="4" uid="4b149f0d95dd49bdb73cdc9c6acb3944" name="Bestuderen van visuele representatietechnieken" color="#00ffff" meeting="false" start="2025-09-18" duration="9" complete="0" expand="true"/>
+                <task id="3" uid="99c445799ddd4d15b4fab6052b76df82" name="Bestuderen van bestaande mindmap- en diagramsoftware" color="#00ffff" meeting="false" start="2025-09-18" duration="9" complete="0" expand="true"/>
+                <task id="2" uid="2aab3a9ceddf41dab7dc6f6988329878" name="Bestuderen van bestaande thread modeling" color="#00ffff" meeting="false" start="2025-09-18" duration="9" complete="0" expand="true"/>
+            </task>
+        </task>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>
