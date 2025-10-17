@@ -71,7 +71,8 @@ export default function TreeVisualizer({ data, setTreeData }: TreeVisualizerProp
       {/* NODES */}
       {nodes.map((node, i) => (
         <div
-            className="cursor-pointer transition-all duration-200 hover:ring-2 hover:ring-blue-500 hover:bg-blue-100 rounded-md"
+            className="group cursor-pointer transition-all duration-200 hover:ring-2 hover:ring-blue-500 hover:bg-blue-100 rounded-md"
+            onClick={e => {node.data.name = prompt("Enter child node name:") || node.data.name; setTreeData({ ...data });}}
             key={i}
             style={{
             position: "absolute",
@@ -84,7 +85,7 @@ export default function TreeVisualizer({ data, setTreeData }: TreeVisualizerProp
             
             <div className="flex justify-between mt-1">
                 <button
-                    className="text-black font-bold px-1 opacity-20 hover:opacity-100"
+                    className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
                     onClick={e => {
                     e.stopPropagation();
                     const newChildName = prompt("Enter child node name:");
@@ -97,7 +98,7 @@ export default function TreeVisualizer({ data, setTreeData }: TreeVisualizerProp
                     +
                 </button>
                 <button
-                    className="text-black opacity-20 hover:opacity-100 font-bold px-1"
+                    className="cursor-pointer text-black opacity-0 group-hover:opacity-100 font-bold px-1"
                     onClick={e => {
                     e.stopPropagation();
                     
@@ -115,7 +116,7 @@ export default function TreeVisualizer({ data, setTreeData }: TreeVisualizerProp
                     {node.data.children ? <FaArrowUp size={12} /> : <FaArrowDown size={12} />}
                 </button>
                 <button
-                  className="text-black font-bold px-1 opacity-20 hover:opacity-100"
+                  className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
                   onClick={e => {
                     e.stopPropagation();
 
