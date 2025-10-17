@@ -42,6 +42,7 @@ export default function TreeVisualizer({ data, setTreeData }: TreeVisualizerProp
 
     setNodes(root.descendants() as d3.HierarchyPointNode<TreeNode>[]);
     setLinks(root.links() as d3.HierarchyPointLink<TreeNode>[]);
+
   }, [data]);
 
   return (
@@ -78,7 +79,7 @@ export default function TreeVisualizer({ data, setTreeData }: TreeVisualizerProp
             transform: "translate(-50%, -50%)",
             }}
         >
-            <Node name={node.data.name} /> {/* pass the whole node */}
+            <Node name={node.data.name} />
             
             <div className="flex justify-between mt-1">
                 <button
@@ -111,6 +112,27 @@ export default function TreeVisualizer({ data, setTreeData }: TreeVisualizerProp
                     }}
                     >
                     {node.data.children ? "▼" : "▶"}
+                </button>
+                <button
+                  className="text-black font-bold px-1 opacity-20 hover:opacity-100"
+                  onClick={e => {
+                    e.stopPropagation();
+
+                    const parent = node.parent; // D3 gives you this
+                    if (!parent) return; // root node has no parent
+                    parent.data.children = parent.data.children?.filter(
+                      child => child !== node.data
+                    );
+
+                    if (parent.data.children?.length === 0) {
+                      parent.data.children = undefined;
+                    }
+
+                    // trigger rerender
+                    setTreeData({ ...data });
+                  }}
+                >
+                  -
                 </button>
             </div>
         </div>
