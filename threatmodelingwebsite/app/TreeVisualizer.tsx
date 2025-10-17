@@ -2,6 +2,7 @@
 
 import * as d3 from "d3";
 import { useEffect, useState } from "react";
+import { FaTrash,FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { Node } from "./Node";
 
 export interface TreeNode {
@@ -111,7 +112,7 @@ export default function TreeVisualizer({ data, setTreeData }: TreeVisualizerProp
                     setTreeData({ ...data });
                     }}
                     >
-                    {node.data.children ? "▼" : "▶"}
+                    {node.data.children ? <FaArrowUp size={12} /> : <FaArrowDown size={12} />}
                 </button>
                 <button
                   className="text-black font-bold px-1 opacity-20 hover:opacity-100"
@@ -132,7 +133,7 @@ export default function TreeVisualizer({ data, setTreeData }: TreeVisualizerProp
                     setTreeData({ ...data });
                   }}
                 >
-                  -
+                  <FaTrash size={12} />
                 </button>
             </div>
         </div>
