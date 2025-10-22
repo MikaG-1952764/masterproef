@@ -1,46 +1,53 @@
-import { use, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
+import { TreeNode } from "./TreeVisualizer";
 
-const data = [
-  { label: 'Node 1' },
-  { label: 'Node 2' },
-  { label: 'Node 3' },
-  { label: 'Node 4' },
-  { label: 'Node 5' },
-];
+interface SearchBarProps {
+  treeData: TreeNode;
+  setHighlightedNodes: (nodes: TreeNode[]) => void;
+}
 
-export default function SearchBar() {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [results, setResults] = useState<typeof data>([]);
+function searchTree(node: TreeNode, term: string, matches: TreeNode[] = []): TreeNode[] {
+  if (node.name.toLowerCase().includes(term.toLowerCase())) {
+    matches.push(node);
+  }
 
+  if (node.children) {
+    node.children.forEach(child => searchTree(child, term, matches));
+  }
 
-    const handleSearch = useCallback((term: string) => {
-        if (term.trim() === '') {
-            setResults([]);
-            return;
-        } else {
-            const results = data.filter(item => item.label.toLowerCase().includes(term.toLowerCase()));
-            setResults(results);
-            console.log(results);
-        }
-    }, []);
+  return matches;
+}
 
-    useEffect(() => {
-        handleSearch(searchTerm);
-    }, [searchTerm, handleSearch]);
+export default function SearchBar({ treeData, setHighlightedNodes }: SearchBarProps) {
+  const [searchTerm, setSearchTerm] = useState('');
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-    };
+  const handleSearch = useCallback((term: string) => {
+    if (term.trim() === '') {
+      setHighlightedNodes([]);
+      return;
+    }
+
+    const matches = searchTree(treeData, term);
+    setHighlightedNodes(matches);
+  }, [treeData, setHighlightedNodes]);
+
+  useEffect(() => {
+    handleSearch(searchTerm);
+  }, [searchTerm, handleSearch]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
 
   return (
     <TextField
-        value={searchTerm}
-        onChange={handleInputChange}
-        id="outlined-basic"
-        variant="outlined"
-        fullWidth
-        label="Search for node"
+      value={searchTerm}
+      onChange={handleInputChange}
+      id="outlined-basic"
+      variant="outlined"
+      fullWidth
+      label="Search for node"
     />
   );
 }

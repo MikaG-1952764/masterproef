@@ -17,47 +17,37 @@ interface TreeVisualizerProps {
   highlightedNodes?: TreeNode[];
 }
 
-export default function TreeVisualizer({
-  data,
-  setTreeData,
-  highlightedNodes = [],
-}: TreeVisualizerProps) {
+export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [] }: TreeVisualizerProps) {
   const [nodes, setNodes] = useState<d3.HierarchyPointNode<TreeNode>[]>([]);
   const [links, setLinks] = useState<d3.HierarchyPointLink<TreeNode>[]>([]);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
+  const isHighlighted = (node: TreeNode) =>
+    highlightedNodes.includes(node);
+
   useEffect(() => {
-    const root = d3.hierarchy<TreeNode>(data, (d) => d.children ?? undefined);
+    const root = d3.hierarchy<TreeNode>(data, d => d.children ?? undefined);
     const treeLayout = d3.tree<TreeNode>().nodeSize([160, 140]);
     treeLayout(root);
 
-    // Swap x and y for vertical layout
-    root.descendants().forEach((d) => {
+    root.descendants().forEach(d => {
       const tmp = d.x;
       d.x = d.y;
       d.y = tmp;
     });
 
     const containerWidth = window.innerWidth;
-    const translateX = containerWidth / 2 - root.y!;
-    const translateY = 50 - root.x!;
-    setOffset({ x: translateX, y: translateY });
+    setOffset({ x: containerWidth / 2 - root.y!, y: 50 - root.x! });
 
     setNodes(root.descendants() as d3.HierarchyPointNode<TreeNode>[]);
     setLinks(root.links() as d3.HierarchyPointLink<TreeNode>[]);
   }, [data]);
 
-  const isHighlighted = (node: TreeNode) =>
-    highlightedNodes.includes(node);
-
   return (
     <div className="relative w-full h-[500px] border">
       {/* LINKS */}
       {links.map((link, i) => (
-        <svg
-          key={i}
-          className="absolute left-0 top-0 w-full h-full pointer-events-none"
-        >
+        <svg key={i} className="absolute left-0 top-0 w-full h-full pointer-events-none">
           <path
             d={`
               M ${link.source.y + offset.x} ${link.source.x + offset.y}
@@ -77,18 +67,12 @@ export default function TreeVisualizer({
         <div
           key={i}
           className={`group cursor-pointer transition-all duration-200 hover:ring-2 hover:ring-blue-500 hover:bg-blue-100 rounded-md ${
-            isHighlighted(node.data) ? "ring-2 ring-red-500 bg-red-100" : ""
+            isHighlighted(node.data) ? "ring-2 ring-orange-300 bg-orange-100" : ""
           }`}
+          style={{ position: "absolute", left: node.y + offset.x, top: node.x + offset.y, transform: "translate(-50%, -50%)" }}
           onClick={() => {
-            node.data.name =
-              prompt("Enter child node name:") || node.data.name;
+            node.data.name = prompt("Enter node name:") || node.data.name;
             setTreeData({ ...data });
-          }}
-          style={{
-            position: "absolute",
-            left: node.y + offset.x,
-            top: node.x + offset.y,
-            transform: "translate(-50%, -50%)",
           }}
         >
           <Node name={node.data.name} />
@@ -97,22 +81,20 @@ export default function TreeVisualizer({
             {/* Add Child */}
             <button
               className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation();
-                const newChildName = prompt("Enter child node name:");
-                if (!newChildName) return;
+                const newChild = prompt("Enter child node name:");
+                if (!newChild) return;
                 if (!node.data.children) node.data.children = [];
-                node.data.children.push({ name: newChildName });
+                node.data.children.push({ name: newChild });
                 setTreeData({ ...data });
               }}
-            >
-              +
-            </button>
+            >+</button>
 
             {/* Collapse/Expand */}
             <button
               className="cursor-pointer text-black opacity-0 group-hover:opacity-100 font-bold px-1"
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation();
                 if (node.data.children) {
                   node.data._children = node.data.children;
@@ -123,28 +105,20 @@ export default function TreeVisualizer({
                 }
                 setTreeData({ ...data });
               }}
-            >
-              {node.data.children ? <FaArrowUp size={12} /> : <FaArrowDown size={12} />}
-            </button>
+            >{node.data.children ? <FaArrowUp size={12}/> : <FaArrowDown size={12}/>}</button>
 
             {/* Delete Node */}
             <button
               className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation();
                 const parent = node.parent;
                 if (!parent) return;
-                parent.data.children = parent.data.children?.filter(
-                  (child) => child !== node.data
-                );
-                if (parent.data.children?.length === 0) {
-                  parent.data.children = undefined;
-                }
+                parent.data.children = parent.data.children?.filter(c => c !== node.data);
+                if (parent.data.children?.length === 0) parent.data.children = undefined;
                 setTreeData({ ...data });
               }}
-            >
-              <FaTrash size={12} />
-            </button>
+            ><FaTrash size={12}/></button>
           </div>
         </div>
       ))}
