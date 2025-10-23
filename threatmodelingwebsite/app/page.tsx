@@ -14,6 +14,8 @@ export default function Page() {
     setTreeData({
       name: rootName || "Start",
       children: [],
+      dangerRating: 0,
+      level: "fortunate"
     });
   };
 

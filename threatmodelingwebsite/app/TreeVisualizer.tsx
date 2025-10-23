@@ -10,6 +10,7 @@ export interface TreeNode {
   children?: TreeNode[];
   _children?: TreeNode[];
   dangerRating: number;
+  level: string;
 }
 
 interface TreeVisualizerProps {
@@ -80,7 +81,7 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
               <p className="text-[12px] text-black">{node.data.dangerRating}</p>
           </div>
           
-          <Node name={node.data.name} />
+          <Node name={node.data.name} level={node.data.level} />
 
           <div className="flex justify-between mt-1">
             {/* Add Child */}
@@ -92,7 +93,8 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
                 if (!newChild) return;
                 if (!node.data.children) node.data.children = [];
                 node.data.dangerRating++;
-                node.data.children.push({ name: newChild , dangerRating: 0});
+                const childLevel = node.data.level === "fortunate" ? "unfortunate" : "fortunate";
+                node.data.children.push({ name: newChild, dangerRating: 0, level: childLevel });
                 setTreeData({ ...data });
               }}
             >+</button>
