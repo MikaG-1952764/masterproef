@@ -9,6 +9,7 @@ export interface TreeNode {
   name: string;
   children?: TreeNode[];
   _children?: TreeNode[];
+  dangerRating: number;
 }
 
 interface TreeVisualizerProps {
@@ -71,10 +72,14 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
           }`}
           style={{ position: "absolute", left: node.y + offset.x, top: node.x + offset.y, transform: "translate(-50%, -50%)" }}
           onClick={() => {
-            node.data.name = prompt("Enter node name:") || node.data.name;
+            node.data.name = prompt("Enter new node name:") || node.data.name;
             setTreeData({ ...data });
           }}
         >
+          <div className="relative rounded-full h-6 w-6 border-black border-2 items-center justify-center text-center opacity-0 group-hover:opacity-100">
+              <p className="text-[12px] text-black">{node.data.dangerRating}</p>
+          </div>
+          
           <Node name={node.data.name} />
 
           <div className="flex justify-between mt-1">
@@ -86,7 +91,8 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
                 const newChild = prompt("Enter child node name:");
                 if (!newChild) return;
                 if (!node.data.children) node.data.children = [];
-                node.data.children.push({ name: newChild });
+                node.data.dangerRating++;
+                node.data.children.push({ name: newChild , dangerRating: 0});
                 setTreeData({ ...data });
               }}
             >+</button>
