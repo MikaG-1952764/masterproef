@@ -2,13 +2,16 @@
 
 import * as d3 from "d3";
 import { useEffect, useState } from "react";
-import { FaTrash, FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { GoChevronDown, GoChevronUp, GoTrash } from "react-icons/go";
 import { Node } from "./Node";
+import { RiAddBoxLine } from "react-icons/ri";
 
 export interface TreeNode {
   name: string;
   children?: TreeNode[];
   _children?: TreeNode[];
+  dangerRating: number;
+  level: string;
 }
 
 interface TreeVisualizerProps {
@@ -71,11 +74,15 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
           }`}
           style={{ position: "absolute", left: node.y + offset.x, top: node.x + offset.y, transform: "translate(-50%, -50%)" }}
           onClick={() => {
-            node.data.name = prompt("Enter node name:") || node.data.name;
+            node.data.name = prompt("Enter new node name:") || node.data.name;
             setTreeData({ ...data });
           }}
         >
-          <Node name={node.data.name} />
+          <div className="relative rounded-full h-6 w-6 border-black border-2 items-center justify-center text-center opacity-0 group-hover:opacity-100 mb-1">
+              <p className="text-[12px] text-black">{node.data.dangerRating}</p>
+          </div>
+          
+          <Node name={node.data.name} level={node.data.level} />
 
           <div className="flex justify-between mt-1">
             {/* Add Child */}
@@ -86,10 +93,12 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
                 const newChild = prompt("Enter child node name:");
                 if (!newChild) return;
                 if (!node.data.children) node.data.children = [];
-                node.data.children.push({ name: newChild });
+                node.data.dangerRating++;
+                const childLevel = node.data.level === "fortunate" ? "unfortunate" : "fortunate";
+                node.data.children.push({ name: newChild, dangerRating: 0, level: childLevel });
                 setTreeData({ ...data });
               }}
-            >+</button>
+            ><RiAddBoxLine size={17}/></button>
 
             {/* Collapse/Expand */}
             <button
@@ -105,7 +114,7 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
                 }
                 setTreeData({ ...data });
               }}
-            >{node.data.children ? <FaArrowUp size={12}/> : <FaArrowDown size={12}/>}</button>
+            >{node.data.children ? <GoChevronDown size={20}/> : <GoChevronUp size={20}/>}</button>
 
             {/* Delete Node */}
             <button
@@ -118,7 +127,7 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
                 if (parent.data.children?.length === 0) parent.data.children = undefined;
                 setTreeData({ ...data });
               }}
-            ><FaTrash size={12}/></button>
+            ><GoTrash size={15}/></button>
           </div>
         </div>
       ))}
