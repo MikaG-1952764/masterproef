@@ -124,6 +124,7 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
                 const parent = node.parent;
                 if (!parent) return;
                 parent.data.children = parent.data.children?.filter(c => c !== node.data);
+                parent.data.dangerRating--;
                 if (parent.data.children?.length === 0) parent.data.children = undefined;
                 setTreeData({ ...data });
               }}
