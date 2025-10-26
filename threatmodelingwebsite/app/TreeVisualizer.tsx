@@ -40,7 +40,23 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
     });
 
     const containerWidth = window.innerWidth;
-    setOffset({ x: containerWidth / 2 - root.y!, y: 160 - root.x! });
+
+    const allX = root.descendants().map(d => d.y ?? 0);
+    const allY = root.descendants().map(d => d.x ?? 0);
+    const minX = Math.min(...allX);
+    const minY = Math.min(...allY);
+
+
+    // Start with center offset
+    let offsetX = (containerWidth/2 - 40);
+    let offsetY = 60 - minY;
+
+    // Check if left-most node would go off-screen
+    if (minX + offsetX < 20) { // 20px padding
+      offsetX += 100 - (minX + offsetX);
+    }
+
+    setOffset({ x: offsetX, y: offsetY });
 
     setNodes(root.descendants() as d3.HierarchyPointNode<TreeNode>[]);
     setLinks(root.links() as d3.HierarchyPointLink<TreeNode>[]);
@@ -53,9 +69,9 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
 
   return (
     <main>
-      <div className="w-full h-full">
+      <div className="relative w-full h-full">
         {/* LINKS */}
-        <svg className="absolute left-0 top-0 w-[3000px] h-[3000px] pointer-events-none overflow-visible">
+        <svg className="relative left-9.5 top-14 overflow-visible">
           {links.map((link, i) => (
             <path
               key={i}
@@ -74,7 +90,7 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
             className={`group cursor-pointer transition-all duration-200 hover:ring-2 hover:ring-blue-500 hover:bg-blue-100 rounded-md ${
               isHighlighted(node.data) ? "ring-2 ring-orange-300 bg-orange-100" : ""
             }`}
-            style={{ position: "absolute", left: node.y + offset.x, top: node.x + offset.y, transform: "translate(-50%, -50%)" }}
+            style={{ position: "absolute", left: node.y + offset.x, top: node.x + offset.y}}
             onClick={() => {
               node.data.name = prompt("Enter new node name:") || node.data.name;
               setTreeData({ ...data });

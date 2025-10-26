@@ -25,12 +25,12 @@ export default function Page() {
   };
 
   return (
-    <main className="p-6">
+    <main className="p-6 pt-16">
       <h1 className="text-2xl font-bold mb-4 text-center text-black">Fortunately–Unfortunately Tree</h1>
 
       {/* Fixed search bar */}
       {treeData && (
-        <div className="fixed right-20 top-10 w-[300px]">
+        <div className="fixed right-40 top-10 w-[300px] z-50">
           <SearchBar treeData={treeData} setHighlightedNodes={setHighlightedNodes} />
         </div>
       )}
@@ -49,16 +49,18 @@ export default function Page() {
           <>
             <button
               onClick={handleReset}
-              className="mb-4 px-3 py-2 bg-gray-300 rounded hover:bg-gray-400 transition"
+              className="mb-4 px-3 py-2 top-10 left-30 bg-gray-300 rounded hover:bg-gray-400 transition fixed z-50"
             >
               Reset Tree
             </button>
             
-            <TreeVisualizer
+            <div className="overflow-auto w-[95vw] h-[90vh] pr-[60px]">
+              <TreeVisualizer
               data={treeData}
               setTreeData={setTreeData}
               highlightedNodes={highlightedNodes}
             />
+            </div>
           </>
         )}
       </div>

@@ -48,6 +48,14 @@ export default function SearchBar({ treeData, setHighlightedNodes }: SearchBarPr
       variant="outlined"
       fullWidth
       label="Search for node"
+      slotProps={{
+        input: {
+          style: {
+            backgroundColor: '#9e9e9ed2', // your desired background
+            borderRadius: '6px',         // optional: rounded corners            // optional: padding
+          },
+        },
+      }}
     />
   );
 }
