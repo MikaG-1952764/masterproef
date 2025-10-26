@@ -32,7 +32,7 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
   const root = d3.hierarchy<TreeNode>(data, d => d.children ?? undefined);
 
   // Horizontal tree: x = vertical, y = horizontal
-  const treeLayout = d3.tree<TreeNode>().nodeSize([200, 300]);
+  const treeLayout = d3.tree<TreeNode>().nodeSize([300, 400]);
   treeLayout(root);
 
   const containerHeight = window.innerHeight;
@@ -68,7 +68,7 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
     <main>
       <div className="relative w-full h-full">
         {/* LINKS */}
-        <svg className="relative left-0 top-12 overflow-visible">
+        <svg className="relative left-40 top-12 overflow-visible">
           {links.map((link, i) => (
             <path
               key={i}
