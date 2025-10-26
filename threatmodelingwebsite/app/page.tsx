@@ -35,7 +35,7 @@ export default function Page() {
         </div>
       )}
 
-      <div>
+      <div className="h-full w-full">
         {!treeData ? (
           <div className="text-center mt-20">
             <button
@@ -53,7 +53,7 @@ export default function Page() {
             >
               Reset Tree
             </button>
-
+            
             <TreeVisualizer
               data={treeData}
               setTreeData={setTreeData}
