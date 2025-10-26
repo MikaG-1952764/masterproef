@@ -29,49 +29,46 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
     highlightedNodes.includes(node);
 
   useEffect(() => {
-    const root = d3.hierarchy<TreeNode>(data, d => d.children ?? undefined);
-    const treeLayout = d3.tree<TreeNode>().nodeSize([300, 180]);
-    treeLayout(root);
+  const root = d3.hierarchy<TreeNode>(data, d => d.children ?? undefined);
 
-    root.descendants().forEach(d => {
-      const tmp = d.x;
-      d.x = d.y;
-      d.y = tmp;
-    });
+  // Horizontal tree: x = vertical, y = horizontal
+  const treeLayout = d3.tree<TreeNode>().nodeSize([200, 300]);
+  treeLayout(root);
 
-    const containerWidth = window.innerWidth;
+  const containerHeight = window.innerHeight;
+  const containerWidth = window.innerWidth;
 
-    const allX = root.descendants().map(d => d.y ?? 0);
-    const allY = root.descendants().map(d => d.x ?? 0);
-    const minX = Math.min(...allX);
-    const minY = Math.min(...allY);
+  const allX = root.descendants().map(d => d.x);
+  const allY = root.descendants().map(d => d.y);
+
+  const minX = Math.min(...allX);
+  const maxX = Math.max(...allX);
+  const minY = Math.min(...allY);
+
+  // Center vertically
+  let offsetX = (containerHeight - (maxX - minX)) / 2 - minX;
+  // If top-most node goes above screen, push tree down
+  if (minX + offsetX < 20) offsetX += 20 - (minX + offsetX);
+
+  // Left padding
+  let offsetY = 40 - minY;
+
+  setOffset({ x: offsetX, y: offsetY });
+
+  setNodes(root.descendants() as d3.HierarchyPointNode<TreeNode>[]);
+  setLinks(root.links() as d3.HierarchyPointLink<TreeNode>[]);
+}, [data]);
 
 
-    // Start with center offset
-    let offsetX = (containerWidth/2 - 40);
-    let offsetY = 60 - minY;
-
-    // Check if left-most node would go off-screen
-    if (minX + offsetX < 20) { // 20px padding
-      offsetX += 30 - (minX + offsetX);
-    }
-
-    setOffset({ x: offsetX, y: offsetY });
-
-    setNodes(root.descendants() as d3.HierarchyPointNode<TreeNode>[]);
-    setLinks(root.links() as d3.HierarchyPointLink<TreeNode>[]);
-  }, [data]);
-
-  const linkGen = d3.linkVertical<d3.HierarchyPointLink<TreeNode>, d3.HierarchyPointNode<TreeNode>>()
-    .x(d => d.y + offset.x)
-    .y(d => d.x + offset.y);
-
+  const linkGen = d3.linkHorizontal<d3.HierarchyPointLink<TreeNode>, d3.HierarchyPointNode<TreeNode>>()
+    .x(d => d.y + offset.y) // horizontal
+    .y(d => d.x + offset.x); // vertical
 
   return (
     <main>
       <div className="relative w-full h-full">
         {/* LINKS */}
-        <svg className="relative left-28 top-14 overflow-visible">
+        <svg className="relative left-0 top-12 overflow-visible">
           {links.map((link, i) => (
             <path
               key={i}
@@ -90,7 +87,7 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
             className={`group cursor-pointer transition-all duration-200 hover:ring-2 hover:ring-blue-500 hover:bg-blue-100 rounded-md ${
               isHighlighted(node.data) ? "ring-2 ring-orange-300 bg-orange-100" : ""
             }`}
-            style={{ position: "absolute", left: node.y + offset.x, top: node.x + offset.y}}
+            style={{ position: "absolute", left: node.y + offset.y, top: node.x + offset.x }}
             onClick={() => {
               node.data.name = prompt("Enter new node name:") || node.data.name;
               setTreeData({ ...data });
