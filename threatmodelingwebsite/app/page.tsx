@@ -4,6 +4,7 @@ import TreeVisualizer from "./TreeVisualizer";
 import type { TreeNode } from "./TreeVisualizer";
 import { useState } from "react";
 import SearchBar from "./searchBar";
+import { securityTreeData } from "./dummyCase";
 
 export default function Page() {
   const [treeData, setTreeData] = useState<TreeNode | null>(null);
@@ -18,6 +19,19 @@ export default function Page() {
       level: "fortunate"
     });
   };
+
+  function computeDangerRating(node: TreeNode): number {
+    if (!node.children || node.children.length === 0) return 0;
+    node.children.forEach(computeDangerRating);
+    node.dangerRating = node.children.length;
+    return node.dangerRating;
+  }
+
+
+  const loadDummyData = () => {
+    setTreeData(securityTreeData);
+    computeDangerRating(securityTreeData);
+  }
 
   const handleReset = () => {
     const userConfirmed = window.confirm("Are you sure you want to reset the tree?");
@@ -43,6 +57,12 @@ export default function Page() {
               className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
             >
               + Add Tree
+            </button>
+            <button
+              onClick={loadDummyData}
+              className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-green-700"
+            >
+              + Add dummy data
             </button>
           </div>
         ) : (

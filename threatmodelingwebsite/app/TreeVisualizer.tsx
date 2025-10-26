@@ -30,7 +30,7 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
 
   useEffect(() => {
     const root = d3.hierarchy<TreeNode>(data, d => d.children ?? undefined);
-    const treeLayout = d3.tree<TreeNode>().nodeSize([160, 140]);
+    const treeLayout = d3.tree<TreeNode>().nodeSize([300, 180]);
     treeLayout(root);
 
     root.descendants().forEach(d => {
@@ -53,7 +53,7 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
 
     // Check if left-most node would go off-screen
     if (minX + offsetX < 20) { // 20px padding
-      offsetX += 100 - (minX + offsetX);
+      offsetX += 30 - (minX + offsetX);
     }
 
     setOffset({ x: offsetX, y: offsetY });
@@ -71,7 +71,7 @@ export default function TreeVisualizer({ data, setTreeData, highlightedNodes = [
     <main>
       <div className="relative w-full h-full">
         {/* LINKS */}
-        <svg className="relative left-9.5 top-14 overflow-visible">
+        <svg className="relative left-28 top-14 overflow-visible">
           {links.map((link, i) => (
             <path
               key={i}
