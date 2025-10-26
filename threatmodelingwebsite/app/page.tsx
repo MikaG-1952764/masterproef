@@ -9,6 +9,7 @@ import { securityTreeData } from "./dummyCase";
 export default function Page() {
   const [treeData, setTreeData] = useState<TreeNode | null>(null);
   const [highlightedNodes, setHighlightedNodes] = useState<TreeNode[]>([]);
+  const [currentNode, setCurrentNode] = useState<TreeNode | null>(null);
 
   const handleAddTree = () => {
     const rootName = prompt("Enter name for the root node:");
@@ -45,7 +46,11 @@ export default function Page() {
       {/* Fixed search bar */}
       {treeData && (
         <div className="fixed right-40 top-10 w-[300px] z-50">
-          <SearchBar treeData={treeData} setHighlightedNodes={setHighlightedNodes} />
+          <SearchBar
+            treeData={treeData}
+            setHighlightedNodes={setHighlightedNodes}
+            setCurrentNode={setCurrentNode}
+          />
         </div>
       )}
 
@@ -76,10 +81,11 @@ export default function Page() {
             
             <div className="overflow-auto w-[95vw] h-[90vh] pr-[60px]">
               <TreeVisualizer
-              data={treeData}
-              setTreeData={setTreeData}
-              highlightedNodes={highlightedNodes}
-            />
+                data={treeData}
+                setTreeData={setTreeData}
+                highlightedNodes={highlightedNodes}
+                currentNode={currentNode!} // set by SearchBar when Enter is pressed
+              />
             </div>
           </>
         )}
