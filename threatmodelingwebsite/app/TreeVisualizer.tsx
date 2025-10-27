@@ -5,6 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import { GoChevronDown, GoChevronUp, GoTrash } from "react-icons/go";
 import { Node } from "./Node";
 import { RiAddBoxLine } from "react-icons/ri";
+import IconSelectorButton from "./components/iconButton";
 
 export interface TreeNode {
   name: string;
@@ -121,8 +122,15 @@ export default function TreeVisualizer({
               setTreeData({ ...data });
             }}
           >
-            <div className="relative rounded-full h-6 w-6 border-black border-2 items-center justify-center text-center opacity-0 group-hover:opacity-100 mb-1">
-              <p className="text-[12px] text-black">{node.data.dangerRating}</p>
+            
+            <div className="flex flex-col justify-between">
+              <div className="rounded-full h-6 w-6 border-black border-2 items-center justify-center text-center opacity-0 group-hover:opacity-100">
+                <p className="text-[12px] text-black">{node.data.dangerRating}</p>
+              </div>
+              
+              <div className="opacity-0 group-hover:opacity-100">
+                <IconSelectorButton/>
+              </div>
             </div>
 
             <Node name={node.data.name} level={node.data.level} />
