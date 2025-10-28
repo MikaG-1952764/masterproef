@@ -5,12 +5,13 @@ import type { TreeNode } from "./TreeVisualizer";
 import { useState } from "react";
 import SearchBar from "./searchBar";
 import { securityTreeData } from "./dummyCase";
+import Hamburger from "hamburger-react";
 
 export default function Page() {
   const [treeData, setTreeData] = useState<TreeNode | null>(null);
   const [highlightedNodes, setHighlightedNodes] = useState<TreeNode[]>([]);
   const [currentNode, setCurrentNode] = useState<TreeNode | null>(null);
-
+  const [isOpen, setOpen] = useState(false);
   const handleAddTree = () => {
     const rootName = prompt("Enter name for the root node:");
     setTreeData({
@@ -44,7 +45,7 @@ export default function Page() {
       <h1 className="text-2xl font-bold mb-4 text-center text-black">Fortunately–Unfortunately Tree</h1>
 
       {/* Fixed search bar */}
-      {treeData && (
+      {(treeData && !isOpen)&& (
         <div className="fixed right-40 top-10 w-[300px] z-50">
           <SearchBar
             treeData={treeData}
@@ -53,6 +54,31 @@ export default function Page() {
           />
         </div>
       )}
+
+      <div
+        className={`absolute top-0 right-0 transition-all duration-500 ease-in-out 
+          ${isOpen 
+            ? "w-[30vw] h-[100vh] border-2 border-black rounded-[20px] bg-gray-200 z-100" 
+            : "w-[50px] h-[50px] right-10 top-10 border-transparent"
+          }`}
+      >
+        {isOpen && 
+          <div className="flex flex-row justify-between mt-18 gap-2 ml-2 mr-2">
+            <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold">
+              Nodes todo
+            </button>
+            <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold">
+              Nodes to check
+            </button>
+            <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold">
+              Finished nodes
+            </button>
+          </div>
+        }
+        <div className="absolute top-5 right-5">
+          <Hamburger color="black" toggled={isOpen} toggle={setOpen} />
+        </div>
+      </div>
 
       <div className="h-full w-full">
         {!treeData ? (
