@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { GoShield, GoShieldCheck } from "react-icons/go";
+import { TreeNode } from "../TreeVisualizer";
 
-export default function IconSelectorButton() {
+export default function IconSelectorButton({treeNode} : {treeNode: TreeNode}) {
   const [open, setOpen] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState(<GoShield size={16} />);
   const ref = useRef<HTMLDivElement>(null);
@@ -27,7 +28,7 @@ export default function IconSelectorButton() {
       <button
         className="cursor-pointer text-black font-bold px-2 py-1 border rounded"
         onClick={(e) => {
-            e.stopPropagation();  // ✅ prevent node click
+            e.stopPropagation();
             setOpen(!open);
         }}
       >
@@ -41,8 +42,9 @@ export default function IconSelectorButton() {
               key={index}
               className="hover:bg-red p-1 rounded-full"
               onClick={(e) => {
-                    e.stopPropagation();  // ✅ prevent parent node click
+                    e.stopPropagation();
                     setSelectedIcon(icon);
+                    treeNode.status=icon.type;
                     setOpen(false);
                 }}
             >

@@ -6,9 +6,8 @@ import { useEffect, useState } from "react";
 import SearchBar from "./searchBar";
 import { securityTreeData } from "./dummyCase";
 import Hamburger from "hamburger-react";
-import { tree } from "next/dist/build/templates/app-page";
-import { getLastRedNodes, getLastGreenNodes } from "./components/getLastNodes";
-import { get } from "http";
+import { getLastRedNodes, getLastGreenNodesToCheck, getLastGreenNodesFinished } from "./components/getLastNodes";
+import { GoShield } from "react-icons/go";
 
 export default function Page() {
   const [treeData, setTreeData] = useState<TreeNode | null>(null);
@@ -16,9 +15,11 @@ export default function Page() {
   const [currentNode, setCurrentNode] = useState<TreeNode | null>(null);
   const [isOpen, setOpen] = useState(false);
   const [redNodes, setRedNodes] = useState<TreeNode[]>([]);
-  const [greenNodes, setGreeNodes] = useState<TreeNode[]>([]);
+  const [greenNodes, setGreenNodes] = useState<TreeNode[]>([]);
+  const [greenNodesFinished, setGreenNodesFinished] = useState<TreeNode[]>([]);
   const [displayRedNodes, setDisplayRedNodes] = useState(false);
   const [displayGreenNodes, setDisplayGreenNodes] = useState(false);
+  const [displayGreenNodesFinished, setDisplayGreenNodesFinished] = useState(false);
   
   const handleAddTree = () => {
     const rootName = prompt("Enter name for the root node:");
@@ -26,7 +27,8 @@ export default function Page() {
       name: rootName || "Start",
       children: [],
       dangerRating: 0,
-      level: "fortunate"
+      level: "fortunate",
+      status: GoShield,
     });
   };
 
@@ -37,9 +39,11 @@ export default function Page() {
 
   useEffect(() => {
     const getRedNodes = getLastRedNodes(treeData!);
-    const getGreenNodes = getLastGreenNodes(treeData!);
+    const getGreenNodesToCheck = getLastGreenNodesToCheck(treeData!);
+    const getGreenNodesFinished = getLastGreenNodesFinished(treeData!);
     setRedNodes(getRedNodes);
-    setGreeNodes(getGreenNodes);
+    setGreenNodes(getGreenNodesToCheck);
+    setGreenNodesFinished(getGreenNodesFinished);
   }, [treeData]);
 
   function ShowNodes({ treeNodes }: { treeNodes: TreeNode[] }){
@@ -55,16 +59,22 @@ export default function Page() {
     )
   }
 
-  function computeDangerRating(node: TreeNode): number {
+  function computeDangerRating(node: TreeNode) {
     if (!node.children || node.children.length === 0) return 0;
     node.children.forEach(computeDangerRating);
     node.dangerRating = node.children.length;
-    return node.dangerRating;
+  }
+
+  function addIconStatus(node: TreeNode) {
+    if(node.children) node.children!.forEach(addIconStatus);
+    node.status = GoShield;
+    console.log(node);
   }
 
   const loadDummyData = () => {
     setTreeData(securityTreeData);
     computeDangerRating(securityTreeData);
+    addIconStatus(securityTreeData);
   }
 
   const handleReset = () => {
@@ -98,14 +108,15 @@ export default function Page() {
           <div className="flex flex-col">
             <div className="flex flex-row justify-between mt-18 gap-2 ml-2 mr-2">
               <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold active:bg-gray-400"
-                onClick={() => {setDisplayRedNodes(true); setDisplayGreenNodes(false)}}>
+                onClick={() => {setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false)}}>
                 Nodes todo
               </button>
               <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold active:bg-gray-400"
-                onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true)}}>
+                onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false)}}>
                 Nodes to check
               </button>
-              <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold">
+              <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold active:bg-gray-400"
+                      onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true)}}>
                 Finished nodes
               </button>
             </div>
@@ -116,6 +127,10 @@ export default function Page() {
             <div>
               {displayGreenNodes &&
               <ShowNodes treeNodes={greenNodes} />}
+            </div>
+            <div>
+              {displayGreenNodesFinished &&
+              <ShowNodes treeNodes={greenNodesFinished} />}
             </div>
           </div>
         }

@@ -6,6 +6,8 @@ import { GoChevronDown, GoChevronUp, GoTrash } from "react-icons/go";
 import { Node } from "./Node";
 import { RiAddBoxLine } from "react-icons/ri";
 import IconSelectorButton from "./components/iconButton";
+import { GoShield } from "react-icons/go";
+import { IconType } from "react-icons";
 
 export interface TreeNode {
   name: string;
@@ -13,6 +15,7 @@ export interface TreeNode {
   _children?: TreeNode[];
   dangerRating: number;
   level: string;
+  status: IconType;
 }
 
 interface TreeVisualizerProps {
@@ -129,7 +132,7 @@ export default function TreeVisualizer({
               </div>
               
               <div className="opacity-0 group-hover:opacity-100">
-                <IconSelectorButton/>
+                <IconSelectorButton treeNode={node.data}/>
               </div>
             </div>
 
@@ -152,6 +155,7 @@ export default function TreeVisualizer({
                     name: newChild,
                     dangerRating: 0,
                     level: childLevel,
+                    status: GoShield,
                   });
                   setTreeData({ ...data });
                 }}
