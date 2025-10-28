@@ -19,7 +19,7 @@ interface TreeVisualizerProps {
   data: TreeNode;
   setTreeData: (data: TreeNode) => void;
   highlightedNodes?: TreeNode[];
-  currentNode?: TreeNode; // newly added: current node for jumping
+  currentNode?: TreeNode;
 }
 
 export default function TreeVisualizer({

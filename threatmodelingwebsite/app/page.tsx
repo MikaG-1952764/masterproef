@@ -7,7 +7,7 @@ import SearchBar from "./searchBar";
 import { securityTreeData } from "./dummyCase";
 import Hamburger from "hamburger-react";
 import { tree } from "next/dist/build/templates/app-page";
-import { getLastRedNodes } from "./components/getLastNodes";
+import { getLastRedNodes, getLastGreenNodes } from "./components/getLastNodes";
 import { get } from "http";
 
 export default function Page() {
@@ -16,7 +16,9 @@ export default function Page() {
   const [currentNode, setCurrentNode] = useState<TreeNode | null>(null);
   const [isOpen, setOpen] = useState(false);
   const [redNodes, setRedNodes] = useState<TreeNode[]>([]);
-  const [displayNodes, setDisplayNodes] = useState(false);
+  const [greenNodes, setGreeNodes] = useState<TreeNode[]>([]);
+  const [displayRedNodes, setDisplayRedNodes] = useState(false);
+  const [displayGreenNodes, setDisplayGreenNodes] = useState(false);
   
   const handleAddTree = () => {
     const rootName = prompt("Enter name for the root node:");
@@ -28,16 +30,24 @@ export default function Page() {
     });
   };
 
+  function isFortunate(node: TreeNode) : boolean{
+    if(node.level == "fortunate") return true;
+    return false;
+  }
+
   useEffect(() => {
     const getRedNodes = getLastRedNodes(treeData!);
+    const getGreenNodes = getLastGreenNodes(treeData!);
     setRedNodes(getRedNodes);
+    setGreeNodes(getGreenNodes);
   }, [treeData]);
 
   function ShowNodes({ treeNodes }: { treeNodes: TreeNode[] }){
     return (
       <div className="mt-6 h-[83vh] overflow-y-auto border border-gray-300 rounded">
         {treeNodes.map((element, index) => (
-          <button key={index} className="bg-red-200 text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200" onClick={() => {setCurrentNode(element); setOpen(false)}}>
+          <button key={index} className={`text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200 ${isFortunate(element) ? "bg-green-200" : "bg-red-200"}`}
+                  onClick={() => {setCurrentNode(element); setOpen(false)}}>
             <p>{element.name}</p>
           </button>
         ))}
@@ -88,10 +98,11 @@ export default function Page() {
           <div className="flex flex-col">
             <div className="flex flex-row justify-between mt-18 gap-2 ml-2 mr-2">
               <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold active:bg-gray-400"
-                onClick={() => setDisplayNodes(true)}>
+                onClick={() => {setDisplayRedNodes(true); setDisplayGreenNodes(false)}}>
                 Nodes todo
               </button>
-              <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold">
+              <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold active:bg-gray-400"
+                onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true)}}>
                 Nodes to check
               </button>
               <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold">
@@ -99,8 +110,12 @@ export default function Page() {
               </button>
             </div>
             <div>
-              {displayNodes &&
+              {displayRedNodes &&
               <ShowNodes treeNodes={redNodes} />}
+            </div>
+            <div>
+              {displayGreenNodes &&
+              <ShowNodes treeNodes={greenNodes} />}
             </div>
           </div>
         }
