@@ -37,7 +37,7 @@ export default function Page() {
     return (
       <div className="mt-6 h-[83vh] overflow-y-auto border border-gray-300 rounded">
         {treeNodes.map((element, index) => (
-          <button key={index} className="bg-red-200 text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%]">
+          <button key={index} className="bg-red-200 text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200" onClick={() => {setCurrentNode(element); setOpen(false)}}>
             <p>{element.name}</p>
           </button>
         ))}
