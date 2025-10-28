@@ -52,7 +52,6 @@ export default function Page() {
     return node.dangerRating;
   }
 
-
   const loadDummyData = () => {
     setTreeData(securityTreeData);
     computeDangerRating(securityTreeData);
@@ -68,7 +67,7 @@ export default function Page() {
       <h1 className="text-2xl font-bold mb-4 text-center text-black">Fortunately–Unfortunately Tree</h1>
 
       {/* Fixed search bar */}
-      {(treeData && !isOpen)&& (
+      {(treeData)&& (
         <div className="fixed right-40 top-10 w-[300px] z-50">
           <SearchBar
             treeData={treeData}
