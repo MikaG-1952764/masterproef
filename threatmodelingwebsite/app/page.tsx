@@ -2,16 +2,22 @@
 
 import TreeVisualizer from "./TreeVisualizer";
 import type { TreeNode } from "./TreeVisualizer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "./searchBar";
 import { securityTreeData } from "./dummyCase";
 import Hamburger from "hamburger-react";
+import { tree } from "next/dist/build/templates/app-page";
+import { getLastRedNodes } from "./components/getLastNodes";
+import { get } from "http";
 
 export default function Page() {
   const [treeData, setTreeData] = useState<TreeNode | null>(null);
   const [highlightedNodes, setHighlightedNodes] = useState<TreeNode[]>([]);
   const [currentNode, setCurrentNode] = useState<TreeNode | null>(null);
   const [isOpen, setOpen] = useState(false);
+  const [redNodes, setRedNodes] = useState<TreeNode[]>([]);
+  const [displayNodes, setDisplayNodes] = useState(false);
+  
   const handleAddTree = () => {
     const rootName = prompt("Enter name for the root node:");
     setTreeData({
@@ -21,6 +27,23 @@ export default function Page() {
       level: "fortunate"
     });
   };
+
+  useEffect(() => {
+    const getRedNodes = getLastRedNodes(treeData!);
+    setRedNodes(getRedNodes);
+  }, [treeData]);
+
+  function ShowNodes({ treeNodes }: { treeNodes: TreeNode[] }){
+    return (
+      <div className="mt-6 h-[83vh] overflow-y-auto border border-gray-300 rounded">
+        {treeNodes.map((element, index) => (
+          <button key={index} className="bg-red-200 text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%]">
+            <p>{element.name}</p>
+          </button>
+        ))}
+      </div>
+    )
+  }
 
   function computeDangerRating(node: TreeNode): number {
     if (!node.children || node.children.length === 0) return 0;
@@ -63,16 +86,23 @@ export default function Page() {
           }`}
       >
         {isOpen && 
-          <div className="flex flex-row justify-between mt-18 gap-2 ml-2 mr-2">
-            <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold">
-              Nodes todo
-            </button>
-            <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold">
-              Nodes to check
-            </button>
-            <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold">
-              Finished nodes
-            </button>
+          <div className="flex flex-col">
+            <div className="flex flex-row justify-between mt-18 gap-2 ml-2 mr-2">
+              <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold active:bg-gray-400"
+                onClick={() => setDisplayNodes(true)}>
+                Nodes todo
+              </button>
+              <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold">
+                Nodes to check
+              </button>
+              <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold">
+                Finished nodes
+              </button>
+            </div>
+            <div>
+              {displayNodes &&
+              <ShowNodes treeNodes={redNodes} />}
+            </div>
           </div>
         }
         <div className="absolute top-5 right-5">
