@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { GoShield, GoShieldCheck } from "react-icons/go";
 import { TreeNode } from "../TreeVisualizer";
 
-export default function IconSelectorButton({treeNode} : {treeNode: TreeNode}) {
+export default function IconSelectorButton({treeNode, setTreeData, data} : {treeNode: TreeNode, setTreeData: (data: TreeNode) => void, data: TreeNode}) {
   const [open, setOpen] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState(<GoShield size={16} />);
   const ref = useRef<HTMLDivElement>(null);
@@ -45,6 +45,7 @@ export default function IconSelectorButton({treeNode} : {treeNode: TreeNode}) {
                     e.stopPropagation();
                     setSelectedIcon(icon);
                     treeNode.status=icon.type;
+                    setTreeData({...data});
                     setOpen(false);
                 }}
             >

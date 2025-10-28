@@ -132,7 +132,7 @@ export default function TreeVisualizer({
               </div>
               
               <div className="opacity-0 group-hover:opacity-100">
-                <IconSelectorButton treeNode={node.data}/>
+                <IconSelectorButton treeNode={node.data} setTreeData={setTreeData} data={data}/>
               </div>
             </div>
 
