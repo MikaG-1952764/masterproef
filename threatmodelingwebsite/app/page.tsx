@@ -164,7 +164,7 @@ export default function Page() {
               Reset Tree
             </button>
             
-            <div className="overflow-auto w-[95vw] h-[90vh] pr-[60px]">
+            <div className="overflow-auto w-[95vw] h-[85vh] pr-[60px]">
               <TreeVisualizer
                 data={treeData}
                 setTreeData={setTreeData}
