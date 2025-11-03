@@ -126,7 +126,7 @@ export default function TreeVisualizer({
             }}
           >
             
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-row justify-between">
               <div className="rounded-full h-6 w-6 border-black border-2 items-center justify-center text-center opacity-0 group-hover:opacity-100">
                 <p className="text-[12px] text-black">{node.data.dangerRating}</p>
               </div>
