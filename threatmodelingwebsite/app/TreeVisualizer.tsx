@@ -8,6 +8,7 @@ import { RiAddBoxLine } from "react-icons/ri";
 import IconSelectorButton from "./components/iconButton";
 import { GoShield } from "react-icons/go";
 import { IconType } from "react-icons";
+import { BsDot } from "react-icons/bs";
 
 export interface TreeNode {
   name: string;
@@ -163,22 +164,50 @@ export default function TreeVisualizer({
                 <RiAddBoxLine size={17} />
               </button>
 
-              <button
-                className="cursor-pointer text-black opacity-0 group-hover:opacity-100 font-bold px-1"
-                onClick={e => {
-                  e.stopPropagation();
-                  if (node.data.children) {
-                    node.data._children = node.data.children;
-                    node.data.children = undefined;
-                  } else if (node.data._children) {
-                    node.data.children = node.data._children;
-                    node.data._children = undefined;
-                  }
-                  setTreeData({ ...data });
-                }}
-              >
-                {node.data.children ? <GoChevronDown size={20} /> : <GoChevronUp size={20} />}
-              </button>
+              <div className="flex flex-row">
+                {node.data.children &&
+                <button
+                  className="cursor-pointer text-black opacity-0 group-hover:opacity-100 font-bold px-1"
+                  onClick={e => {
+                    e.stopPropagation();
+                    if (node.data.children) {
+                      node.data._children = node.data.children;
+                      node.data.children = undefined;
+                    } else if (node.data._children) {
+                      node.data.children = node.data._children;
+                      node.data._children = undefined;
+                    }
+                    setTreeData({ ...data });
+                  }}
+                >
+                  {node.data.children ? <GoChevronDown size={20} /> : <GoChevronUp size={20} />}
+                </button>}
+                {node.data._children &&
+                <button
+                  className="cursor-pointer text-black opacity-100 font-bold px-1"
+                  onClick={e => {
+                    e.stopPropagation();
+                    if (node.data.children) {
+                      node.data._children = node.data.children;
+                      node.data.children = undefined;
+                    } else if (node.data._children) {
+                      node.data.children = node.data._children;
+                      node.data._children = undefined;
+                    }
+                    setTreeData({ ...data });
+                  }}
+                >
+                  {node.data.children ? <GoChevronDown size={20} /> : <GoChevronUp size={20} />}
+                </button>}
+                {node.data._children?.length===1 &&
+                  <p className="text-black">{<BsDot size={30}/>}</p>}
+                {node.data._children?.length===2 &&
+                  <p className="text-black">{<div className="flex flex-row -space-x-4"><BsDot size={30}/><BsDot size={30}/></div>}</p>}
+                {node.data._children?.length===3 &&
+                  <p className="text-black">{<div className="flex flex-row -space-x-4"><BsDot size={30}/><BsDot size={30}/><BsDot size={30}/></div>}</p>}
+                {node.data._children && node.data._children.length > 3 &&
+                  <p className="text-black">{node.data._children!.length}</p>}
+              </div>
 
               <button
                 className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
