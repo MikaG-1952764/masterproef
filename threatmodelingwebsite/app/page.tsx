@@ -7,7 +7,7 @@ import SearchBar from "./searchBar";
 import { securityTreeData } from "./dummyCase";
 import Hamburger from "hamburger-react";
 import { getLastRedNodes, getLastGreenNodesToCheck, getLastGreenNodesFinished } from "./components/getLastNodes";
-import { GoShield } from "react-icons/go";
+import { GoShield, GoShieldCheck } from "react-icons/go";
 
 export default function Page() {
   const [treeData, setTreeData] = useState<TreeNode | null>(null);
@@ -108,17 +108,26 @@ export default function Page() {
         {isOpen && 
           <div className="flex flex-col">
             <div className="flex flex-row justify-between mt-18 gap-2 ml-2 mr-2">
-              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='todo' ? 'bg-gray-400 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
+              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='todo' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
                 onClick={() => {setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setActiveNodeTab("todo")}}>
-                Nodes todo
+                <div>
+                  Nodes to do
+                  <GoShield className="inline ml-2" color="red"/>
+                </div>
               </button>
-              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='check' ? 'bg-gray-400 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
+              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='check' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
                 onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setActiveNodeTab("check")}}>
-                Nodes to check
+                <div>
+                  Nodes to check
+                  <GoShield className="inline ml-2" color="orange"/>
+                </div>
               </button>
-              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='finished' ? 'bg-gray-400 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
+              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='finished' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
                       onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setActiveNodeTab("finished")}}>
-                Finished nodes
+                <div>
+                  Finished nodes
+                  <GoShieldCheck className="inline ml-2" color="green"/>
+                </div>
               </button>
             </div>
             <div>
