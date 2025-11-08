@@ -17,9 +17,10 @@ export default function Page() {
   const [redNodes, setRedNodes] = useState<TreeNode[]>([]);
   const [greenNodes, setGreenNodes] = useState<TreeNode[]>([]);
   const [greenNodesFinished, setGreenNodesFinished] = useState<TreeNode[]>([]);
-  const [displayRedNodes, setDisplayRedNodes] = useState(false);
+  const [displayRedNodes, setDisplayRedNodes] = useState(true);
   const [displayGreenNodes, setDisplayGreenNodes] = useState(false);
   const [displayGreenNodesFinished, setDisplayGreenNodesFinished] = useState(false);
+  const [activeNodeTab, setActiveNodeTab] = useState<"todo" | "check" | "finished">("todo");
   
   const handleAddTree = () => {
     const rootName = prompt("Enter name for the root node:");
@@ -107,16 +108,16 @@ export default function Page() {
         {isOpen && 
           <div className="flex flex-col">
             <div className="flex flex-row justify-between mt-18 gap-2 ml-2 mr-2">
-              <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold active:bg-gray-400"
-                onClick={() => {setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false)}}>
+              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='todo' ? 'bg-gray-400 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
+                onClick={() => {setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setActiveNodeTab("todo")}}>
                 Nodes todo
               </button>
-              <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold active:bg-gray-400"
-                onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false)}}>
+              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='check' ? 'bg-gray-400 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
+                onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setActiveNodeTab("check")}}>
                 Nodes to check
               </button>
-              <button className="border-2 border-black h-[40px] flex-1 rounded-[20] bg-white text-black font-bold active:bg-gray-400"
-                      onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true)}}>
+              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='finished' ? 'bg-gray-400 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
+                      onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setActiveNodeTab("finished")}}>
                 Finished nodes
               </button>
             </div>
