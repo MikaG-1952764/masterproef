@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import SearchBar from "./searchBar";
 import { securityTreeData } from "./dummyCase";
 import Hamburger from "hamburger-react";
-import { getLastRedNodes, getLastGreenNodesToCheck, getLastGreenNodesFinished } from "./components/getLastNodes";
+import { getLastRedNodes, getGreenNodesToCheck, getLastGreenNodesFinished } from "./components/getLastNodes";
 import { GoShield, GoShieldCheck } from "react-icons/go";
 
 export default function Page() {
@@ -40,10 +40,10 @@ export default function Page() {
 
   useEffect(() => {
     const getRedNodes = getLastRedNodes(treeData!);
-    const getGreenNodesToCheck = getLastGreenNodesToCheck(treeData!);
+    const getGreenNodesToCheckVar = getGreenNodesToCheck(treeData!);
     const getGreenNodesFinished = getLastGreenNodesFinished(treeData!);
     setRedNodes(getRedNodes);
-    setGreenNodes(getGreenNodesToCheck);
+    setGreenNodes(getGreenNodesToCheckVar);
     setGreenNodesFinished(getGreenNodesFinished);
   }, [treeData]);
 

@@ -28,7 +28,7 @@ export function getLastRedNodes(node: TreeNode): TreeNode[] {
   return result;
 }
 
-export function getLastGreenNodesToCheck(node: TreeNode): TreeNode[] {
+export function getGreenNodesToCheck(node: TreeNode): TreeNode[] {
   const result: TreeNode[] = [];
 
   function traverse(current: TreeNode | null | undefined) {
@@ -36,8 +36,7 @@ export function getLastGreenNodesToCheck(node: TreeNode): TreeNode[] {
 
     const hasChildren = Array.isArray(current.children) && current.children.length > 0;
 
-    // red leaf
-    if (current.level === "fortunate" && !hasChildren && current.status==GoShield) {
+    if (current.level === "fortunate" && current.status==GoShield) {
       result.push(current);
     }
 
