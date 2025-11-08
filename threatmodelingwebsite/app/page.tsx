@@ -110,22 +110,22 @@ export default function Page() {
             <div className="flex flex-row justify-between mt-18 gap-2 ml-2 mr-2">
               <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='todo' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
                 onClick={() => {setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setActiveNodeTab("todo")}}>
-                <div>
-                  Nodes to do
+                <div className="text-[13px]">
+                  Weaknesses
                   <GoShield className="inline ml-2" color="red"/>
                 </div>
               </button>
               <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='check' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
                 onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setActiveNodeTab("check")}}>
-                <div>
-                  Nodes to check
+                <div className="text-[13px]">
+                  Assumptions to verify
                   <GoShield className="inline ml-2" color="orange"/>
                 </div>
               </button>
               <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='finished' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
                       onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setActiveNodeTab("finished")}}>
-                <div>
-                  Finished nodes
+                <div className="text-[13px]">
+                  Verified assumptions
                   <GoShieldCheck className="inline ml-2" color="green"/>
                 </div>
               </button>
