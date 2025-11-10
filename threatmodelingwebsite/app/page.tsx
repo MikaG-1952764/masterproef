@@ -51,18 +51,114 @@ export default function Page() {
     setGreenNodesFinished(getGreenNodesFinished);
   }, [treeData]);
 
-  function ShowNodes({ treeNodes }: { treeNodes: TreeNode[] }){
+  function ShowNodes({ treeNodes }: { treeNodes: TreeNode[] }) {
+    const [tooltip, setTooltip] = useState<{
+      visible: boolean;
+      x: number;
+      y: number;
+      parent: TreeNode | null;
+    }>({ visible: false, x: 0, y: 0, parent: null });
+
+    // offset so tooltip doesn't hide the cursor
+    const OFFSET_X = 12;
+    const OFFSET_Y = 12;
+
+    function showParentsAtMouse(e: React.MouseEvent, node: TreeNode) {
+      if (!treeData) return;
+      const parent = getImmediateParent(node, treeData!);
+      // use client coords and small offset
+      const x = (e as React.MouseEvent).clientX + OFFSET_X;
+      const y = (e as React.MouseEvent).clientY + OFFSET_Y;
+
+      // clamp to viewport (optional but handy)
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const maxX = vw - 240; // assume tooltip width ~240px
+      const maxY = vh - 200; // assume tooltip height ~200px
+      const clampedX = Math.min(x, maxX);
+      const clampedY = Math.min(y, maxY);
+
+      setTooltip({ visible: true, x: clampedX, y: clampedY, parent });
+    }
+
+    function moveParentsAtMouse(e: React.MouseEvent) {
+      const x = e.clientX + OFFSET_X;
+      const y = e.clientY + OFFSET_Y;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const maxX = vw - 140;
+      const maxY = vh - 120;
+      setTooltip(t => ({ ...t, x: Math.min(x, maxX), y: Math.min(y, maxY) }));
+    }
+
+    function hideParents() {
+      setTooltip({ visible: false, x: 0, y: 0, parent: null });
+    }
+
     return (
-      <div className="mt-6 h-[83vh] overflow-y-auto border border-gray-300 rounded">
+      <div className="mt-6 h-[79vh] overflow-y-auto border border-gray-300 rounded relative">
         {treeNodes.map((element, index) => (
-          <button key={index} className={`text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200 ${isFortunate(element) ? "bg-green-200" : "bg-red-200"}`}
-                  onClick={() => {setCurrentNode(element); setOpen(false)}}>
-            <p>{element.name}</p>
-          </button>
+          <div key={index} className="relative">
+            <button
+              className={`text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200 ${
+                isFortunate(element) ? "bg-green-200" : "bg-red-200"
+              }`}
+              onClick={() => {
+                setCurrentNode(element);
+                setOpen(false);
+              }}
+              onMouseEnter={(e) => showParentsAtMouse(e, element)}
+              onMouseMove={(e) => moveParentsAtMouse(e)}
+              onMouseLeave={hideParents}
+            >
+              <p>{element.name}</p>
+            </button>
+          </div>
         ))}
+
+        {/* Tooltip that follows the mouse */}
+        {tooltip.visible && tooltip.parent &&(
+          <div
+            className={`fixed z-50 border p-2 shadow rounded max-w-xs text-sm ${isFortunate(tooltip.parent) ? "bg-green-200" : "bg-red-200"}`}
+            style={{
+              left: tooltip.x,
+              top: tooltip.y,
+              pointerEvents: "none" // so it doesn't interfere with mouse events
+            }}
+          >
+            {tooltip.parent ? (
+              <div className={`py-0.5 font-semibold text-black `}>{tooltip.parent.name}</div>
+            ) : (
+              <div className="text-black">No parent</div>
+            )}
+          </div>
+        )}
       </div>
-    )
+    );
   }
+
+
+  function getImmediateParent(node: TreeNode, root: TreeNode): TreeNode | null {
+    let parent: TreeNode | null = null;
+    let found = false;
+
+    function traverse(current: TreeNode, currentParent: TreeNode | null) {
+      if (found) return;
+      if (current === node) {
+        parent = currentParent;
+        found = true;
+        return;
+      }
+      if (current.children) {
+        current.children.forEach(child => traverse(child, current));
+      }
+    }
+
+    traverse(root, null);
+    return parent;
+  }
+
+
 
   function computeDangerRating(node: TreeNode) {
     if (!node.children || node.children.length === 0) return 0;
@@ -143,7 +239,7 @@ export default function Page() {
                 </div>
               </button>
             </div>
-            <div>
+            <div className="group">
               {displayRedNodes &&
               <ShowNodes treeNodes={redNodes} />}
             </div>
