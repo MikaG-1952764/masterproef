@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import SearchBar from "./searchBar";
 import { securityTreeData } from "./dummyCase";
 import Hamburger from "hamburger-react";
-import { getLastRedNodes, getGreenNodesToCheck, getLastGreenNodesFinished } from "./components/getLastNodes";
+import { getLastRedNodes, getGreenNodesToCheck, getLastGreenNodesFinished, getRedNodesToCheck } from "./components/getLastNodes";
 import { GoShield, GoShieldCheck } from "react-icons/go";
 
 export default function Page() {
@@ -15,12 +15,14 @@ export default function Page() {
   const [currentNode, setCurrentNode] = useState<TreeNode | null>(null);
   const [isOpen, setOpen] = useState(false);
   const [redNodes, setRedNodes] = useState<TreeNode[]>([]);
+  const [redNodesToVerify, setRedNodesToVerify] = useState<TreeNode[]>([]);
   const [greenNodes, setGreenNodes] = useState<TreeNode[]>([]);
   const [greenNodesFinished, setGreenNodesFinished] = useState<TreeNode[]>([]);
   const [displayRedNodes, setDisplayRedNodes] = useState(true);
+  const [displayRedNodesToVerify, setDisplayRedNodesToVerify] = useState(true);
   const [displayGreenNodes, setDisplayGreenNodes] = useState(false);
   const [displayGreenNodesFinished, setDisplayGreenNodesFinished] = useState(false);
-  const [activeNodeTab, setActiveNodeTab] = useState<"todo" | "check" | "finished">("todo");
+  const [activeNodeTab, setActiveNodeTab] = useState<"todo" | "verify" | "check" | "finished">("todo");
   
   const handleAddTree = () => {
     const rootName = prompt("Enter name for the root node:");
@@ -40,9 +42,11 @@ export default function Page() {
 
   useEffect(() => {
     const getRedNodes = getLastRedNodes(treeData!);
+    const getRedNodesToVerify = getRedNodesToCheck(treeData!);
     const getGreenNodesToCheckVar = getGreenNodesToCheck(treeData!);
     const getGreenNodesFinished = getLastGreenNodesFinished(treeData!);
     setRedNodes(getRedNodes);
+    setRedNodesToVerify(getRedNodesToVerify);
     setGreenNodes(getGreenNodesToCheckVar);
     setGreenNodesFinished(getGreenNodesFinished);
   }, [treeData]);
@@ -109,22 +113,31 @@ export default function Page() {
           <div className="flex flex-col">
             <div className="flex flex-row justify-between mt-18 gap-2 ml-2 mr-2">
               <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='todo' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
-                onClick={() => {setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setActiveNodeTab("todo")}}>
-                <div className="text-[13px]">
+                onClick={() => {setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo")}}>
+                <div className="text-[15px]">
                   Weaknesses
                   <GoShield className="inline ml-2" color="red"/>
                 </div>
               </button>
+              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='verify' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
+                onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify")}}>
+                <div className="text-[15px]">
+                  Further investigation
+                  <GoShield className="inline ml-2" color="orange"/>
+                </div>
+              </button>
+            </div>
+            <div className="flex flex-row justify-between mt-2 gap-2 ml-2 mr-2">
               <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='check' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
-                onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setActiveNodeTab("check")}}>
-                <div className="text-[13px]">
+                onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}>
+                <div className="text-[15px]">
                   Assumptions to verify
                   <GoShield className="inline ml-2" color="orange"/>
                 </div>
               </button>
               <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='finished' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
-                      onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setActiveNodeTab("finished")}}>
-                <div className="text-[13px]">
+                      onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished")}}>
+                <div className="text-[15px]">
                   Verified assumptions
                   <GoShieldCheck className="inline ml-2" color="green"/>
                 </div>
@@ -133,6 +146,10 @@ export default function Page() {
             <div>
               {displayRedNodes &&
               <ShowNodes treeNodes={redNodes} />}
+            </div>
+            <div>
+              {displayRedNodesToVerify &&
+              <ShowNodes treeNodes={redNodesToVerify} />}
             </div>
             <div>
               {displayGreenNodes &&
