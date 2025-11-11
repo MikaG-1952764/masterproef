@@ -47,6 +47,7 @@ export default function TreeVisualizer({
     // build d3.hierarchy to get depth information, but we'll walk it manually
     const root = d3.hierarchy<TreeNode>(data, d => d.children ?? undefined);
 
+
     // Preorder traversal that only follows `.children` (not `_children`),
     // so collapsed nodes (stored in `_children`) are NOT visited.
     const out: d3.HierarchyNode<TreeNode>[] = [];
@@ -103,7 +104,6 @@ export default function TreeVisualizer({
           <div
             key={i}
             className={`group flex items-center justify-between p-0 rounded-md transition-all duration-200 hover:p-3 hover:pl-4 hover:bg-gray-100
-              ${isFortunate(node.data) ? "border-l-4 border-green-400" : "border-l-4 border-red-400"} 
               ${isHighlighted(node.data) ? "bg-orange-100" : "bg-white"} 
               ${currentNode === node.data ? "ring-2 ring-red-400" : ""}`}
             style={{ marginLeft: `${node.depth * INDENT_PX}px` }}
@@ -114,7 +114,12 @@ export default function TreeVisualizer({
             <div className="flex flex-col items-center gap-2">              
 
               {/* Node visual */}
-              <Node name={node.data.name} level={node.data.level} />
+              <div className="relative flex flex-col">
+                <div className="node-wrapper">
+                  <Node name={node.data.name} level={node.data.level} />
+                </div>
+              </div>
+
 
               {/* Extra actions (appear on hover) */}
               <div className="flex gap-2 opacity-0 group-hover:opacity-100 ml-3">
