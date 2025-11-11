@@ -146,9 +146,9 @@ export default function Page() {
   }
 
   function addIconStatus(node: TreeNode) {
-    if(node.children) node.children!.forEach(addIconStatus);
     node.status = GoShield;
-    console.log(node);
+    if (node.children) node.children.forEach(addIconStatus);
+    if (node._children) node._children.forEach(addIconStatus);
   }
 
   const loadDummyData = () => {
