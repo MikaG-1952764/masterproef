@@ -68,17 +68,17 @@ export const securityTreeData: TreeNode = {
             },
             {
               name: "No verification for email authenticity",
-              level: "fortunate",
+              level: "unfortunate",
               dangerRating: 0,
               _children: [
-                { name: "Deploy DKIM/SPF/DMARC for email validation", level: "unfortunate", dangerRating: 0 },
+                { name: "Deploy DKIM/SPF/DMARC for email validation", level: "fortunate", dangerRating: 0 },
                 {
                   name: "Use advanced spam filters",
-                  level: "unfortunate",
+                  level: "fortunate",
                   dangerRating: 0,
                   _children: [
-                    { name: "Regular filter rule updates", level: "fortunate", dangerRating: 0 },
-                    { name: "Monitor false positives", level: "fortunate", dangerRating: 0 },
+                    { name: "Regular filter rule updates", level: "unfortunate", dangerRating: 0 },
+                    { name: "Monitor false positives", level: "unfortunate", dangerRating: 0 },
                   ],
                 },
               ],
