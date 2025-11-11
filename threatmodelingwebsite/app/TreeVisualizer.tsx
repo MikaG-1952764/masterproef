@@ -114,7 +114,10 @@ export default function TreeVisualizer({
             <div className="flex flex-col items-center gap-2">              
 
               {/* Node visual */}
-              <div className="relative flex flex-col">
+              <div className="relative flex flex-col cursor-pointer" id={`node-${node.data.name}`} key={i} onClick={() => {
+              node.data.name = prompt("Enter new node name:") || node.data.name;
+              setTreeData({ ...data });
+            }} >
                 <div className="node-wrapper">
                   <Node name={node.data.name} level={node.data.level} />
                 </div>

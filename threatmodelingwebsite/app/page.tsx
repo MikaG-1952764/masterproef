@@ -25,7 +25,7 @@ export default function Page() {
   const [greenNodes, setGreenNodes] = useState<TreeNode[]>([]);
   const [greenNodesFinished, setGreenNodesFinished] = useState<TreeNode[]>([]);
   const [displayRedNodes, setDisplayRedNodes] = useState(true);
-  const [displayRedNodesToVerify, setDisplayRedNodesToVerify] = useState(true);
+  const [displayRedNodesToVerify, setDisplayRedNodesToVerify] = useState(false);
   const [displayGreenNodes, setDisplayGreenNodes] = useState(false);
   const [displayGreenNodesFinished, setDisplayGreenNodesFinished] = useState(false);
   const [activeNodeTab, setActiveNodeTab] = useState<"todo" | "verify" | "check" | "finished">("todo");
@@ -51,6 +51,43 @@ export default function Page() {
     setGreenNodes(getGreenNodesToCheckVar);
     setGreenNodesFinished(getGreenNodesFinished);
   }, [treeData]);
+
+  function expandPathToNode(node: TreeNode, root: TreeNode) {
+    const path: TreeNode[] = [];
+
+    // Build path from root to node
+    function findPath(current: TreeNode): boolean {
+      if (current === node) {
+        path.push(current);
+        return true;
+      }
+
+      const children = current.children ?? [];
+      const hiddenChildren = current._children ?? [];
+
+      for (const c of [...children, ...hiddenChildren]) {
+        if (findPath(c)) {
+          path.push(current);
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    findPath(root);
+
+    // path is now from target node -> root, so reverse it
+    path.reverse();
+
+    // Expand any collapsed nodes along the path
+    path.forEach((n) => {
+      if (n._children) {
+        n.children = n._children;
+        n._children = undefined;
+      }
+    });
+  }
 
   function ShowNodes({ treeNodes }: { treeNodes: TreeNode[] }) {
     const [tooltip, setTooltip] = useState<{
@@ -105,7 +142,15 @@ export default function Page() {
                 isFortunate(element) ? "bg-green-200" : "bg-red-200"
               }`}
               onClick={() => {
+                expandPathToNode(element, treeData!);
+                setTreeData({ ...treeData! }); // trigger re-render
                 setCurrentNode(element);
+                setTimeout(() => {
+                  const el = document.getElementById(`node-${element.name}`);
+                  document.querySelectorAll('.highlighted-node').forEach(el => el.classList.remove('highlighted-node'));
+                  el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  el?.classList.add('highlighted-node');
+                }, 50);
                 setOpen(false);
               }}
               onMouseEnter={(e) => showParentsAtMouse(e, element)}

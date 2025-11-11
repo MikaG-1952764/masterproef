@@ -42,7 +42,7 @@ export default function SearchBar({
         setCurrentNode(undefined as any); // clear current node
         return;
       }
-
+      document.querySelectorAll('.highlighted-node').forEach(el => el.classList.remove('highlighted-node'));
       const found = searchTree(treeData, term);
       setMatches(found);
       setHighlightedNodes(found);
