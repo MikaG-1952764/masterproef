@@ -249,9 +249,9 @@ export default function TreeVisualizer({
                 {node.data._children?.length===1 &&
                   <p className="text-black">{<BsDot size={30}/>}</p>}
                 {node.data._children?.length===2 &&
-                  <p className="text-black">{<div className="flex flex-row -space-x-4"><BsDot size={30}/><BsDot size={30}/></div>}</p>}
+                  <p className="text-black flex flex-row -space-x-4"><BsDot size={30}/><BsDot size={30}/></p>}
                 {node.data._children?.length===3 &&
-                  <p className="text-black">{<div className="flex flex-row -space-x-4"><BsDot size={30}/><BsDot size={30}/><BsDot size={30}/></div>}</p>}
+                  <p className="text-black flex flex-row -space-x-4"><BsDot size={30}/><BsDot size={30}/><BsDot size={30}/></p>}
                 {node.data._children && node.data._children.length > 3 &&
                   <p className="text-black">{node.data._children!.length}</p>}
               </div>
