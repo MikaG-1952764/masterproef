@@ -8,6 +8,12 @@ import { securityTreeData } from "./dummyCase";
 import Hamburger from "hamburger-react";
 import { getLastRedNodes, getGreenNodesToCheck, getLastGreenNodesFinished, getRedNodesToCheck } from "./components/getLastNodes";
 import { GoShield, GoShieldCheck } from "react-icons/go";
+import { getImmediateParent } from "./components/getParent";
+
+export function isFortunate(node: TreeNode) : boolean{
+    if(node.level == "fortunate") return true;
+    return false;
+  }
 
 export default function Page() {
   const [treeData, setTreeData] = useState<TreeNode | null>(null);
@@ -34,11 +40,6 @@ export default function Page() {
       status: GoShield,
     });
   };
-
-  function isFortunate(node: TreeNode) : boolean{
-    if(node.level == "fortunate") return true;
-    return false;
-  }
 
   useEffect(() => {
     const getRedNodes = getLastRedNodes(treeData!);
@@ -136,28 +137,6 @@ export default function Page() {
       </div>
     );
   }
-
-
-  function getImmediateParent(node: TreeNode, root: TreeNode): TreeNode | null {
-    let parent: TreeNode | null = null;
-    let found = false;
-
-    function traverse(current: TreeNode, currentParent: TreeNode | null) {
-      if (found) return;
-      if (current === node) {
-        parent = currentParent;
-        found = true;
-        return;
-      }
-      if (current.children) {
-        current.children.forEach(child => traverse(child, current));
-      }
-    }
-
-    traverse(root, null);
-    return parent;
-  }
-
 
 
   function computeDangerRating(node: TreeNode) {

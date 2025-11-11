@@ -9,6 +9,8 @@ import IconSelectorButton from "./components/iconButton";
 import { GoShield } from "react-icons/go";
 import { IconType } from "react-icons";
 import { BsDot } from "react-icons/bs";
+import { getImmediateParent } from "./components/getParent";
+import { isFortunate } from "./page";
 
 export interface TreeNode {
   name: string;
@@ -35,6 +37,14 @@ export default function TreeVisualizer({
   const [nodes, setNodes] = useState<d3.HierarchyPointNode<TreeNode>[]>([]);
   const [links, setLinks] = useState<d3.HierarchyPointLink<TreeNode>[]>([]);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+
+  const [tooltip, setTooltip] = useState<{
+    visible: boolean;
+    x: number;
+    y: number;
+    parent: TreeNode | null;
+  }>({ visible: false, x: 0, y: 0, parent: null });
+
 
   // Store refs for each node
   const nodeRefs = useRef<Map<TreeNode, HTMLDivElement>>(new Map());
@@ -85,6 +95,41 @@ export default function TreeVisualizer({
     }
   }, [currentNode]);
 
+  const OFFSET_X = 12;
+  const OFFSET_Y = 12;
+
+  function showParentsAtMouse(e: React.MouseEvent, node: TreeNode) {
+      if (!data) return;
+      const parent = getImmediateParent(node, data!);
+      // use client coords and small offset
+      const x = (e as React.MouseEvent).clientX + OFFSET_X;
+      const y = (e as React.MouseEvent).clientY + OFFSET_Y;
+
+      // clamp to viewport (optional but handy)
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const maxX = vw - 240; // assume tooltip width ~240px
+      const maxY = vh - 200; // assume tooltip height ~200px
+      const clampedX = Math.min(x, maxX);
+      const clampedY = Math.min(y, maxY);
+
+      setTooltip({ visible: true, x: clampedX, y: clampedY, parent });
+    }
+
+    function moveParentsAtMouse(e: React.MouseEvent) {
+      const x = e.clientX + OFFSET_X;
+      const y = e.clientY + OFFSET_Y;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const maxX = vw - 140;
+      const maxY = vh - 120;
+      setTooltip(t => ({ ...t, x: Math.min(x, maxX), y: Math.min(y, maxY) }));
+    }
+
+    function hideParents() {
+      setTooltip({ visible: false, x: 0, y: 0, parent: null });
+    }
+
   return (
     <main>
       <div className="relative w-full h-full">
@@ -120,9 +165,11 @@ export default function TreeVisualizer({
               left: node.y + offset.x,
               top: node.x + offset.y,
             }}
+            onMouseEnter={e => showParentsAtMouse(e, node.data)}
+            onMouseMove={e => moveParentsAtMouse(e)}
+            onMouseLeave={hideParents}
             onClick={() => {
-              node.data.name =
-                prompt("Enter new node name:") || node.data.name;
+              node.data.name = prompt("Enter new node name:") || node.data.name;
               setTreeData({ ...data });
             }}
           >
@@ -229,6 +276,22 @@ export default function TreeVisualizer({
             </div>
           </div>
         ))}
+        {tooltip.visible && tooltip.parent && (
+          <div
+            className={`fixed z-50 border p-2 shadow rounded max-w-xs text-sm ${
+              isFortunate(tooltip.parent) ? "bg-green-200" : "bg-red-200"
+            }`}
+            style={{
+              left: tooltip.x,
+              top: tooltip.y,
+              pointerEvents: "none",
+            }}
+          >
+            <div className="py-0.5 font-semibold text-black">
+              {tooltip.parent ? tooltip.parent.name : "No parent"}
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );
