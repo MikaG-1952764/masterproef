@@ -1,4 +1,4 @@
-import { TreeNode } from ".././TreeVisualizer";
+import { TreeNode } from "../TreeVisualizer";
 import { GoShield, GoShieldCheck } from "react-icons/go";
 
 /**
@@ -8,19 +8,20 @@ export function getLastRedNodes(node: TreeNode): TreeNode[] {
   const result: TreeNode[] = [];
 
   function traverse(current: TreeNode | null | undefined) {
-    if (!current) return; // safety check
+    if (!current) return;
 
-    const hasChildren = Array.isArray(current.children) && current.children.length > 0;
+    const allChildren = [
+      ...(current.children || []),
+      ...(current._children || []),
+    ];
+    const hasChildren = allChildren.length > 0;
 
     // red leaf
     if (current.level === "unfortunate" && !hasChildren) {
       result.push(current);
     }
 
-    // recurse through children
-    if (Array.isArray(current.children)) {
-      current.children.forEach(child => traverse(child));
-    }
+    allChildren.forEach(child => traverse(child));
   }
 
   traverse(node);
@@ -28,23 +29,26 @@ export function getLastRedNodes(node: TreeNode): TreeNode[] {
   return result;
 }
 
+/**
+ * Rode nodes met kinderen (nog te controleren)
+ */
 export function getRedNodesToCheck(node: TreeNode): TreeNode[] {
   const result: TreeNode[] = [];
 
   function traverse(current: TreeNode | null | undefined) {
-    if (!current) return; // safety check
+    if (!current) return;
 
-    const hasChildren = Array.isArray(current.children) && current.children.length > 0;
+    const allChildren = [
+      ...(current.children || []),
+      ...(current._children || []),
+    ];
+    const hasChildren = allChildren.length > 0;
 
-    // red leaf
     if (current.level === "unfortunate" && hasChildren) {
       result.push(current);
     }
 
-    // recurse through children
-    if (Array.isArray(current.children)) {
-      current.children.forEach(child => traverse(child));
-    }
+    allChildren.forEach(child => traverse(child));
   }
 
   traverse(node);
@@ -52,22 +56,25 @@ export function getRedNodesToCheck(node: TreeNode): TreeNode[] {
   return result;
 }
 
+/**
+ * Groene nodes met schildstatus die nog gecontroleerd moeten worden
+ */
 export function getGreenNodesToCheck(node: TreeNode): TreeNode[] {
   const result: TreeNode[] = [];
 
   function traverse(current: TreeNode | null | undefined) {
-    if (!current) return; // safety check
+    if (!current) return;
 
-    const hasChildren = Array.isArray(current.children) && current.children.length > 0;
+    const allChildren = [
+      ...(current.children || []),
+      ...(current._children || []),
+    ];
 
-    if (current.level === "fortunate" && current.status==GoShield) {
+    if (current.level === "fortunate" && current.status === GoShield) {
       result.push(current);
     }
 
-    // recurse through children
-    if (Array.isArray(current.children)) {
-      current.children.forEach(child => traverse(child));
-    }
+    allChildren.forEach(child => traverse(child));
   }
 
   traverse(node);
@@ -75,27 +82,33 @@ export function getGreenNodesToCheck(node: TreeNode): TreeNode[] {
   return result;
 }
 
+/**
+ * Laatste groene nodes (zonder kinderen) die als voltooid zijn gemarkeerd
+ */
 export function getLastGreenNodesFinished(node: TreeNode): TreeNode[] {
   const result: TreeNode[] = [];
 
   function traverse(current: TreeNode | null | undefined) {
-    if (!current) return; // safety check
+    if (!current) return;
 
-    const hasChildren = Array.isArray(current.children) && current.children.length > 0;
+    const allChildren = [
+      ...(current.children || []),
+      ...(current._children || []),
+    ];
+    const hasChildren = allChildren.length > 0;
 
-    // red leaf
-    if (current.level === "fortunate" && !hasChildren && current.status==GoShieldCheck) {
+    if (
+      current.level === "fortunate" &&
+      !hasChildren &&
+      current.status === GoShieldCheck
+    ) {
       result.push(current);
     }
 
-    // recurse through children
-    if (Array.isArray(current.children)) {
-      current.children.forEach(child => traverse(child));
-    }
+    allChildren.forEach(child => traverse(child));
   }
 
   traverse(node);
   console.log(result);
   return result;
 }
-
