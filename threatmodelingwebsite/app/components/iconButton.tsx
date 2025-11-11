@@ -50,7 +50,7 @@ export default function IconSelectorButton({treeNode, setTreeData, data} : {tree
           {iconsGreen.map((icon, index) => (
             <button
               key={index}
-              className="hover:bg-red p-1 rounded-full"
+              className="hover:bg-gray-300 p-1 rounded-full"
               onClick={(e) => {
                     e.stopPropagation();
                     setSelectedIcon(icon);
@@ -70,7 +70,7 @@ export default function IconSelectorButton({treeNode, setTreeData, data} : {tree
           {iconsRedNoChild.map((icon, index) => (
             <button
               key={index}
-              className="hover:bg-red p-1 rounded-full"
+              className="hover:bg-gray-300 p-1 rounded-full"
               onClick={(e) => {
                     e.stopPropagation();
                     setSelectedIcon(icon);
@@ -91,7 +91,7 @@ export default function IconSelectorButton({treeNode, setTreeData, data} : {tree
           {iconsRedChild.map((icon, index) => (
             <button
               key={index}
-              className="hover:bg-red p-1 rounded-full"
+              className="hover:bg-gray-300 p-1 rounded-full"
               onClick={(e) => {
                     e.stopPropagation();
                     setSelectedIcon(icon);

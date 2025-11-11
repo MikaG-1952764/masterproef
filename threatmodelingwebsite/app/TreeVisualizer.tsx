@@ -1,16 +1,15 @@
 "use client";
 
 import * as d3 from "d3";
-import { useEffect, useState, useRef } from "react";
-import { GoChevronDown, GoChevronUp, GoTrash } from "react-icons/go";
-import { Node } from "./Node";
+import { useEffect, useState } from "react";
+import { GoChevronDown, GoChevronUp, GoTrash, GoShield } from "react-icons/go";
 import { RiAddBoxLine } from "react-icons/ri";
-import IconSelectorButton from "./components/iconButton";
-import { GoShield } from "react-icons/go";
-import { IconType } from "react-icons";
 import { BsDot } from "react-icons/bs";
+import IconSelectorButton from "./components/iconButton";
+import { Node } from "./Node";
 import { getImmediateParent } from "./components/getParent";
 import { isFortunate } from "./page";
+import { IconType } from "react-icons";
 
 export interface TreeNode {
   name: string;
@@ -34,10 +33,7 @@ export default function TreeVisualizer({
   highlightedNodes = [],
   currentNode,
 }: TreeVisualizerProps) {
-  const [nodes, setNodes] = useState<d3.HierarchyPointNode<TreeNode>[]>([]);
-  const [links, setLinks] = useState<d3.HierarchyPointLink<TreeNode>[]>([]);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-
+  const [visibleNodes, setVisibleNodes] = useState<d3.HierarchyNode<TreeNode>[]>([]);
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
     x: number;
@@ -45,149 +41,85 @@ export default function TreeVisualizer({
     parent: TreeNode | null;
   }>({ visible: false, x: 0, y: 0, parent: null });
 
-
-  // Store refs for each node
-  const nodeRefs = useRef<Map<TreeNode, HTMLDivElement>>(new Map());
-
-  const isHighlighted = (node: TreeNode) =>
-    highlightedNodes.includes(node);
+  const isHighlighted = (node: TreeNode) => highlightedNodes.includes(node);
 
   useEffect(() => {
+    // build d3.hierarchy to get depth information, but we'll walk it manually
     const root = d3.hierarchy<TreeNode>(data, d => d.children ?? undefined);
-    const treeLayout = d3.tree<TreeNode>().nodeSize([300, 180]);
-    treeLayout(root);
 
-    root.descendants().forEach(d => {
-      const tmp = d.x;
-      d.x = d.y;
-      d.y = tmp;
-    });
-
-    const containerWidth = window.innerWidth;
-
-    const allX = root.descendants().map(d => d.y ?? 0);
-    const allY = root.descendants().map(d => d.x ?? 0);
-    const minX = Math.min(...allX);
-    const minY = Math.min(...allY);
-
-    let offsetX = containerWidth / 2 - 40;
-    let offsetY = 60 - minY;
-
-    if (minX + offsetX < 20) offsetX += 30 - (minX + offsetX);
-
-    setOffset({ x: offsetX, y: offsetY });
-    setNodes(root.descendants() as d3.HierarchyPointNode<TreeNode>[]);
-    setLinks(root.links() as d3.HierarchyPointLink<TreeNode>[]);
-  }, [data]);
-
-  const linkGen = d3
-    .linkVertical<d3.HierarchyPointLink<TreeNode>, d3.HierarchyPointNode<TreeNode>>()
-    .x(d => d.y + offset.x)
-    .y(d => d.x + offset.y);
-
-  // Scroll to current highlighted node when it changes
-  useEffect(() => {
-    if (currentNode && nodeRefs.current.has(currentNode)) {
-      nodeRefs.current.get(currentNode)?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
+    // Preorder traversal that only follows `.children` (not `_children`),
+    // so collapsed nodes (stored in `_children`) are NOT visited.
+    const out: d3.HierarchyNode<TreeNode>[] = [];
+    function visit(n: d3.HierarchyNode<TreeNode>) {
+      out.push(n);
+      if (n.data.children && n.children) {
+        // n.children is the d3-generated children array; traverse them
+        for (const c of n.children) visit(c);
+      }
     }
-  }, [currentNode]);
+    visit(root);
+    setVisibleNodes(out);
+  }, [data]);
 
   const OFFSET_X = 12;
   const OFFSET_Y = 12;
+  const INDENT_PX = 120; // how much each depth indents
 
   function showParentsAtMouse(e: React.MouseEvent, node: TreeNode) {
-      if (!data) return;
-      const parent = getImmediateParent(node, data!);
-      // use client coords and small offset
-      const x = (e as React.MouseEvent).clientX + OFFSET_X;
-      const y = (e as React.MouseEvent).clientY + OFFSET_Y;
+    const parent = getImmediateParent(node, data);
+    const x = e.clientX + OFFSET_X;
+    const y = e.clientY + OFFSET_Y;
+    // clamp
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const maxX = vw - 240;
+    const maxY = vh - 200;
+    setTooltip({
+      visible: true,
+      x: Math.min(x, maxX),
+      y: Math.min(y, maxY),
+      parent,
+    });
+  }
 
-      // clamp to viewport (optional but handy)
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const maxX = vw - 240; // assume tooltip width ~240px
-      const maxY = vh - 200; // assume tooltip height ~200px
-      const clampedX = Math.min(x, maxX);
-      const clampedY = Math.min(y, maxY);
+  function moveParentsAtMouse(e: React.MouseEvent) {
+    const x = e.clientX + OFFSET_X;
+    const y = e.clientY + OFFSET_Y;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const maxX = vw - 140;
+    const maxY = vh - 120;
+    setTooltip(t => ({ ...t, x: Math.min(x, maxX), y: Math.min(y, maxY) }));
+  }
 
-      setTooltip({ visible: true, x: clampedX, y: clampedY, parent });
-    }
-
-    function moveParentsAtMouse(e: React.MouseEvent) {
-      const x = e.clientX + OFFSET_X;
-      const y = e.clientY + OFFSET_Y;
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const maxX = vw - 140;
-      const maxY = vh - 120;
-      setTooltip(t => ({ ...t, x: Math.min(x, maxX), y: Math.min(y, maxY) }));
-    }
-
-    function hideParents() {
-      setTooltip({ visible: false, x: 0, y: 0, parent: null });
-    }
+  function hideParents() {
+    setTooltip({ visible: false, x: 0, y: 0, parent: null });
+  }
 
   return (
-    <main>
-      <div className="relative w-full h-full">
-        {/* LINKS */}
-        <svg className="relative left-28 top-14 overflow-visible">
-          {links.map((link, i) => (
-            <path
-              key={i}
-              d={linkGen(link)!}
-              fill="none"
-              stroke="black"
-              strokeWidth={2}
-            />
-          ))}
-        </svg>
-
-        {/* NODES */}
-        {nodes.map((node, i) => (
+    <main className="w-full h-full overflow-auto p-2">
+      <div className="flex flex-col gap-1 mt-2">
+        {visibleNodes.map((node, i) => (
           <div
             key={i}
-            ref={el => {
-              if (el) nodeRefs.current.set(node.data, el);
-            }}
-            className={`group cursor-pointer transition-all duration-200 hover:ring-2 hover:ring-blue-500 hover:bg-blue-100 rounded-md ${
-              isHighlighted(node.data)
-                ? "ring-2 ring-orange-300 bg-orange-100"
-                : ""
-            } ${
-              currentNode === node.data ? "ring-4 ring-red-400" : ""
-            }`}
-            style={{
-              position: "absolute",
-              left: node.y + offset.x,
-              top: node.x + offset.y,
-            }}
+            className={`group flex items-center justify-between p-0 rounded-md transition-all duration-200 hover:p-3 hover:pl-4 hover:bg-gray-100
+              ${isFortunate(node.data) ? "border-l-4 border-green-400" : "border-l-4 border-red-400"} 
+              ${isHighlighted(node.data) ? "bg-orange-100" : "bg-white"} 
+              ${currentNode === node.data ? "ring-2 ring-red-400" : ""}`}
+            style={{ marginLeft: `${node.depth * INDENT_PX}px` }}
             onMouseEnter={e => showParentsAtMouse(e, node.data)}
             onMouseMove={e => moveParentsAtMouse(e)}
             onMouseLeave={hideParents}
-            onClick={() => {
-              node.data.name = prompt("Enter new node name:") || node.data.name;
-              setTreeData({ ...data });
-            }}
           >
-            
-            <div className="flex flex-row justify-between">
-              <div className="rounded-full h-6 w-6 border-black border-2 items-center justify-center text-center opacity-0 group-hover:opacity-100">
-                <p className="text-[12px] text-black">{node.data.dangerRating}</p>
-              </div>
-              
-              <div className="opacity-0 group-hover:opacity-100">
-                <IconSelectorButton treeNode={node.data} setTreeData={setTreeData} data={data}/>
-              </div>
-            </div>
+            <div className="flex flex-col items-center gap-2">              
 
-            <Node name={node.data.name} level={node.data.level} />
+              {/* Node visual */}
+              <Node name={node.data.name} level={node.data.level} />
 
-            <div className="flex justify-between mt-1">
-              <button
+              {/* Extra actions (appear on hover) */}
+              <div className="flex gap-2 opacity-0 group-hover:opacity-100 ml-3">
+                <IconSelectorButton treeNode={node.data} setTreeData={setTreeData} data={data} />
+                <button
                 className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
                 onClick={e => {
                   e.stopPropagation();
@@ -210,8 +142,7 @@ export default function TreeVisualizer({
               >
                 <RiAddBoxLine size={17} />
               </button>
-
-              <div className="flex flex-row">
+                <div className="flex flex-row">
                 {node.data.children &&
                 <button
                   className="cursor-pointer text-black opacity-0 group-hover:opacity-100 font-bold px-1"
@@ -273,26 +204,21 @@ export default function TreeVisualizer({
               >
                 <GoTrash size={15} />
               </button>
+              </div>
             </div>
           </div>
         ))}
-        {tooltip.visible && tooltip.parent && (
-          <div
-            className={`fixed z-50 border p-2 shadow rounded max-w-xs text-sm ${
-              isFortunate(tooltip.parent) ? "bg-green-200" : "bg-red-200"
-            }`}
-            style={{
-              left: tooltip.x,
-              top: tooltip.y,
-              pointerEvents: "none",
-            }}
-          >
-            <div className="py-0.5 font-semibold text-black">
-              {tooltip.parent ? tooltip.parent.name : "No parent"}
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Tooltip */}
+      {tooltip.visible && tooltip.parent && (
+        <div
+          className={`fixed z-50 border p-2 shadow rounded max-w-xs text-sm ${isFortunate(tooltip.parent) ? "bg-green-200" : "bg-red-200"}`}
+          style={{ left: tooltip.x, top: tooltip.y, pointerEvents: "none" }}
+        >
+          <div className="py-0.5 font-semibold text-black">{tooltip.parent ? tooltip.parent.name : "No parent"}</div>
+        </div>
+      )}
     </main>
   );
 }
