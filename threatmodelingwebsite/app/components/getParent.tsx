@@ -11,8 +11,9 @@ export function getImmediateParent(node: TreeNode, root: TreeNode): TreeNode | n
         found = true;
         return;
       }
-      if (current.children) {
-        current.children.forEach(child => traverse(child, current));
+      const children = current.children ?? current._children;
+      if (children) {
+        children.forEach(child => traverse(child, current));
       }
     }
 

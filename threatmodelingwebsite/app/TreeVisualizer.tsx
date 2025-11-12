@@ -104,8 +104,8 @@ export default function TreeVisualizer({
           <div
             key={i}
             className={`group flex items-center justify-between p-0 rounded-md transition-all duration-200 hover:p-3 hover:pl-4 hover:bg-gray-100
-              ${isHighlighted(node.data) ? "bg-orange-100" : "bg-white"} 
-              ${currentNode === node.data ? "ring-2 ring-red-400" : ""}`}
+              ${isHighlighted(node.data) ? "ring-4 ring-orange-300 bg-orange-100" : ""} 
+              ${currentNode === node.data ? "ring-4 ring-red-600 bg-red-100" : ""}`}
             style={{ marginLeft: `${node.depth * INDENT_PX}px` }}
             onMouseEnter={e => showParentsAtMouse(e, node.data)}
             onMouseMove={e => moveParentsAtMouse(e)}
