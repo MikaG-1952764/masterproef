@@ -9,6 +9,7 @@ import Hamburger from "hamburger-react";
 import { getLastRedNodes, getGreenNodesToCheck, getLastGreenNodesFinished, getRedNodesToCheck } from "./components/getLastNodes";
 import { GoShield, GoShieldCheck } from "react-icons/go";
 import { getImmediateParent } from "./components/getParent";
+import { CollapseButtons } from "./components/collapseButtons";
 
 export function isFortunate(node: TreeNode) : boolean{
     if(node.level == "fortunate") return true;
@@ -225,6 +226,7 @@ export default function Page() {
       {/* Fixed search bar */}
       {(treeData)&& (
         <div className="fixed right-40 top-10 w-[300px] z-50">
+          <CollapseButtons treeData={treeData!} setTreeData={setTreeData!} />
           <SearchBar
             treeData={treeData}
             setHighlightedNodes={setHighlightedNodes}
