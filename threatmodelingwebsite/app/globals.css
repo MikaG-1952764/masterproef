@@ -24,3 +24,34 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.node-wrapper {
+  position: relative;
+  padding-left: 20px; /* space for vertical line */
+}
+
+.node-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;         /* vertical line width */
+  height: 100%;       /* full height of node */
+  background-color: gray;
+}
+
+.node-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;           /* middle of the node */
+  left: 0;
+  width: 20px;        /* horizontal line length */
+  height: 1px;
+  background-color: gray;
+}
+
+.highlighted-node {
+  border: 4px solid #FFA500; /* Orange border for highlighting */
+  padding: 8px;
+  border-radius: 4px;
+}

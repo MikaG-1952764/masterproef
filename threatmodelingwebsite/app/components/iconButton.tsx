@@ -2,12 +2,35 @@ import { useState, useRef, useEffect } from "react";
 import { GoShield, GoShieldCheck } from "react-icons/go";
 import { TreeNode } from "../TreeVisualizer";
 
-export default function IconSelectorButton({treeNode, setTreeData, data} : {treeNode: TreeNode, setTreeData: (data: TreeNode) => void, data: TreeNode}) {
+export default function IconSelectorButton({
+  treeNode,
+  setTreeData,
+  data,
+}: {
+  treeNode: TreeNode;
+  setTreeData: (data: TreeNode) => void;
+  data: TreeNode;
+}) {
   const [open, setOpen] = useState(false);
-  const [selectedIcon, setSelectedIcon] = useState(treeNode.level==="fortunate" ? <GoShield size={16} color="orange"/> : <GoShield size={16} color="red"/>);
   const ref = useRef<HTMLDivElement>(null);
 
-  // Close dropdown if clicking outside
+  const hasChildren = !!(treeNode.children?.length || treeNode._children?.length);
+
+  // 🟢 Determine correct icon color based on node level
+  const getDefaultIcon = () => {
+    if (treeNode.level === "fortunate") {
+      return <GoShield size={16} color="orange" />;
+    } else {
+      return <GoShield size={16} color="red" />;
+    }
+  };
+
+  const [selectedIcon, setSelectedIcon] = useState(getDefaultIcon);
+
+  useEffect(() => {
+    setSelectedIcon(getDefaultIcon());
+  }, [treeNode.level]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -19,18 +42,18 @@ export default function IconSelectorButton({treeNode, setTreeData, data} : {tree
   }, []);
 
   const iconsGreen = [
-    <GoShield size={16} color="orange"/>,
-    <GoShieldCheck size={16} color="green"/>,
+    <GoShield size={16} color="orange" />,
+    <GoShieldCheck size={16} color="green" />,
   ];
 
   const iconsRedNoChild = [
-    <GoShield size={16} color="red"/>,
-    <GoShieldCheck size={16} color="orange"/>,
+    <GoShield size={16} color="red" />,
+    <GoShieldCheck size={16} color="orange" />,
   ];
 
   const iconsRedChild = [
-    <GoShield size={16} color="red"/>,
-    <GoShieldCheck size={16} color="green"/>,
+    <GoShield size={16} color="red" />,
+    <GoShieldCheck size={16} color="green" />,
   ];
 
   return (
@@ -38,26 +61,27 @@ export default function IconSelectorButton({treeNode, setTreeData, data} : {tree
       <button
         className="cursor-pointer text-black font-bold px-2 py-1 border rounded"
         onClick={(e) => {
-            e.stopPropagation();
-            setOpen(!open);
+          e.stopPropagation();
+          setOpen(!open);
         }}
       >
         {selectedIcon}
       </button>
 
-      {open && treeNode.level==="fortunate" && (
+      {/* Fortunate dropdown */}
+      {open && treeNode.level === "fortunate" && (
         <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white border border-black rounded-full flex space-x-2 px-3 py-2 shadow-lg z-50">
           {iconsGreen.map((icon, index) => (
             <button
               key={index}
-              className="hover:bg-red p-1 rounded-full"
+              className="hover:bg-gray-300 p-1 rounded-full"
               onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedIcon(icon);
-                    treeNode.status=icon.type;
-                    setTreeData({...data});
-                    setOpen(false);
-                }}
+                e.stopPropagation();
+                setSelectedIcon(icon);
+                treeNode.status = icon.type;
+                setTreeData({ ...data });
+                setOpen(false);
+              }}
             >
               {icon}
             </button>
@@ -65,19 +89,20 @@ export default function IconSelectorButton({treeNode, setTreeData, data} : {tree
         </div>
       )}
 
-      {open && treeNode.level==="unfortunate" && !treeNode.children && (
+      {/* Unfortunate node without children */}
+      {open && treeNode.level === "unfortunate" && !hasChildren && (
         <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white border border-black rounded-full flex space-x-2 px-3 py-2 shadow-lg z-50">
           {iconsRedNoChild.map((icon, index) => (
             <button
               key={index}
-              className="hover:bg-red p-1 rounded-full"
+              className="hover:bg-gray-300 p-1 rounded-full"
               onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedIcon(icon);
-                    treeNode.status=icon.type;
-                    setTreeData({...data});
-                    setOpen(false);
-                }}
+                e.stopPropagation();
+                setSelectedIcon(icon);
+                treeNode.status = icon.type;
+                setTreeData({ ...data });
+                setOpen(false);
+              }}
             >
               {icon}
             </button>
@@ -85,20 +110,20 @@ export default function IconSelectorButton({treeNode, setTreeData, data} : {tree
         </div>
       )}
 
-
-      {open && treeNode.level==="unfortunate" && treeNode.children && (
+      {/* Unfortunate node with children */}
+      {open && treeNode.level === "unfortunate" && hasChildren && (
         <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white border border-black rounded-full flex space-x-2 px-3 py-2 shadow-lg z-50">
           {iconsRedChild.map((icon, index) => (
             <button
               key={index}
-              className="hover:bg-red p-1 rounded-full"
+              className="hover:bg-gray-300 p-1 rounded-full"
               onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedIcon(icon);
-                    treeNode.status=icon.type;
-                    setTreeData({...data});
-                    setOpen(false);
-                }}
+                e.stopPropagation();
+                setSelectedIcon(icon);
+                treeNode.status = icon.type;
+                setTreeData({ ...data });
+                setOpen(false);
+              }}
             >
               {icon}
             </button>
