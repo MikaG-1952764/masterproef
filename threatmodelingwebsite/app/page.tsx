@@ -52,7 +52,7 @@ export default function Page() {
     setGreenNodesFinished(getGreenNodesFinished);
   }, [treeData]);
 
-  function expandPathToNode(node: TreeNode, root: TreeNode) {
+  function expandPathToNode(node: TreeNode, root: TreeNode): boolean{
     const path: TreeNode[] = [];
 
     // Build path from root to node
@@ -80,6 +80,12 @@ export default function Page() {
     // path is now from target node -> root, so reverse it
     path.reverse();
 
+    const alreadyExpanded = path.every((n) => !n._children);
+
+    if (alreadyExpanded) {
+      return true; // ✅ all nodes are already expanded
+    }
+
     // Expand any collapsed nodes along the path
     path.forEach((n) => {
       if (n._children) {
@@ -87,6 +93,7 @@ export default function Page() {
         n._children = undefined;
       }
     });
+    return false
   }
 
   function ShowNodes({ treeNodes }: { treeNodes: TreeNode[] }) {
@@ -142,16 +149,20 @@ export default function Page() {
                 isFortunate(element) ? "bg-green-200" : "bg-red-200"
               }`}
               onClick={() => {
-                expandPathToNode(element, treeData!);
-                setTreeData({ ...treeData! }); // trigger re-render
-                setCurrentNode(element);
-                setTimeout(() => {
-                  const el = document.getElementById(`node-${element.name}`);
-                  document.querySelectorAll('.highlighted-node').forEach(el => el.classList.remove('highlighted-node'));
-                  el?.scrollIntoView({ behavior: "smooth", block: "center" });
-                  el?.classList.add('highlighted-node');
-                }, 50);
-                setOpen(false);
+                  if (expandPathToNode(element, treeData!)){
+                    setCurrentNode(element);
+                  } else {
+                    expandPathToNode(element, treeData!);
+                    setTreeData({ ...treeData! });
+                    setTimeout(() => {
+                    setCurrentNode(element);
+                    setOpen(false);
+                  }, 0);
+                  setTimeout(() => {
+                    const el = document.getElementById(`node-${element.name}`);
+                    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }, 50);
+                setOpen(false);}
               }}
               onMouseEnter={(e) => showParentsAtMouse(e, element)}
               onMouseMove={(e) => moveParentsAtMouse(e)}
