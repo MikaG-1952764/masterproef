@@ -13,6 +13,7 @@ export default function IconSelectorButton({
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
 
   const hasChildren = !!(treeNode.children?.length || treeNode._children?.length);
 
@@ -59,14 +60,35 @@ export default function IconSelectorButton({
   return (
     <div className="relative inline-block" ref={ref}>
       <button
-        className="cursor-pointer text-black font-bold px-2 py-1 border rounded"
+        className="relative cursor-pointer text-black font-bold px-2 py-1 border rounded"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         onClick={(e) => {
           e.stopPropagation();
           setOpen(!open);
         }}
       >
         {selectedIcon}
+
+        {hovered && (
+          <div className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 z-50 bg-white p-1 rounded shadow">
+            {(!treeNode.children || !treeNode._children) && treeNode.level === "unfortunate" && (
+                <p className="text-xs text-black mt-1">Weakness</p>
+            )}
+            {(treeNode.children || treeNode._children) && treeNode.level === "unfortunate" && (
+                <p className="text-xs text-black mt-1">Further investigation</p>
+            )}
+            {treeNode.status === GoShield && treeNode.level === "fortunate" && (
+                <p className="text-xs text-black mt-1">Assumptions to verify</p>
+            )}
+            {treeNode.status === GoShieldCheck && (
+                <p className="text-xs text-black mt-1">Verified assumptions</p>
+            )}
+          </div>
+        )}
       </button>
+
+
 
       {/* Fortunate dropdown */}
       {open && treeNode.level === "fortunate" && (
@@ -129,7 +151,7 @@ export default function IconSelectorButton({
             </button>
           ))}
         </div>
-      )}
+      )}    
     </div>
   );
 }
