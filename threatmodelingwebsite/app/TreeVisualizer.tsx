@@ -124,29 +124,6 @@ export default function TreeVisualizer({
               {/* Extra actions (appear on hover) */}
               <div className="flex gap-2 opacity-0 group-hover:opacity-100 ml-3">
                 <IconSelectorButton treeNode={node.data} setTreeData={setTreeData} data={data} />
-                <button
-                className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
-                onClick={e => {
-                  e.stopPropagation();
-                  const newChild = prompt("Enter child node name:");
-                  if (!newChild) return;
-                  if (!node.data.children) node.data.children = [];
-                  node.data.dangerRating++;
-                  const childLevel =
-                    node.data.level === "fortunate"
-                      ? "unfortunate"
-                      : "fortunate";
-                  node.data.children.push({
-                    name: newChild,
-                    dangerRating: 0,
-                    level: childLevel,
-                    status: GoShield,
-                  });
-                  setTreeData({ ...data });
-                }}
-              >
-                <RiAddBoxLine size={17} />
-              </button>
                 <div className="flex flex-row">
                 {node.data.children &&
                 <button
@@ -208,6 +185,29 @@ export default function TreeVisualizer({
                 }}
               >
                 <GoTrash size={15} />
+              </button>
+              <button
+                className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
+                onClick={e => {
+                  e.stopPropagation();
+                  const newChild = prompt("Enter child node name:");
+                  if (!newChild) return;
+                  if (!node.data.children) node.data.children = [];
+                  node.data.dangerRating++;
+                  const childLevel =
+                    node.data.level === "fortunate"
+                      ? "unfortunate"
+                      : "fortunate";
+                  node.data.children.push({
+                    name: newChild,
+                    dangerRating: 0,
+                    level: childLevel,
+                    status: GoShield,
+                  });
+                  setTreeData({ ...data });
+                }}
+              >
+                <RiAddBoxLine size={17} />
               </button>
               </div>
             </div>
