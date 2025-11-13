@@ -107,9 +107,6 @@ export default function TreeVisualizer({
               ${isHighlighted(node.data) ? "ring-4 ring-orange-300 bg-orange-100" : ""} 
               ${currentNode === node.data ? "ring-4 ring-red-600 bg-red-100" : ""}`}
             style={{ marginLeft: `${node.depth * INDENT_PX}px` }}
-            onMouseEnter={e => showParentsAtMouse(e, node.data)}
-            onMouseMove={e => moveParentsAtMouse(e)}
-            onMouseLeave={hideParents}
           >
             <div className="flex flex-col items-center gap-2">              
 
@@ -118,7 +115,7 @@ export default function TreeVisualizer({
               node.data.name = prompt("Enter new node name:") || node.data.name;
               setTreeData({ ...data });
             }} >
-                <div className="node-wrapper">
+                <div className="node-wrapper" onMouseEnter={e => showParentsAtMouse(e, node.data)} onMouseMove={e => moveParentsAtMouse(e)} onMouseLeave={hideParents}>
                   <Node name={node.data.name} level={node.data.level} />
                 </div>
               </div>
