@@ -152,6 +152,10 @@ export default function Page() {
               onClick={() => {
                   if (expandPathToNode(element, treeData!)){
                     setCurrentNode(element);
+                    setTimeout(() => {
+                    const el = document.getElementById(`node-${element.name}`);
+                    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }, 50);
                   } else {
                     expandPathToNode(element, treeData!);
                     setTreeData({ ...treeData! });
