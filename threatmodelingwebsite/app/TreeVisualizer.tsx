@@ -34,6 +34,8 @@ export default function TreeVisualizer({
   currentNode,
 }: TreeVisualizerProps) {
   const [visibleNodes, setVisibleNodes] = useState<d3.HierarchyNode<TreeNode>[]>([]);
+  const [editingNode, setEditingNode] = useState<TreeNode | null>(null);
+const [editValue, setEditValue] = useState("");
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
     x: number;
@@ -109,14 +111,38 @@ export default function TreeVisualizer({
             style={{ marginLeft: `${node.depth * INDENT_PX}px` }}
           >
             <div className="flex flex-col items-center gap-2">              
-
               {/* Node visual */}
               <div className="relative flex flex-col cursor-pointer" id={`node-${node.data.name}`} key={i} onClick={() => {
-              node.data.name = prompt("Enter new node name:") || node.data.name;
-              setTreeData({ ...data });
-            }} >
+                setEditingNode(node.data);
+                setEditValue(node.data.name);
+                setTreeData({ ...data });
+              }} >
                 <div className="node-wrapper" onMouseEnter={e => showParentsAtMouse(e, node.data)} onMouseMove={e => moveParentsAtMouse(e)} onMouseLeave={hideParents}>
+                  {editingNode === node.data ? (
+                  <input
+                    className="border p-1 text-sm text-black rounded w-[600px] bg-gray-200"
+                    autoFocus
+                    value={editValue}
+                    onChange={e => setEditValue(e.target.value)}
+                    onBlur={() => {
+                      editingNode.name = editValue.trim() || editingNode.name;
+                      setEditingNode(null);
+                      setTreeData({ ...data });
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        editingNode.name = editValue.trim() || editingNode.name;
+                        setEditingNode(null);
+                        setTreeData({ ...data });
+                      }
+                      if (e.key === "Escape") {
+                        setEditingNode(null);
+                      }
+                    }}
+                  />
+                ) : (
                   <Node name={node.data.name} level={node.data.level} />
+                )}
                 </div>
               </div>
 
@@ -190,8 +216,6 @@ export default function TreeVisualizer({
                 className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
                 onClick={e => {
                   e.stopPropagation();
-                  const newChild = prompt("Enter child node name:");
-                  if (!newChild) return;
                   if (!node.data.children) node.data.children = [];
                   node.data.dangerRating++;
                   const childLevel =
@@ -199,12 +223,16 @@ export default function TreeVisualizer({
                       ? "unfortunate"
                       : "fortunate";
                   node.data.children.push({
-                    name: newChild,
+                    name: "New node",
                     dangerRating: 0,
                     level: childLevel,
                     status: GoShield,
                   });
+                  const newChild = node.data.children[node.data.children.length - 1];
+                  setEditingNode(newChild);
+                  setEditValue(newChild.name);
                   setTreeData({ ...data });
+
                 }}
               >
                 <RiAddBoxLine size={17} />
