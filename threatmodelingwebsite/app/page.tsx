@@ -145,36 +145,44 @@ export default function Page() {
       <div className="mt-6 h-[79vh] overflow-y-auto border border-gray-300 rounded relative">
         {treeNodes.map((element, index) => (
           <div key={index} className="relative">
-            <button
-              className={`text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200 ${
-                isFortunate(element) ? "bg-green-200" : "bg-red-200"
-              }`}
-              onClick={() => {
-                  if (expandPathToNode(element, treeData!)){
-                    setCurrentNode(element);
+            <div className="flex flex-row">
+              {treeNodes.at(1)?.level === "unfortunate" && (
+              <div className="text-center p-1.5 m-1 w-10 h-10 bg-red-200 border-black border-2 rounded text-black">U</div>
+              )}
+              {treeNodes.at(1)?.level === "fortunate" && (
+              <div className="text-center p-1.5 m-1 w-10 h-10 bg-green-200 border-black border-2 rounded text-black">F</div>
+              )}
+              <button
+                className={`text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200 ${
+                  isFortunate(element) ? "bg-green-200" : "bg-red-200"
+                }`}
+                onClick={() => {
+                    if (expandPathToNode(element, treeData!)){
+                      setCurrentNode(element);
+                      setTimeout(() => {
+                      const el = document.getElementById(`node-${element.name}`);
+                      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                    }, 50);
+                    } else {
+                      expandPathToNode(element, treeData!);
+                      setTreeData({ ...treeData! });
+                      setTimeout(() => {
+                      setCurrentNode(element);
+                      setOpen(false);
+                    }, 0);
                     setTimeout(() => {
-                    const el = document.getElementById(`node-${element.name}`);
-                    el?.scrollIntoView({ behavior: "smooth", block: "center" });
-                  }, 50);
-                  } else {
-                    expandPathToNode(element, treeData!);
-                    setTreeData({ ...treeData! });
-                    setTimeout(() => {
-                    setCurrentNode(element);
-                    setOpen(false);
-                  }, 0);
-                  setTimeout(() => {
-                    const el = document.getElementById(`node-${element.name}`);
-                    el?.scrollIntoView({ behavior: "smooth", block: "center" });
-                  }, 50);
-                setOpen(false);}
-              }}
-              onMouseEnter={(e) => showParentsAtMouse(e, element)}
-              onMouseMove={(e) => moveParentsAtMouse(e)}
-              onMouseLeave={hideParents}
-            >
-              <p>{element.name}</p>
-            </button>
+                      const el = document.getElementById(`node-${element.name}`);
+                      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                    }, 50);
+                  setOpen(false);}
+                }}
+                onMouseEnter={(e) => showParentsAtMouse(e, element)}
+                onMouseMove={(e) => moveParentsAtMouse(e)}
+                onMouseLeave={hideParents}
+              >
+                <p>{element.name}</p>
+              </button>
+            </div>
           </div>
         ))}
 
