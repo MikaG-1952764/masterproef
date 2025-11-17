@@ -277,7 +277,7 @@ export default function Page() {
                 onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}>
                 <div className="text-[15px]">
                   Assumptions to verify
-                  <GoShield className="inline ml-2" color="orange"/>
+                  <GoShieldCheck className="inline ml-2" color="orange"/>
                 </div>
               </button>
               <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='finished' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
@@ -309,13 +309,16 @@ export default function Page() {
         <div className="absolute top-5 right-5 flex flex-col items-center">
           {!isOpen &&
           <div>
-            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400" onClick={() => setOpen(!isOpen)}>
+            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo")}}>
             <GoShield color="red" size={24} />
             </button>
-            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mt-2 mb-2" onClick={() => setOpen(!isOpen)}>
+            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mt-2 mb-2" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify")}}>
               <GoShield color="orange" size={24} />
             </button>
-            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400" onClick={() => setOpen(!isOpen)}>
+            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mb-2" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}>
+              <GoShieldCheck color="orange" size={24} />
+            </button> 
+            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished")}}>
               <GoShieldCheck color="green" size={24} />
             </button>  
           </div>}

@@ -20,6 +20,8 @@ export default function IconSelectorButton({
   // 🟢 Determine correct icon color based on node level
   const getDefaultIcon = () => {
     if (treeNode.level === "fortunate") {
+      return <GoShieldCheck size={16} color="orange" />;
+    } else if (treeNode.level === "unfortunate" && hasChildren) {
       return <GoShield size={16} color="orange" />;
     } else {
       return <GoShield size={16} color="red" />;
@@ -43,13 +45,13 @@ export default function IconSelectorButton({
   }, []);
 
   const iconsGreen = [
-    <GoShield size={16} color="orange" />,
+    <GoShieldCheck size={16} color="orange" />,
     <GoShieldCheck size={16} color="green" />,
   ];
 
   const iconsRedNoChild = [
     <GoShield size={16} color="red" />,
-    <GoShieldCheck size={16} color="orange" />,
+    <GoShieldCheck size={16} color="blue" />,
   ];
 
   const iconsRedChild = [
