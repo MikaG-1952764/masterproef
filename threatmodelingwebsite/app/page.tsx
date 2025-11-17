@@ -5,9 +5,8 @@ import type { TreeNode } from "./TreeVisualizer";
 import { useEffect, useState } from "react";
 import SearchBar from "./searchBar";
 import { securityTreeData } from "./dummyCase";
-import Hamburger from "hamburger-react";
 import { getLastRedNodes, getGreenNodesToCheck, getLastGreenNodesFinished, getRedNodesToCheck } from "./components/getLastNodes";
-import { GoShield, GoShieldCheck } from "react-icons/go";
+import { GoShield, GoShieldCheck, GoX } from "react-icons/go";
 import { getImmediateParent } from "./components/getParent";
 import { CollapseButtons } from "./components/collapseButtons";
 
@@ -256,7 +255,8 @@ export default function Page() {
       >
         {isOpen && 
           <div className="flex flex-col">
-            <div className="flex flex-row justify-between mt-18 gap-2 ml-2 mr-2">
+            <button className="flex justify-end p-2 mt-2" onClick={() => {setOpen(!isOpen)}}><GoX size={50} color="black"></GoX></button>
+            <div className="flex flex-row justify-between gap-2 ml-2 mr-2">
               <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='todo' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
                 onClick={() => {setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo")}}>
                 <div className="text-[15px]">
@@ -306,8 +306,19 @@ export default function Page() {
             </div>
           </div>
         }
-        <div className="absolute top-5 right-5">
-          <Hamburger color="black" toggled={isOpen} toggle={setOpen} />
+        <div className="absolute top-5 right-5 flex flex-col items-center">
+          {!isOpen &&
+          <div>
+            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400" onClick={() => setOpen(!isOpen)}>
+            <GoShield color="red" size={24} />
+            </button>
+            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mt-2 mb-2" onClick={() => setOpen(!isOpen)}>
+              <GoShield color="orange" size={24} />
+            </button>
+            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400" onClick={() => setOpen(!isOpen)}>
+              <GoShieldCheck color="green" size={24} />
+            </button>  
+          </div>}
         </div>
       </div>
 
