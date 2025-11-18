@@ -262,7 +262,11 @@ export default function Page() {
               <h2 className="text-black text-2xl font-bold flex-1 mt-4 ml-4">Parents above current node</h2>
               <button className="flex justify-end mt-2" onClick={() => {setOpenParentSummary(false)}}><GoX size={50} color="black"></GoX></button>
             </div>
-            <ShowNodes treeNodes={parentsAbove!} sideBar="parents" />
+            {(!parentsAbove || parentsAbove.length === 0) ? (
+              <div className="text-red-400 text-[20px] mt-4 ml-4">No parents available.</div>
+            ) : (
+              <ShowNodes treeNodes={parentsAbove} sideBar="parents" />
+            )}
           </div>
         )}
       </div>
