@@ -2,12 +2,12 @@
 
 import * as d3 from "d3";
 import { useEffect, useState } from "react";
-import { GoChevronDown, GoChevronUp, GoTrash, GoShield } from "react-icons/go";
+import { GoChevronDown, GoChevronUp, GoTrash, GoShield, GoInfo } from "react-icons/go";
 import { RiAddBoxLine } from "react-icons/ri";
 import { BsDot } from "react-icons/bs";
 import IconSelectorButton from "./components/iconButton";
 import { Node } from "./Node";
-import { getImmediateParent } from "./components/getParent";
+import { getImmediateParent, getParentsAbove } from "./components/getParent";
 import { isFortunate } from "./page";
 import { IconType } from "react-icons";
 
@@ -25,6 +25,8 @@ interface TreeVisualizerProps {
   setTreeData: (data: TreeNode) => void;
   highlightedNodes?: TreeNode[];
   currentNode?: TreeNode;
+  setOpenParentSummary?: (open: boolean) => void;
+  setParentsAbove: (nodes: TreeNode[] | null) => void;
 }
 
 export default function TreeVisualizer({
@@ -32,10 +34,14 @@ export default function TreeVisualizer({
   setTreeData,
   highlightedNodes = [],
   currentNode,
+  setOpenParentSummary,
+  setParentsAbove,
 }: TreeVisualizerProps) {
   const [visibleNodes, setVisibleNodes] = useState<d3.HierarchyNode<TreeNode>[]>([]);
   const [editingNode, setEditingNode] = useState<TreeNode | null>(null);
-const [editValue, setEditValue] = useState("");
+  const [infoHover, setInfoHover] = useState<boolean>(false);
+  const [hoveredInfoNode, setHoveredInfoNode] = useState<TreeNode | null>(null);
+  const [editValue, setEditValue] = useState("");
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
     x: number;
@@ -112,12 +118,20 @@ const [editValue, setEditValue] = useState("");
           >
             <div className="flex flex-col items-center gap-2">              
               {/* Node visual */}
-              <div className="relative flex flex-col cursor-pointer" id={`node-${node.data.name}`} key={i} onClick={() => {
-                setEditingNode(node.data);
-                setEditValue(node.data.name);
-                setTreeData({ ...data });
-              }} >
-                <div className="node-wrapper" onMouseEnter={e => showParentsAtMouse(e, node.data)} onMouseMove={e => moveParentsAtMouse(e)} onMouseLeave={hideParents}>
+              <div className="relative flex flex-col" id={`node-${node.data.name}`} key={i} >
+                <div className="node-wrapper">
+                  <button className="absolute rounded-full right-2 -top-1 hover:bg-gray-400 cursor-pointer" 
+                  onMouseEnter={() =>{ setInfoHover(true); setHoveredInfoNode(node.data)}} onMouseLeave={()=> {setInfoHover(false); setHoveredInfoNode(null)}}
+                  onClick={() => {
+                    setOpenParentSummary?.(true);
+                    setParentsAbove(getParentsAbove(node.data, data));
+                  }}>
+                    <GoInfo size={16} color="black" pointerEvents={"none"}></GoInfo>
+                    {infoHover && node.data===hoveredInfoNode &&
+                      <div className="absolute z-20 -right-42 -top-6 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Show branch summary</div>
+                    }
+                  </button>
+                  <p className="text-gray-400 text-[12px] ml-5">{node.data.level}</p>
                   {editingNode === node.data ? (
                   <input
                     className="border p-1 text-sm text-black rounded w-[600px] bg-gray-200"
@@ -140,14 +154,17 @@ const [editValue, setEditValue] = useState("");
                       }
                     }}
                   />
-                ) : (
-                  <Node name={node.data.name} level={node.data.level} />
+                ) : (                
+                  <div onMouseEnter={e => showParentsAtMouse(e, node.data)} onMouseMove={e => moveParentsAtMouse(e)} onMouseLeave={hideParents} onClick={() => 
+                    {setEditingNode(node.data);
+                    setEditValue(node.data.name);
+                    setTreeData({ ...data });}}>
+                    <Node name={node.data.name} level={node.data.level} />
+                  </div>
                 )}
                 </div>
               </div>
 
-
-              {/* Extra actions (appear on hover) */}
               <div className="flex gap-2 opacity-0 group-hover:opacity-100 ml-3">
                 <IconSelectorButton treeNode={node.data} setTreeData={setTreeData} data={data} />
                 <div className="flex flex-row">

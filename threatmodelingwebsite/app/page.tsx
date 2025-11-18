@@ -29,6 +29,9 @@ export default function Page() {
   const [displayGreenNodes, setDisplayGreenNodes] = useState(false);
   const [displayGreenNodesFinished, setDisplayGreenNodesFinished] = useState(false);
   const [activeNodeTab, setActiveNodeTab] = useState<"todo" | "verify" | "check" | "finished">("todo");
+  const [openParentSummary, setOpenParentSummary] = useState(false);
+  const [parentsAbove, setParentsAbove] = useState<TreeNode[] | null>(null);
+  
   
   const handleAddTree = () => {
     const rootName = prompt("Enter name for the root node:");
@@ -96,7 +99,7 @@ export default function Page() {
     return false
   }
 
-  function ShowNodes({ treeNodes }: { treeNodes: TreeNode[] }) {
+  function ShowNodes({ treeNodes, sideBar }: { treeNodes: TreeNode[] , sideBar?: string}) {
     const [tooltip, setTooltip] = useState<{
       visible: boolean;
       x: number;
@@ -145,12 +148,18 @@ export default function Page() {
         {treeNodes.map((element, index) => (
           <div key={index} className="relative">
             <div className="flex flex-row">
-              {treeNodes.at(1)?.level === "unfortunate" && (
+              {treeNodes.at(1)?.level === "unfortunate" && sideBar==="shields" && (
               <div className="text-center p-1.5 m-1 w-10 h-10 bg-red-200 border-black border-2 rounded text-black">U</div>
               )}
-              {treeNodes.at(1)?.level === "fortunate" && (
+              {treeNodes.at(1)?.level === "fortunate" && sideBar==="shields" && (
               <div className="text-center p-1.5 m-1 w-10 h-10 bg-green-200 border-black border-2 rounded text-black">F</div>
               )}
+              { element.level === "unfortunate" && sideBar==="parents" && (
+              <div className="text-center p-1.5 m-1 w-10 h-10 bg-red-200 border-black border-2 rounded text-black">U</div>)
+              }
+              { element.level === "fortunate" && sideBar==="parents" && (
+              <div className="text-center p-1.5 m-1 w-10 h-10 bg-green-200 border-black border-2 rounded text-black">F</div>)
+              }
               <button
                 className={`text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200 ${
                   isFortunate(element) ? "bg-green-200" : "bg-red-200"
@@ -192,7 +201,7 @@ export default function Page() {
             style={{
               left: tooltip.x,
               top: tooltip.y,
-              pointerEvents: "none" // so it doesn't interfere with mouse events
+              pointerEvents: "none"
             }}
           >
             {tooltip.parent ? (
@@ -246,6 +255,18 @@ export default function Page() {
         </div>
       )}
 
+      <div>
+        {openParentSummary && (
+          <div className="absolute flex flex-col w-[30vw] h-[100vh] top-0 left-0 z-100 bg-gray-300 border-2 border-black rounded-[20px] p-4">
+            <div className="flex flex-row">
+              <h2 className="text-black text-2xl font-bold flex-1 mt-4 ml-4">Parents above current node</h2>
+              <button className="flex justify-end mt-2" onClick={() => {setOpenParentSummary(false)}}><GoX size={50} color="black"></GoX></button>
+            </div>
+            <ShowNodes treeNodes={parentsAbove!} sideBar="parents" />
+          </div>
+        )}
+      </div>
+
       <div
         className={`absolute top-0 right-0 transition-all duration-500 ease-in-out 
           ${isOpen 
@@ -290,35 +311,35 @@ export default function Page() {
             </div>
             <div className="group">
               {displayRedNodes &&
-              <ShowNodes treeNodes={redNodes} />}
+              <ShowNodes treeNodes={redNodes} sideBar="shields"/>}
             </div>
             <div>
               {displayRedNodesToVerify &&
-              <ShowNodes treeNodes={redNodesToVerify} />}
+              <ShowNodes treeNodes={redNodesToVerify} sideBar="shields"/>}
             </div>
             <div>
               {displayGreenNodes &&
-              <ShowNodes treeNodes={greenNodes} />}
+              <ShowNodes treeNodes={greenNodes} sideBar="shields"/>}
             </div>
             <div>
               {displayGreenNodesFinished &&
-              <ShowNodes treeNodes={greenNodesFinished} />}
+              <ShowNodes treeNodes={greenNodesFinished} sideBar="shields"/>}
             </div>
           </div>
         }
         <div className="absolute top-5 right-5 flex flex-col items-center">
           {!isOpen &&
           <div>
-            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo")}}>
+            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo")}}>
             <GoShield color="red" size={24} />
             </button>
-            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mt-2 mb-2" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify")}}>
+            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mt-2 mb-2 hover:bg-gray-300" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify")}}>
               <GoShield color="orange" size={24} />
             </button>
-            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mb-2" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}>
+            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mb-2 hover:bg-gray-300" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}>
               <GoShieldCheck color="orange" size={24} />
             </button> 
-            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished")}}>
+            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished")}}>
               <GoShieldCheck color="green" size={24} />
             </button>  
           </div>}
@@ -355,7 +376,9 @@ export default function Page() {
                 data={treeData}
                 setTreeData={setTreeData}
                 highlightedNodes={highlightedNodes}
-                currentNode={currentNode!} // set by SearchBar when Enter is pressed
+                currentNode={currentNode!}
+                setOpenParentSummary={setOpenParentSummary}
+                setParentsAbove={setParentsAbove}
               />
             </div>
           </>

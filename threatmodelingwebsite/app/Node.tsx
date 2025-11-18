@@ -4,7 +4,6 @@ export function Node({ name, level }: { name: string, level: string }) {
       return (
       
       <div>
-        <p className="text-gray-400 text-[12px] ml-5">{level}</p>
         <div className=" bg-green-600 rounded-[20] border border-black border-2 px-2 w-[250] max-h-[200] text-center break-words py-1">
           {name}
         </div>
@@ -13,7 +12,6 @@ export function Node({ name, level }: { name: string, level: string }) {
   } else {
     return (
       <div>
-        <p className="text-gray-400 text-[12px] ml-5">{level}</p>
         <div className=" bg-red-600 rounded-[20] border border-black border-2 px-2 w-[250] max-h-[200] text-center break-words py-1">
           {name}
         </div>
