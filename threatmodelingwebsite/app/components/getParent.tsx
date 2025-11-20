@@ -32,5 +32,5 @@ export function getParentsAbove(node: TreeNode, root: TreeNode): TreeNode[] {
       break;
     }
   }
-  return parents;
+  return parents.reverse();
 }

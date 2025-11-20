@@ -9,6 +9,7 @@ import { getLastRedNodes, getGreenNodesToCheck, getLastGreenNodesFinished, getRe
 import { GoShield, GoShieldCheck, GoX } from "react-icons/go";
 import { getImmediateParent } from "./components/getParent";
 import { CollapseButtons } from "./components/collapseButtons";
+import { ImArrowDown2 } from "react-icons/im";
 
 export function isFortunate(node: TreeNode) : boolean{
     if(node.level == "fortunate") return true;
@@ -31,6 +32,10 @@ export default function Page() {
   const [activeNodeTab, setActiveNodeTab] = useState<"todo" | "verify" | "check" | "finished">("todo");
   const [openParentSummary, setOpenParentSummary] = useState(false);
   const [parentsAbove, setParentsAbove] = useState<TreeNode[] | null>(null);
+  const [redShieldHovered, setRedShieldHovered] = useState(false);
+  const [orangeShieldHovered, setOrangeShieldHovered] = useState(false);
+  const [orangeCheckShieldHovered, setOrangeCheckShieldHovered] = useState(false);
+  const [greenCheckShieldHovered, setGreenCheckShieldHovered] = useState(false);
   
   
   const handleAddTree = () => {
@@ -154,12 +159,6 @@ export default function Page() {
               {treeNodes.at(1)?.level === "fortunate" && sideBar==="shields" && (
               <div className="text-center p-1.5 m-1 w-10 h-10 bg-green-200 border-black border-2 rounded text-black">F</div>
               )}
-              { element.level === "unfortunate" && sideBar==="parents" && (
-              <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-red-200 border-black border-2 rounded text-black text-[14px]">U</div>)
-              }
-              { element.level === "fortunate" && sideBar==="parents" && (
-              <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-green-200 border-black border-2 rounded text-black text-[14px]">F</div>)
-              }
               {sideBar==="shields" ? (
                 <button
                   className={`text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200 ${
@@ -192,36 +191,44 @@ export default function Page() {
                   <p>{element.name}</p>
                 </button>
               ): (
-                <button
-                className={`text-black text-[14px] border-2 border-black m-1 h-[30px] rounded w-[98%] active:bg-gray-200 ${
-                  isFortunate(element) ? "bg-green-200" : "bg-red-200"
-                }`}
-                onClick={() => {
-                    if (expandPathToNode(element, treeData!)){
-                      setCurrentNode(element);
-                      setTimeout(() => {
-                      const el = document.getElementById(`node-${element.name}`);
-                      el?.scrollIntoView({ behavior: "smooth", block: "center" });
-                    }, 50);
-                    } else {
-                      expandPathToNode(element, treeData!);
-                      setTreeData({ ...treeData! });
-                      setTimeout(() => {
-                      setCurrentNode(element);
-                      setOpen(false);
-                    }, 0);
-                    setTimeout(() => {
-                      const el = document.getElementById(`node-${element.name}`);
-                      el?.scrollIntoView({ behavior: "smooth", block: "center" });
-                    }, 50);
-                  setOpen(false);}
-                }}
-                onMouseEnter={(e) => showParentsAtMouse(e, element)}
-                onMouseMove={(e) => moveParentsAtMouse(e)}
-                onMouseLeave={hideParents}
-              >
-                <p>{element.name}</p>
-              </button>
+                <div>
+                  {index!=0 && <ImArrowDown2 className="flex items-center w-full" color="black" size={24}/>}
+                  <div className="flex flex-row">
+                    { element.level === "unfortunate" && sideBar==="parents" && (
+                    <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-red-200 border-black border-2 rounded text-black text-[14px]">U</div>)
+                    }
+                    { element.level === "fortunate" && sideBar==="parents" && (
+                    <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-green-200 border-black border-2 rounded text-black text-[14px]">F</div>)
+                    }
+                    <button
+                    className={`text-black text-[14px] border-2 border-black m-1 h-[30px] w-[15vw] rounded active:bg-gray-200 ${
+                      isFortunate(element) ? "bg-green-200" : "bg-red-200"
+                    }`}
+                    onClick={() => {
+                        if (expandPathToNode(element, treeData!)){
+                          setCurrentNode(element);
+                          setTimeout(() => {
+                          const el = document.getElementById(`node-${element.name}`);
+                          el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }, 50);
+                        } else {
+                          expandPathToNode(element, treeData!);
+                          setTreeData({ ...treeData! });
+                          setTimeout(() => {
+                          setCurrentNode(element);
+                          setOpen(false);
+                        }, 0);
+                        setTimeout(() => {
+                          const el = document.getElementById(`node-${element.name}`);
+                          el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }, 50);
+                      setOpen(false);}
+                    }}
+                  >
+                    <p>{element.name}</p>
+                  </button>
+                </div>
+              </div>
               )}
             </div>
           </div>
@@ -364,20 +371,40 @@ export default function Page() {
             </div>
           </div>
         }
-        <div className="absolute top-5 right-5 flex flex-col items-center">
+        <div className="absolute top-5 right-0 flex flex-col items-center">
           {!isOpen &&
           <div>
-            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo")}}>
-            <GoShield color="red" size={24} />
+            <button className={`rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300`} 
+            onClick={() => {setOpen(!isOpen); setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo")}}
+            onMouseEnter={() => setRedShieldHovered(true)}
+            onMouseLeave={() => setRedShieldHovered(false)}>
+                <GoShield color="red" size={24} />
+                <p className="text-black">[{redNodes.length}]</p>
+                 {redShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Weaknesses</div>}
             </button>
-            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mt-2 mb-2 hover:bg-gray-300" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify")}}>
+            <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mt-2 mb-2 hover:bg-gray-300" 
+            onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify")}}
+            onMouseEnter={() => setOrangeShieldHovered(true)}
+            onMouseLeave={() => setOrangeShieldHovered(false)}>
               <GoShield color="orange" size={24} />
+              <p className="text-black">[{redNodesToVerify.length}]</p>
+              {orangeShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Further investigation</div>}
             </button>
-            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mb-2 hover:bg-gray-300" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}>
+            <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mb-2 hover:bg-gray-300" 
+            onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}
+            onMouseEnter={() => setOrangeCheckShieldHovered(true)}
+            onMouseLeave={() => setOrangeCheckShieldHovered(false)}>
               <GoShieldCheck color="orange" size={24} />
+              <p className="text-black">[{greenNodes.length}]</p>
+              {orangeCheckShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Assumptions to verify</div>}
             </button> 
-            <button className="rounded-full h-10 w-10 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300" onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished")}}>
+            <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300" 
+            onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished")}}
+            onMouseEnter={() => setGreenCheckShieldHovered(true)}
+            onMouseLeave={() => setGreenCheckShieldHovered(false)}>
               <GoShieldCheck color="green" size={24} />
+              <p className="text-black">[{greenNodesFinished.length}]</p>
+              {greenCheckShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Verified assumptions</div>}
             </button>  
           </div>}
         </div>
