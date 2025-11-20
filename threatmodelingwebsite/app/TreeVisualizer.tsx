@@ -74,37 +74,6 @@ export default function TreeVisualizer({
   const OFFSET_Y = 12;
   const INDENT_PX = 120; // how much each depth indents
 
-  function showParentsAtMouse(e: React.MouseEvent, node: TreeNode) {
-    const parent = getImmediateParent(node, data);
-    const x = e.clientX + OFFSET_X;
-    const y = e.clientY + OFFSET_Y;
-    // clamp
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const maxX = vw - 240;
-    const maxY = vh - 200;
-    setTooltip({
-      visible: true,
-      x: Math.min(x, maxX),
-      y: Math.min(y, maxY),
-      parent,
-    });
-  }
-
-  function moveParentsAtMouse(e: React.MouseEvent) {
-    const x = e.clientX + OFFSET_X;
-    const y = e.clientY + OFFSET_Y;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const maxX = vw - 140;
-    const maxY = vh - 120;
-    setTooltip(t => ({ ...t, x: Math.min(x, maxX), y: Math.min(y, maxY) }));
-  }
-
-  function hideParents() {
-    setTooltip({ visible: false, x: 0, y: 0, parent: null });
-  }
-
   return (
     <main className="w-full h-full overflow-auto p-2">
       <div className="flex flex-col gap-1 mt-2">
@@ -119,19 +88,7 @@ export default function TreeVisualizer({
             <div className="flex flex-col items-center gap-2">              
               {/* Node visual */}
               <div className="relative flex flex-col" id={`node-${node.data.name}`} key={i} >
-                <div className="node-wrapper">
-                  <button className="absolute rounded-full right-2 -top-1 hover:bg-gray-400 cursor-pointer" 
-                  onMouseEnter={() =>{ setInfoHover(true); setHoveredInfoNode(node.data)}} onMouseLeave={()=> {setInfoHover(false); setHoveredInfoNode(null)}}
-                  onClick={() => {
-                    setOpenParentSummary?.(true);
-                    setParentsAbove(getParentsAbove(node.data, data));
-                  }}>
-                    <GoInfo size={16} color="black" pointerEvents={"none"}></GoInfo>
-                    {infoHover && node.data===hoveredInfoNode &&
-                      <div className="absolute z-20 -right-42 -top-6 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Show branch summary</div>
-                    }
-                  </button>
-                  <p className="text-gray-400 text-[12px] ml-5">{node.data.level}</p>
+                <div className="node-wrapper cursor-pointer">
                   {editingNode === node.data ? (
                   <input
                     className="border p-1 text-sm text-black rounded w-[600px] bg-gray-200"
@@ -155,7 +112,7 @@ export default function TreeVisualizer({
                     }}
                   />
                 ) : (                
-                  <div onMouseEnter={e => showParentsAtMouse(e, node.data)} onMouseMove={e => moveParentsAtMouse(e)} onMouseLeave={hideParents} onClick={() => 
+                  <div onClick={() => 
                     {setEditingNode(node.data);
                     setEditValue(node.data.name);
                     setTreeData({ ...data });}}>
@@ -166,7 +123,6 @@ export default function TreeVisualizer({
               </div>
 
               <div className="flex gap-2 opacity-0 group-hover:opacity-100 ml-3">
-                <IconSelectorButton treeNode={node.data} setTreeData={setTreeData} data={data} />
                 <div className="flex flex-row">
                 {node.data.children &&
                 <button
