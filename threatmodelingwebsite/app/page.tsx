@@ -43,7 +43,7 @@ export default function Page() {
     setTreeData({
       name: rootName || "Start",
       children: [],
-      dangerRating: 0,
+      dangerRating: 1,
       level: "fortunate",
       status: GoShield,
     });
@@ -149,7 +149,7 @@ export default function Page() {
     }
 
     return (
-      <div className="mt-6 h-[79vh] overflow-y-auto border border-gray-300 rounded relative">
+      <div className="mt-6 h-[79vh] w-[27vw] overflow-y-auto border border-gray-300 rounded relative">
         {treeNodes.map((element, index) => (
           <div key={index} className="relative">
             <div className="flex flex-row">
@@ -257,9 +257,9 @@ export default function Page() {
 
 
   function computeDangerRating(node: TreeNode) {
-    if (!node.children || node.children.length === 0) return 0;
-    node.children.forEach(computeDangerRating);
-    node.dangerRating = node.children.length;
+    node.dangerRating = 1; // zet dangerRating van deze node
+    if (node.children) node.children.forEach(computeDangerRating);
+    if (node._children) node._children.forEach(computeDangerRating);
   }
 
   function addIconStatus(node: TreeNode) {
@@ -353,21 +353,57 @@ export default function Page() {
                 </div>
               </button>
             </div>
-            <div className="group">
-              {displayRedNodes &&
-              <ShowNodes treeNodes={redNodes} sideBar="shields"/>}
-            </div>
-            <div>
-              {displayRedNodesToVerify &&
-              <ShowNodes treeNodes={redNodesToVerify} sideBar="shields"/>}
-            </div>
-            <div>
-              {displayGreenNodes &&
-              <ShowNodes treeNodes={greenNodes} sideBar="shields"/>}
-            </div>
-            <div>
-              {displayGreenNodesFinished &&
-              <ShowNodes treeNodes={greenNodesFinished} sideBar="shields"/>}
+            <div className="flex flex-row">
+              {displayRedNodes && 
+                (<div className="flex flex-col h-full justify-center text-black text-[20px] mr-2 ml-3 mt-20">
+                  <p>D</p>
+                  <p>a</p>
+                  <p>n</p>
+                  <p>g</p>
+                  <p>e</p>
+                  <p>r</p>
+                  <p>r</p>
+                  <p>a</p>
+                  <p>t</p>
+                  <p>i</p>
+                  <p>n</p>
+                  <p>g</p>
+                  <ImArrowDown2 color="black" size={24} className="absolute left-1 bottom-76"/>
+                </div>)
+              }
+              {displayRedNodesToVerify && 
+                (<div className="flex flex-col h-full justify-center text-black text-[20px] mr-2 ml-3 mt-20">
+                  <p>D</p>
+                  <p>a</p>
+                  <p>n</p>
+                  <p>g</p>
+                  <p>e</p>
+                  <p>r</p>
+                  <p>r</p>
+                  <p>a</p>
+                  <p>t</p>
+                  <p>i</p>
+                  <p>n</p>
+                  <p>g</p>
+                  <ImArrowDown2 color="black" size={24} className="absolute left-1 bottom-76"/>
+                </div>)
+              }
+              <div className="group">
+                {displayRedNodes &&
+                <ShowNodes treeNodes={redNodes} sideBar="shields"/>}
+              </div>
+              <div>
+                {displayRedNodesToVerify &&
+                <ShowNodes treeNodes={redNodesToVerify} sideBar="shields"/>}
+              </div>
+              <div>
+                {displayGreenNodes &&
+                <ShowNodes treeNodes={greenNodes} sideBar="shields"/>}
+              </div>
+              <div>
+                {displayGreenNodesFinished &&
+                <ShowNodes treeNodes={greenNodesFinished} sideBar="shields"/>}
+              </div>
             </div>
           </div>
         }

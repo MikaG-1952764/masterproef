@@ -25,6 +25,7 @@ export function getLastRedNodes(node: TreeNode): TreeNode[] {
   }
 
   traverse(node);
+  result.sort((a, b) => (b.dangerRating || 0) - (a.dangerRating || 0));
   console.log(result);
   return result;
 }

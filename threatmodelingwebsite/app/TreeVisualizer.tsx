@@ -11,6 +11,106 @@ import { getImmediateParent, getParentsAbove } from "./components/getParent";
 import { isFortunate } from "./page";
 import { IconType } from "react-icons";
 
+function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: TreeNode; setTreeData: (data: TreeNode) => void }) {
+  const [showDanger, setShowDanger] = useState(false);
+
+  const [impact, setImpact] = useState<number>(1);
+  const [likelihood, setLikelihood] = useState<number>(1);
+
+  const [openImpact, setOpenImpact] = useState(false);
+  const [openLikelihood, setOpenLikelihood] = useState(false);
+
+  return (
+    <div className="relative">
+
+      {/* The danger rating button */}
+      <button
+        className="flex items-center justify-center absolute rounded-full border-black border h-6 right-10 -top-3 hover:bg-gray-300 cursor-pointer text-black w-6"
+        onClick={() => {
+          setShowDanger(!showDanger);
+          setOpenImpact(false);
+          setOpenLikelihood(false);
+        }}
+      >
+        {node.dangerRating}
+      </button>
+
+      {/* Popup with dropdowns */}
+      {showDanger && (
+        <div className="absolute -top-32 -right-6 w-40 bg-white border-2 border-black rounded shadow-lg p-2 z-50 text-black">
+          <p className="text-xs font-semibold mb-1">Danger Rating: {node.dangerRating}</p>
+
+          {/* Impact dropdown */}
+          <div className="relative mb-2">
+            <button
+              onClick={() => {
+                setOpenImpact(!openImpact);
+                setOpenLikelihood(false);
+              }}
+              className="px-2 py-1 border rounded bg-white hover:bg-gray-100 text-sm w-full"
+            >
+              Impact: {impact ?? "-"}
+            </button>
+
+            {openImpact && (
+              <div className="absolute mt-1 bg-white border rounded shadow p-1 z-50 w-full">
+                {[1,2,3,4,5].map((value) => (
+                  <button
+                    key={value}
+                    onClick={() => {
+                      setImpact(value);
+                      node.dangerRating = value*likelihood;
+                      setOpenImpact(false);
+                      setTreeData({ ...data });
+                    }}
+                    className="block w-full text-left px-2 py-1 hover:bg-gray-200 text-sm"
+                  >
+                    {value}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Likelihood dropdown */}
+          <div className="relative mb-1">
+            <button
+              onClick={() => {
+                setOpenLikelihood(!openLikelihood);
+                setOpenImpact(false);
+              }}
+              className="px-2 py-1 border rounded bg-white hover:bg-gray-100 text-sm w-full"
+            >
+              Likelihood: {likelihood ?? "-"}
+            </button>
+
+            {openLikelihood && (
+              <div className="absolute mt-1 bg-white border rounded shadow p-1 z-50 w-full">
+                {[1,2,3,4,5].map((value) => (
+                  <button
+                    key={value}
+                    onClick={() => {
+                      setLikelihood(value);
+                      node.dangerRating = impact*value;
+                      setOpenLikelihood(false);
+                      // trigger parent update by re-setting the root data reference
+                      setTreeData({ ...data });
+                    }}
+                    className="block w-full text-left px-2 py-1 hover:bg-gray-200 text-sm"
+                  >
+                    {value}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 export interface TreeNode {
   name: string;
   children?: TreeNode[];
@@ -41,6 +141,7 @@ export default function TreeVisualizer({
   const [editingNode, setEditingNode] = useState<TreeNode | null>(null);
   const [infoHover, setInfoHover] = useState<boolean>(false);
   const [hoveredInfoNode, setHoveredInfoNode] = useState<TreeNode | null>(null);
+  const [showDanger, setShowDanger] = useState(false);
   const [editValue, setEditValue] = useState("");
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
@@ -120,6 +221,15 @@ export default function TreeVisualizer({
               {/* Node visual */}
               <div className="relative flex flex-col" id={`node-${node.data.name}`} key={i} >
                 <div className="node-wrapper">
+                  {node.data.level === "unfortunate" && 
+                    (
+                      <div>
+                        {node.data.level === "unfortunate" && (
+                          <NodeDangerPopup data={data} setTreeData={setTreeData} node={node.data} />
+                        )}
+                      </div>
+                    )
+                  }
                   <button className="absolute rounded-full right-2 -top-1 hover:bg-gray-400 cursor-pointer" 
                   onMouseEnter={() =>{ setInfoHover(true); setHoveredInfoNode(node.data)}} onMouseLeave={()=> {setInfoHover(false); setHoveredInfoNode(null)}}
                   onClick={() => {
@@ -223,7 +333,6 @@ export default function TreeVisualizer({
                   parent.data.children = parent.data.children?.filter(
                     c => c !== node.data
                   );
-                  parent.data.dangerRating--;
                   if (parent.data.children?.length === 0)
                     parent.data.children = undefined;
                   setTreeData({ ...data });
@@ -236,14 +345,13 @@ export default function TreeVisualizer({
                 onClick={e => {
                   e.stopPropagation();
                   if (!node.data.children) node.data.children = [];
-                  node.data.dangerRating++;
                   const childLevel =
                     node.data.level === "fortunate"
                       ? "unfortunate"
                       : "fortunate";
                   node.data.children.push({
                     name: "New node",
-                    dangerRating: 0,
+                    dangerRating: 1,
                     level: childLevel,
                     status: GoShield,
                   });
