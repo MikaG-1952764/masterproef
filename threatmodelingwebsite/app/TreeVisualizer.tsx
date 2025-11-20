@@ -216,6 +216,8 @@ export default function TreeVisualizer({
                 className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
                 onClick={e => {
                   e.stopPropagation();
+                  const confirmDeletion = window.confirm(`Are you sure you want to delete the node "${node.data.name}"?`)
+                  if(!confirmDeletion) return;
                   const parent = node.parent;
                   if (!parent) return;
                   parent.data.children = parent.data.children?.filter(
