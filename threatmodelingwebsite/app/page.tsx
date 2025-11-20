@@ -201,7 +201,7 @@ export default function Page() {
                     <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-green-200 border-black border-2 rounded text-black text-[14px]">F</div>)
                     }
                     <button
-                    className={`text-black text-[14px] border-2 border-black m-1 h-[30px] w-[15vw] rounded active:bg-gray-200 ${
+                    className={`text-black text-[14px] border-2 border-black m-1 h-[30px] w-[15vw] rounded active:bg-gray-200 cursor-pointer ${
                       isFortunate(element) ? "bg-green-200" : "bg-red-200"
                     }`}
                     onClick={() => {

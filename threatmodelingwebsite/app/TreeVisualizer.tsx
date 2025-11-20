@@ -155,7 +155,7 @@ export default function TreeVisualizer({
                     }}
                   />
                 ) : (                
-                  <div onMouseEnter={e => showParentsAtMouse(e, node.data)} onMouseMove={e => moveParentsAtMouse(e)} onMouseLeave={hideParents} onClick={() => 
+                  <div className="cursor-pointer" onMouseEnter={e => showParentsAtMouse(e, node.data)} onMouseMove={e => moveParentsAtMouse(e)} onMouseLeave={hideParents} onClick={() => 
                     {setEditingNode(node.data);
                     setEditValue(node.data.name);
                     setTreeData({ ...data });}}>
