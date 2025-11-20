@@ -20,6 +20,8 @@ export default function IconSelectorButton({
   // 🟢 Determine correct icon color based on node level
   const getDefaultIcon = () => {
     if (treeNode.level === "fortunate") {
+      return <GoShieldCheck size={16} color="orange" />;
+    } else if (treeNode.level === "unfortunate" && hasChildren) {
       return <GoShield size={16} color="orange" />;
     } else {
       return <GoShield size={16} color="red" />;
@@ -43,17 +45,17 @@ export default function IconSelectorButton({
   }, []);
 
   const iconsGreen = [
-    <GoShield size={16} color="orange" />,
+    <GoShieldCheck size={16} color="orange" />,
     <GoShieldCheck size={16} color="green" />,
   ];
 
   const iconsRedNoChild = [
     <GoShield size={16} color="red" />,
-    <GoShieldCheck size={16} color="orange" />,
+    <GoShieldCheck size={16} color="blue" />,
   ];
 
   const iconsRedChild = [
-    <GoShield size={16} color="red" />,
+    <GoShield size={16} color="orange" />,
     <GoShieldCheck size={16} color="green" />,
   ];
 
@@ -72,17 +74,20 @@ export default function IconSelectorButton({
 
         {hovered && (
           <div className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 z-50 bg-white p-1 rounded shadow">
-            {(!treeNode.children || !treeNode._children) && treeNode.level === "unfortunate" && (
+            {(!treeNode.children && !treeNode._children) && treeNode.level === "unfortunate" && treeNode.status === GoShield && (
                 <p className="text-xs text-black mt-1">Weakness</p>
             )}
-            {(treeNode.children || treeNode._children) && treeNode.level === "unfortunate" && (
+            {(treeNode.children || treeNode._children) && treeNode.level === "unfortunate" && treeNode.status === GoShield && (
                 <p className="text-xs text-black mt-1">Further investigation</p>
             )}
             {treeNode.status === GoShield && treeNode.level === "fortunate" && (
-                <p className="text-xs text-black mt-1">Assumptions to verify</p>
+                <p className="text-xs text-black mt-1">Assumption to verify</p>
             )}
-            {treeNode.status === GoShieldCheck && (
-                <p className="text-xs text-black mt-1">Verified assumptions</p>
+            {treeNode.status === GoShieldCheck && (!treeNode._children || !treeNode.children) && treeNode.level === "fortunate" && (
+                <p className="text-xs text-black mt-1">Verified assumption</p>
+            )}
+            {treeNode.status === GoShieldCheck && (treeNode._children || treeNode.children) && (
+                <p className="text-xs text-black mt-1">Completed node</p>
             )}
           </div>
         )}
