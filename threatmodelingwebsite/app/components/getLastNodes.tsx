@@ -2,7 +2,7 @@ import { TreeNode } from "../TreeVisualizer";
 import { GoShield, GoShieldCheck } from "react-icons/go";
 
 /**
- * Haal alle laatste rode ('unfortunate') nodes op uit de boomstructuur.
+ * Haal alle laatste rode ('unfortunately') nodes op uit de boomstructuur.
  */
 export function getLastRedNodes(node: TreeNode): TreeNode[] {
   const result: TreeNode[] = [];
@@ -17,7 +17,7 @@ export function getLastRedNodes(node: TreeNode): TreeNode[] {
     const hasChildren = allChildren.length > 0;
 
     // red leaf
-    if (current.level === "unfortunate" && !hasChildren) {
+    if (current.level.toLowerCase() === "unfortunately" && !hasChildren) {
       result.push(current);
     }
 
@@ -45,7 +45,7 @@ export function getRedNodesToCheck(node: TreeNode): TreeNode[] {
     ];
     const hasChildren = allChildren.length > 0;
 
-    if (current.level === "unfortunate" && hasChildren) {
+    if (current.level.toLowerCase() === "unfortunately" && hasChildren) {
       result.push(current);
     }
 
@@ -72,7 +72,7 @@ export function getGreenNodesToCheck(node: TreeNode): TreeNode[] {
       ...(current._children || []),
     ];
 
-    if (current.level === "fortunate" && current.status === GoShield) {
+    if (current.level.toLowerCase() === "fortunately" && current.status === GoShield) {
       result.push(current);
     }
 
@@ -100,7 +100,7 @@ export function getLastGreenNodesFinished(node: TreeNode): TreeNode[] {
     const hasChildren = allChildren.length > 0;
 
     if (
-      current.level === "fortunate" &&
+      current.level.toLowerCase() === "fortunately" &&
       !hasChildren &&
       current.status === GoShieldCheck
     ) {

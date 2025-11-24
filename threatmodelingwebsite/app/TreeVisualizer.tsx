@@ -117,7 +117,7 @@ export interface TreeNode {
   _children?: TreeNode[];
   dangerRating: number;
   level: string;
-  status: IconType;
+  status: IconType | null;
 }
 
 interface TreeVisualizerProps {
@@ -221,10 +221,10 @@ export default function TreeVisualizer({
               {/* Node visual */}
               <div className="relative flex flex-col" id={`node-${node.data.name}`} key={i} >
                 <div className="node-wrapper">
-                  {node.data.level === "unfortunate" && 
+                  {node.data.level.toLowerCase() === "unfortunately" && 
                     (
                       <div>
-                        {node.data.level === "unfortunate" && (
+                        {node.data.level.toLowerCase() === "unfortunately" && (
                           <NodeDangerPopup data={data} setTreeData={setTreeData} node={node.data} />
                         )}
                       </div>
@@ -346,9 +346,9 @@ export default function TreeVisualizer({
                   e.stopPropagation();
                   if (!node.data.children) node.data.children = [];
                   const childLevel =
-                    node.data.level === "fortunate"
-                      ? "unfortunate"
-                      : "fortunate";
+                    node.data.level.toLowerCase() === "fortunately"
+                      ? "unfortunately"
+                      : "fortunately";
                   node.data.children.push({
                     name: "New node",
                     dangerRating: 1,

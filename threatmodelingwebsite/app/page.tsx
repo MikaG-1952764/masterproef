@@ -4,7 +4,8 @@ import TreeVisualizer from "./TreeVisualizer";
 import type { TreeNode } from "./TreeVisualizer";
 import { useEffect, useState } from "react";
 import SearchBar from "./searchBar";
-import { securityTreeData } from "./dummyCase";
+import { Case1Tree } from "./dummyCase1";
+import { Case2Tree } from "./dummyCase2";
 import { getLastRedNodes, getGreenNodesToCheck, getLastGreenNodesFinished, getRedNodesToCheck } from "./components/getLastNodes";
 import { GoShield, GoShieldCheck, GoX } from "react-icons/go";
 import { getImmediateParent } from "./components/getParent";
@@ -12,7 +13,7 @@ import { CollapseButtons } from "./components/collapseButtons";
 import { ImArrowDown2 } from "react-icons/im";
 
 export function isFortunate(node: TreeNode) : boolean{
-    if(node.level == "fortunate") return true;
+    if(node.level.toLowerCase() == "fortunately") return true;
     return false;
   }
 
@@ -44,7 +45,7 @@ export default function Page() {
       name: rootName || "Start",
       children: [],
       dangerRating: 1,
-      level: "fortunate",
+      level: "fortunately",
       status: GoShield,
     });
   };
@@ -153,10 +154,10 @@ export default function Page() {
         {treeNodes.map((element, index) => (
           <div key={index} className="relative">
             <div className="flex flex-row">
-              {treeNodes.at(1)?.level === "unfortunate" && sideBar==="shields" && (
+              {treeNodes.at(1)?.level.toLowerCase() === "unfortunately" && sideBar==="shields" && (
               <div className="text-center p-1.5 m-1 w-10 h-10 bg-red-200 border-black border-2 rounded text-black">U</div>
               )}
-              {treeNodes.at(1)?.level === "fortunate" && sideBar==="shields" && (
+              {treeNodes.at(1)?.level.toLowerCase() === "fortunately" && sideBar==="shields" && (
               <div className="text-center p-1.5 m-1 w-10 h-10 bg-green-200 border-black border-2 rounded text-black">F</div>
               )}
               {sideBar==="shields" ? (
@@ -194,14 +195,14 @@ export default function Page() {
                 <div>
                   {index!=0 && <ImArrowDown2 className="flex items-center w-full" color="black" size={24}/>}
                   <div className="flex flex-row">
-                    { element.level === "unfortunate" && sideBar==="parents" && (
+                    { element.level.toLowerCase() === "unfortunately" && sideBar==="parents" && (
                     <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-red-200 border-black border-2 rounded text-black text-[14px]">U</div>)
                     }
-                    { element.level === "fortunate" && sideBar==="parents" && (
+                    { element.level.toLowerCase() === "fortunately" && sideBar==="parents" && (
                     <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-green-200 border-black border-2 rounded text-black text-[14px]">F</div>)
                     }
                     <button
-                    className={`text-black text-[14px] border-2 border-black m-1 h-[30px] w-[15vw] rounded active:bg-gray-200 cursor-pointer ${
+                    className={`text-black text-[14px] border-2 border-black m-1 h-[30px] w-[25vw] rounded active:bg-gray-200 cursor-pointer ${
                       isFortunate(element) ? "bg-green-200" : "bg-red-200"
                     }`}
                     onClick={() => {
@@ -268,10 +269,12 @@ export default function Page() {
     if (node._children) node._children.forEach(addIconStatus);
   }
 
-  const loadDummyData = () => {
-    setTreeData(securityTreeData);
-    computeDangerRating(securityTreeData);
-    addIconStatus(securityTreeData);
+  const loadDummyData1 = () => {
+    setTreeData(Case1Tree);
+  }
+
+  const loadDummyData2 = () => {
+    setTreeData(Case1Tree);
   }
 
   const handleReset = () => {
@@ -297,7 +300,7 @@ export default function Page() {
 
       <div>
         {openParentSummary && (
-          <div className="absolute flex flex-col w-[20vw] h-[100vh] top-0 left-0 z-100 bg-gray-300 border-2 border-black rounded-[20px] p-4">
+          <div className="absolute flex flex-col w-[30vw] h-[100vh] top-0 left-0 z-100 bg-gray-300 border-2 border-black rounded-[20px] p-4">
             <div className="flex flex-row">
               <h2 className="text-black text-xl font-bold flex-1 mt-5 ml-4">Parents above current node</h2>
               <button className="flex justify-end mt-2" onClick={() => {setOpenParentSummary(false)}}><GoX size={50} color="black"></GoX></button>
@@ -314,7 +317,7 @@ export default function Page() {
       <div
         className={`absolute top-0 right-0 transition-all duration-500 ease-in-out 
           ${isOpen 
-            ? "w-[30vw] h-[100vh] border-2 border-black rounded-[20px] bg-gray-200 z-100" 
+            ? "w-[40vw] h-[100vh] border-2 border-black rounded-[20px] bg-gray-200 z-100" 
             : "w-[50px] h-[50px] right-10 top-10 border-transparent"
           }`}
       >
@@ -424,10 +427,16 @@ export default function Page() {
               + Add Tree
             </button>
             <button
-              onClick={loadDummyData}
+              onClick={loadDummyData1}
               className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-green-700"
             >
-              + Add dummy data
+              + Add data case 1
+            </button>
+            <button
+              onClick={loadDummyData2}
+              className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-green-700"
+            >
+              + Add data case 2
             </button>
           </div>
         ) : (

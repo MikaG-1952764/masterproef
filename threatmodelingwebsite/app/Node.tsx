@@ -1,6 +1,6 @@
 export function Node({ name, level }: { name: string, level: string }) {
 
-  if(level == "fortunate"){
+  if(level.toLowerCase() == "fortunately"){
       return (
       
       <div>

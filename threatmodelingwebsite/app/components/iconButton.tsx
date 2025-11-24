@@ -19,9 +19,9 @@ export default function IconSelectorButton({
 
   // 🟢 Determine correct icon color based on node level
   const getDefaultIcon = () => {
-    if (treeNode.level === "fortunate") {
+    if (treeNode.level.toLowerCase() === "fortunately") {
       return <GoShieldCheck size={16} color="orange" />;
-    } else if (treeNode.level === "unfortunate" && hasChildren) {
+    } else if (treeNode.level.toLowerCase() === "unfortunately" && hasChildren) {
       return <GoShield size={16} color="orange" />;
     } else {
       return <GoShield size={16} color="red" />;
@@ -74,16 +74,16 @@ export default function IconSelectorButton({
 
         {hovered && (
           <div className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 z-50 bg-white p-1 rounded shadow">
-            {(!treeNode.children && !treeNode._children) && treeNode.level === "unfortunate" && treeNode.status === GoShield && (
+            {(!treeNode.children && !treeNode._children) && treeNode.level.toLowerCase() === "unfortunately" && treeNode.status === GoShield && (
                 <p className="text-xs text-black mt-1">Weakness</p>
             )}
-            {(treeNode.children || treeNode._children) && treeNode.level === "unfortunate" && treeNode.status === GoShield && (
+            {(treeNode.children || treeNode._children) && treeNode.level.toLowerCase() === "unfortunately" && treeNode.status === GoShield && (
                 <p className="text-xs text-black mt-1">Further investigation</p>
             )}
-            {treeNode.status === GoShield && treeNode.level === "fortunate" && (
+            {treeNode.status === GoShield && treeNode.level.toLowerCase() === "fortunately" && (
                 <p className="text-xs text-black mt-1">Assumption to verify</p>
             )}
-            {treeNode.status === GoShieldCheck && (!treeNode._children || !treeNode.children) && treeNode.level === "fortunate" && (
+            {treeNode.status === GoShieldCheck && (!treeNode._children || !treeNode.children) && treeNode.level.toLowerCase() === "fortunately" && (
                 <p className="text-xs text-black mt-1">Verified assumption</p>
             )}
             {treeNode.status === GoShieldCheck && (treeNode._children || treeNode.children) && (
@@ -95,8 +95,8 @@ export default function IconSelectorButton({
 
 
 
-      {/* Fortunate dropdown */}
-      {open && treeNode.level === "fortunate" && (
+      {/* fortunately dropdown */}
+      {open && treeNode.level.toLowerCase() === "fortunately" && (
         <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white border border-black rounded-full flex space-x-2 px-3 py-2 shadow-lg z-50">
           {iconsGreen.map((icon, index) => (
             <button
@@ -116,8 +116,8 @@ export default function IconSelectorButton({
         </div>
       )}
 
-      {/* Unfortunate node without children */}
-      {open && treeNode.level === "unfortunate" && !hasChildren && (
+      {/* unfortunately node without children */}
+      {open && treeNode.level.toLowerCase() === "unfortunately" && !hasChildren && (
         <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white border border-black rounded-full flex space-x-2 px-3 py-2 shadow-lg z-50">
           {iconsRedNoChild.map((icon, index) => (
             <button
@@ -137,8 +137,8 @@ export default function IconSelectorButton({
         </div>
       )}
 
-      {/* Unfortunate node with children */}
-      {open && treeNode.level === "unfortunate" && hasChildren && (
+      {/* unfortunately node with children */}
+      {open && treeNode.level.toLowerCase() === "unfortunately" && hasChildren && (
         <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white border border-black rounded-full flex space-x-2 px-3 py-2 shadow-lg z-50">
           {iconsRedChild.map((icon, index) => (
             <button
