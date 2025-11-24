@@ -1,38 +1,38 @@
 import { TreeNode } from "./TreeVisualizer";
 
 export const Case1Tree: TreeNode = {
-  name: "Central Authentication System implemented",
+  name: "Centraal Authenticatiesysteem geïmplementeerd",
   dangerRating: 1,
   level: "Fortunately",
   status: null,
   children: [
     {
-      name: "Only password support increases credential theft risk",
+      name: "Enkel wachtwoordondersteuning verhoogt risico op diefstal van inloggegevens",
       dangerRating: 3,
       level: "Unfortunately",
       status: null,
       children: [
         // Branch A – MFA path
         {
-          name: "MFA planned increasing security",
+          name: "MFA gepland wat de veiligheid verhoogt",
           dangerRating: 1,
           level: "Fortunately",
           status: null,
           children: [
             {
-              name: "MFA causes inconvenience and support load",
+              name: "MFA zorgt voor ongemak en extra belasting voor support",
               dangerRating: 2,
               level: "Unfortunately",
               status: null,
               children: [
                 {
-                  name: "New UX flow with biometrics reduces friction",
+                  name: "Nieuwe UX-flow met biometrie vermindert frictie",
                   dangerRating: 1,
                   level: "Fortunately",
                   status: null,
                   children: [
                     {
-                      name: "Biometrics introduce GDPR/privacy issues",
+                      name: "Biometrie introduceert GDPR- en privacyproblemen",
                       dangerRating: 4,
                       level: "Unfortunately",
                       status: null
@@ -40,13 +40,13 @@ export const Case1Tree: TreeNode = {
                   ]
                 },
                 {
-                  name: "Users receive optional MFA bypass codes for travel situations",
+                  name: "Gebruikers krijgen optionele MFA-bypasscodes voor reissituaties",
                   dangerRating: 3,
                   level: "Fortunately",
                   status: null,
                   children: [
                     {
-                      name: "Bypass codes can be reused if leaked",
+                      name: "Bypasscodes kunnen opnieuw gebruikt worden als ze uitlekken",
                       dangerRating: 4,
                       level: "Unfortunately",
                       status: null
@@ -60,25 +60,25 @@ export const Case1Tree: TreeNode = {
 
         // Branch B – Logging & Monitoring path
         {
-          name: "Team adds detailed login attempt logging",
+          name: "Team voegt gedetailleerde logins-pogingen logging toe",
           dangerRating: 1,
           level: "Fortunately",
           status: null,
           children: [
             {
-              name: "High-volume logs increase storage costs and require monitoring",
+              name: "Hoge logvolumes verhogen opslagkosten en vereisen monitoring",
               dangerRating: 2,
               level: "Unfortunately",
               status: null,
               children: [
                 {
-                  name: "Automated anomaly detection flags suspicious IPs",
+                  name: "Automatische anomaliedetectie markeert verdachte IP-adressen",
                   dangerRating: 1,
                   level: "Fortunately",
                   status: null,
                   children: [
                     {
-                      name: "Blocking suspicious IPs risks blocking legitimate VPN users",
+                      name: "Blokkeren van verdachte IP's kan legitieme VPN-gebruikers blokkeren",
                       dangerRating: 3,
                       level: "Unfortunately",
                       status: null
@@ -92,41 +92,35 @@ export const Case1Tree: TreeNode = {
 
         // Branch C – Password Policy path
         {
-          name: "Team strengthens password policy (length, rotation, complexity)",
+          name: "Team versterkt wachtwoordbeleid (lengte, rotatie, complexiteit)",
           dangerRating: 2,
           level: "Fortunately",
           status: null,
           children: [
             {
-              name: "More complex passwords increase user frustration",
+              name: "Complexere wachtwoorden verhogen frustratie bij gebruikers",
               dangerRating: 3,
               level: "Unfortunately",
               status: null,
               children: [
                 {
-                  name: "Password manager rollout improves usability",
+                  name: "Uitrol van wachtwoordmanager verbetert gebruiksgemak",
                   dangerRating: 1,
                   level: "Fortunately",
                   status: null,
                   children: [
-                    {
-                      name: "Some employees refuse to adopt password managers",
-                      dangerRating: 2,
-                      level: "Unfortunately",
-                      status: null
-                    }
                   ]
                 }
               ]
             },
             {
-              name: "Frequent password rotation leads to predictable patterns",
+              name: "Frequente wachtwoordrotatie leidt tot voorspelbare patronen",
               dangerRating: 4,
               level: "Unfortunately",
               status: null,
               children: [
                 {
-                  name: "Team removes mandatory rotation and switches to risk-based resets",
+                  name: "Team verwijdert verplichte rotatie en schakelt over naar risicogebaseerde resets",
                   dangerRating: 1,
                   level: "Fortunately",
                   status: null
@@ -138,29 +132,23 @@ export const Case1Tree: TreeNode = {
 
         // Branch D – Third-party Provider path
         {
-          name: "External auth provider added for SSO compatibility",
+          name: "Externe authenticatieprovider toegevoegd voor SSO-compatibiliteit",
           dangerRating: 1,
           level: "Fortunately",
           status: null,
           children: [
             {
-              name: "Provider downtime can lock out all employees",
+              name: "Provider-storingen kunnen alle werknemers buitensluiten",
               dangerRating: 4,
               level: "Unfortunately",
               status: null,
               children: [
                 {
-                  name: "Team sets up on-prem fallback auth server",
+                  name: "Team richt on-prem fallback-authenticatieserver in",
                   dangerRating: 2,
                   level: "Fortunately",
                   status: null,
                   children: [
-                    {
-                      name: "Running dual systems adds maintenance and sync issues",
-                      dangerRating: 3,
-                      level: "Unfortunately",
-                      status: null
-                    }
                   ]
                 }
               ]

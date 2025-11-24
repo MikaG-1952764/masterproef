@@ -274,7 +274,7 @@ export default function Page() {
   }
 
   const loadDummyData2 = () => {
-    setTreeData(Case1Tree);
+    setTreeData(Case2Tree);
   }
 
   const handleReset = () => {
