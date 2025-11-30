@@ -11,6 +11,7 @@ import { GoShield, GoShieldCheck, GoX } from "react-icons/go";
 import { getImmediateParent } from "./components/getParent";
 import { CollapseButtons } from "./components/collapseButtons";
 import { ImArrowDown2 } from "react-icons/im";
+import { FiTriangle } from "react-icons/fi";
 
 export function isFortunate(node: TreeNode) : boolean{
     if(node.level.toLowerCase() == "fortunately") return true;
@@ -155,7 +156,19 @@ export default function Page() {
           <div key={index} className="relative">
             <div className="flex flex-row">
               {treeNodes.at(1)?.level.toLowerCase() === "unfortunately" && sideBar==="shields" && (
-              <div className="text-center p-1.5 m-1 w-10 h-10 bg-red-200 border-black border-2 rounded text-black">U</div>
+                <div className="flex items-center justify-center gap-2">
+                <div className="relative flex items-center justify-center w-8 h-8">
+                  <FiTriangle color="red" size={30} />
+                  <span className="absolute top-2 inset-0 flex items-center justify-center text-black text-[12px] font-bold">
+                    {element.dangerRating}
+                  </span>
+                </div>
+
+                {/* Andere box */}
+                <div className="text-center p-1.5 w-10 h-10 bg-red-200 border-black border-2 rounded text-black">
+                  U
+                </div>
+              </div>
               )}
               {treeNodes.at(1)?.level.toLowerCase() === "fortunately" && sideBar==="shields" && (
               <div className="text-center p-1.5 m-1 w-10 h-10 bg-green-200 border-black border-2 rounded text-black">F</div>
@@ -171,6 +184,7 @@ export default function Page() {
                         setTimeout(() => {
                         const el = document.getElementById(`node-${element.name}`);
                         el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                        setOpen(false);
                       }, 50);
                       } else {
                         expandPathToNode(element, treeData!);
@@ -182,6 +196,7 @@ export default function Page() {
                       setTimeout(() => {
                         const el = document.getElementById(`node-${element.name}`);
                         el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                        setOpen(false);
                       }, 50);
                     setOpen(false);}
                   }}
@@ -256,19 +271,6 @@ export default function Page() {
     );
   }
 
-
-  function computeDangerRating(node: TreeNode) {
-    node.dangerRating = 1; // zet dangerRating van deze node
-    if (node.children) node.children.forEach(computeDangerRating);
-    if (node._children) node._children.forEach(computeDangerRating);
-  }
-
-  function addIconStatus(node: TreeNode) {
-    node.status = GoShield;
-    if (node.children) node.children.forEach(addIconStatus);
-    if (node._children) node._children.forEach(addIconStatus);
-  }
-
   const loadDummyData1 = () => {
     setTreeData(Case1Tree);
   }
@@ -317,7 +319,7 @@ export default function Page() {
       <div
         className={`absolute top-0 right-0 transition-all duration-500 ease-in-out 
           ${isOpen 
-            ? "w-[40vw] h-[100vh] border-2 border-black rounded-[20px] bg-gray-200 z-100" 
+            ? "w-[50vw] h-[100vh] border-2 border-black rounded-[20px] bg-gray-200 z-100" 
             : "w-[50px] h-[50px] right-10 top-10 border-transparent"
           }`}
       >
@@ -359,13 +361,17 @@ export default function Page() {
             <div className="flex flex-row w-full">
               {displayRedNodes && (
                 <div className="flex items-center text-black font-bold mb-2 ml-2">
-                  <span>Danger Rating:</span>
+                  <span>Danger Rating</span>
+                  <FiTriangle className="ml-2" color="red" size={20} />
+                  <span>:</span>
                   <ImArrowDown2 className="ml-2" color="black" size={20} />
                 </div>
               )}
               {displayRedNodesToVerify && (
                 <div className="flex items-center text-black font-bold mb-2 ml-2">
-                  <span>Danger Rating:</span>
+                  <span>Danger Rating</span>
+                  <FiTriangle className="ml-2" color="red" size={20} />
+                  <span>:</span>
                   <ImArrowDown2 className="ml-2" color="black" size={20} />
                 </div>
               )}

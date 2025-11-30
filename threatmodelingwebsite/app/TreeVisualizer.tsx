@@ -21,6 +21,8 @@ function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: Tr
   const [openImpact, setOpenImpact] = useState(false);
   const [openLikelihood, setOpenLikelihood] = useState(false);
 
+  const [dangerRatingHover, setDangerRatingHover] = useState(false);
+
   return (
     <div className="relative">
 
@@ -32,17 +34,22 @@ function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: Tr
           setOpenImpact(false);
           setOpenLikelihood(false);
         }}
+        onMouseEnter={() => setDangerRatingHover(true)}
+        onMouseLeave={() => setDangerRatingHover(false)}
       >
         <FiTriangle size={100} color="red"></FiTriangle>
         <span className="absolute inset-0 top-3 text-black font-bold text-sm">
             {node.dangerRating}
         </span>
+        {dangerRatingHover &&
+          <div className="absolute z-20 -right-26 -top-6 w-30 bg-white border border-black rounded shadow-lg text-black text-[14px]">Danger rating</div>
+        }
       </button>
 
       {/* Popup with dropdowns */}
       {showDanger && (
         <div className="absolute -top-32 -right-6 w-40 bg-white border-2 border-black rounded shadow-lg p-2 z-50 text-black">
-          <p className="text-xs font-semibold mb-1">Danger Rating: {node.dangerRating}</p>
+          <p className="text-xs font-semibold mb-1">Danger rating: {node.dangerRating}</p>
 
           {/* Impact dropdown */}
           <div className="relative mb-2">
