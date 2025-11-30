@@ -42,7 +42,23 @@ export const Case2Tree: TreeNode = {
                           name: "Feature engineering verbetert prestaties op een veilige manier",
                           dangerRating: 1,
                           level: "Fortunately",
-                          status: null
+                          status: null,
+                          children: [
+                            {
+                              name: "Complexere features vergroten computationele kosten",
+                              dangerRating: 3,
+                              level: "Unfortunately",
+                              status: null,
+                              children: [
+                                {
+                                  name: "Modelcompressie minimaliseert overhead",
+                                  dangerRating: 1,
+                                  level: "Fortunately",
+                                  status: null
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     }
@@ -76,6 +92,28 @@ export const Case2Tree: TreeNode = {
                       name: "Batching veroorzaakt vertraging bij transacties met gemiddeld risico",
                       dangerRating: 2,
                       level: "Unfortunately",
+                      status: null,
+                      children: [
+                        {
+                          name: "Caching van gemiddeld risico segmenten versnelt verwerking",
+                          dangerRating: 1,
+                          level: "Fortunately",
+                          status: null
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  name: "Hardware wordt opgeschaald tijdens piekmomenten",
+                  dangerRating: 1,
+                  level: "Fortunately",
+                  status: null,
+                  children: [
+                    {
+                      name: "Opschalen verhoogt operationele kosten aanzienlijk",
+                      dangerRating: 5,
+                      level: "Unfortunately",
                       status: null
                     }
                   ]
@@ -98,21 +136,27 @@ export const Case2Tree: TreeNode = {
               level: "Unfortunately",
               status: null,
               children: [
-              ]
-            },
-            {
+                {
+                  name: "Toegang wordt beperkt tot geverifieerde accounts",
+                  dangerRating: 2,
+                  level: "Fortunately",
+                  status: null,
+                  children: [
+                    {
+                      name: "Accountbeheer veroorzaakt administratieve overhead",
+                      dangerRating: 3,
+                      level: "Unfortunately",
+                      status: null
+                    }
+                  ]
+                },
+                {
               name: "Alternatieve aanpak: beperkte uitleg beschikbaar voor enkel senior teamleden",
               dangerRating: 2,
               level: "Fortunately",
               status: null,
               children: [
                 {
-                  name: "Beperkte uitleg vermindert risico op blootstelling van gevoelige logica",
-                  dangerRating: 1,
-                  level: "Fortunately",
-                  status: null,
-                  children: [
-                    {
                       name: "Junior teamleden interpreteren beslissingen op hun eigen manier",
                       dangerRating: 3,
                       level: "Unfortunately",
@@ -128,15 +172,22 @@ export const Case2Tree: TreeNode = {
                           name: "Junior teamleden besluiten alle servers uit te schakelen om fraude te stoppen",
                           dangerRating: 1,
                           level: "Fortunately",
-                          status: null
+                          status: null,
+                          children: [
+                            {
+                              name: "Teamleden raken in paniek door foutieve interpretatie",
+                              dangerRating: 7,
+                              level: "Unfortunately",
+                              status: null
+                            }
+                          ]
                         }
                       ]
                     }
-                  ]
-                }
               ]
             }
-            
+              ]
+            },
           ]
         },
 
@@ -163,14 +214,31 @@ export const Case2Tree: TreeNode = {
                       name: "Driftalarmen veroorzaken alert-moeheid bij engineers",
                       dangerRating: 20,
                       level: "Unfortunately",
-                      status: null
+                      status: null,
+                      children: [
+                        {
+                          name: "Prioritering van alerts vermindert mentale belasting",
+                          dangerRating: 1,
+                          level: "Fortunately",
+                          status: null,
+                          children: [
+                            {
+                              name: "Engineers negeren lage-prioriteitsmeldingen die soms kritiek blijken",
+                              dangerRating: 8,
+                              level: "Unfortunately",
+                              status: null
+                            }
+                              ]
+                        },
+                        
+                      ]
                     }
                   ]
                 }
               ]
             }
           ]
-        },
+        }
       ]
     }
   ]

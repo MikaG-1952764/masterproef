@@ -10,6 +10,7 @@ import { Node } from "./Node";
 import { getImmediateParent, getParentsAbove } from "./components/getParent";
 import { isFortunate } from "./page";
 import { IconType } from "react-icons";
+import { FiTriangle } from "react-icons/fi";
 
 function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: TreeNode; setTreeData: (data: TreeNode) => void }) {
   const [showDanger, setShowDanger] = useState(false);
@@ -25,14 +26,17 @@ function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: Tr
 
       {/* The danger rating button */}
       <button
-        className="flex items-center justify-center absolute rounded-full border-black border h-6 right-10 -top-3 hover:bg-gray-300 cursor-pointer text-black w-6"
+        className="flex items-center justify-center absolute rounded-full h-10 right-10 -top-6 hover:bg-gray-300 cursor-pointer text-black w-10"
         onClick={() => {
           setShowDanger(!showDanger);
           setOpenImpact(false);
           setOpenLikelihood(false);
         }}
       >
-        {node.dangerRating}
+        <FiTriangle size={100} color="red"></FiTriangle>
+        <span className="absolute inset-0 top-3 text-black font-bold text-sm">
+            {node.dangerRating}
+        </span>
       </button>
 
       {/* Popup with dropdowns */}
