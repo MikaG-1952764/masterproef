@@ -37,7 +37,7 @@ function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: Tr
         onMouseLeave={() => setDangerRatingHover(false)}
       >
         <FiTriangle size={100} color="red"></FiTriangle>
-        <span className="absolute inset-0 top-3 text-black font-bold text-sm">
+        <span className="absolute inset-0 top-4 text-black font-bold text-sm">
             {node.dangerRating}
         </span>
         {dangerRatingHover &&
