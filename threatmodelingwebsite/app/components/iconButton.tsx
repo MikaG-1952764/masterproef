@@ -81,15 +81,15 @@ export default function IconSelectorButton({
                 <p className="text-xs text-black mt-1">Weakness</p>
             )}
             {(treeNode.children || treeNode._children) && treeNode.level.toLowerCase() === "unfortunately" && treeNode.status === GoShield && (
-                <p className="text-xs text-black mt-1">Further investigation</p>
+                <p className="text-xs text-black mt-1">Weakness Under Review</p>
             )}
-            {treeNode.status === GoShield && treeNode.level.toLowerCase() === "fortunately" && (
-                <p className="text-xs text-black mt-1">Assumption to verify</p>
+            {treeNode.status === GoShieldCheck && treeNode.level.toLowerCase() === "fortunately" && treeNode.statusColor!=="green" && (
+                <p className="text-xs text-black mt-1">Assumption Under Review</p>
             )}
             {treeNode.status === GoShieldCheck && (!treeNode._children && !treeNode.children) && treeNode.level.toLowerCase() === "fortunately" && (
                 <p className="text-xs text-black mt-1">Verified assumption</p>
             )}
-            {treeNode.status === GoShieldCheck && (treeNode._children || treeNode.children) && (
+            {treeNode.status === GoShieldCheck && (treeNode._children || treeNode.children) && treeNode.statusColor==="green" && (
                 <p className="text-xs text-black mt-1">Completed node</p>
             )}
           </div>

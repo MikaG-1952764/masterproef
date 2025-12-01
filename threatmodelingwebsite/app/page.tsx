@@ -337,7 +337,7 @@ export default function Page() {
               <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='verify' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
                 onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify")}}>
                 <div className="text-[15px]">
-                  Further investigation
+                  Weaknesses Under Review
                   <GoShield className="inline ml-2" color="orange"/>
                 </div>
               </button>
@@ -346,7 +346,7 @@ export default function Page() {
               <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='check' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
                 onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}>
                 <div className="text-[15px]">
-                  Assumptions to verify
+                  Assumptions Under Review
                   <GoShieldCheck className="inline ml-2" color="orange"/>
                 </div>
               </button>
@@ -401,7 +401,7 @@ export default function Page() {
             onMouseLeave={() => setOrangeShieldHovered(false)}>
               <GoShield color="orange" size={24} />
               <p className="text-black">[{redNodesToVerify.length}]</p>
-              {orangeShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Further investigation</div>}
+              {orangeShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Weaknesses Under Review</div>}
             </button>
             <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mb-2 hover:bg-gray-300" 
             onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}
@@ -409,7 +409,7 @@ export default function Page() {
             onMouseLeave={() => setOrangeCheckShieldHovered(false)}>
               <GoShieldCheck color="orange" size={24} />
               <p className="text-black">[{greenNodes.length}]</p>
-              {orangeCheckShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Assumptions to verify</div>}
+              {orangeCheckShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Assumptions Under Review</div>}
             </button> 
             <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300" 
             onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished")}}
@@ -417,7 +417,7 @@ export default function Page() {
             onMouseLeave={() => setGreenCheckShieldHovered(false)}>
               <GoShieldCheck color="green" size={24} />
               <p className="text-black">[{greenNodesFinished.length}]</p>
-              {greenCheckShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Verified assumptions</div>}
+              {greenCheckShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Verified Assumptions</div>}
             </button>  
           </div>}
         </div>
