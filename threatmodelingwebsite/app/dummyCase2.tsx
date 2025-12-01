@@ -2,13 +2,13 @@ import { TreeNode } from "./TreeVisualizer";
 import { GoShield, GoShieldCheck } from "react-icons/go";
 
 export const Case2Tree: TreeNode = {
-  name: "ML-model detecteert frauduleuze transacties",
+  name: "(F) ML-model detecteert frauduleuze transacties",
   dangerRating: 2,
-  level: "Fortunately",
+  level: "Fortunately [Assumption Under Review]",
   status: GoShieldCheck,
   children: [
     {
-      name: "Hoge false positives blokkeren legitieme gebruikers",
+      name: "(U) Hoge false positives blokkeren legitieme gebruikers (Danger Rating: 4) [Weakness Under Review]",
       dangerRating: 4,
       level: "Unfortunately",
       status: GoShield,
@@ -16,43 +16,43 @@ export const Case2Tree: TreeNode = {
 
         // Branch A – Improving Model Accuracy
         {
-          name: "Meer historische data verhoogt de nauwkeurigheid",
+          name: "(F) Meer historische data verhoogt de nauwkeurigheid",
           dangerRating: 1,
-          level: "Fortunately",
+          level: "Fortunately [Completed]",
           status: GoShieldCheck,
           children: [
             {
-              name: "Historische data introduceert privacy- en compliance-risico’s",
+              name: "(U) Historische data introduceert privacy- en compliance-risico’s (Danger Rating: 4) [Weakness Under Review]",
               dangerRating: 4,
               level: "Unfortunately",
               status: GoShield,
               children: [
                 {
-                  name: "Data wordt geanonimiseerd vóór training",
+                  name: "(F) Data wordt geanonimiseerd vóór training [Completed]",
                   dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
                     {
-                      name: "Anonimisatie vermindert detail in features en verlaagt prestaties",
+                      name: "(U) Anonimisatie vermindert detail in features en verlaagt prestaties (Danger Rating: 10) [Weakness Under Review]",
                       dangerRating: 10,
                       level: "Unfortunately",
                       status: GoShield,
                       children: [
                         {
-                          name: "Feature engineering verbetert prestaties op een veilige manier",
+                          name: "(F) Feature engineering verbetert prestaties op een veilige manier [Completed]",
                           dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
                             {
-                              name: "Complexere features vergroten computationele kosten",
+                              name: "(U) Complexere features vergroten computationele kosten (Danger Rating: 3) [Weakness Under Review]",
                               dangerRating: 3,
                               level: "Unfortunately",
                               status: GoShield,
                               children: [
                                 {
-                                  name: "Modelcompressie minimaliseert overhead",
+                                  name: "(F) Modelcompressie minimaliseert overhead [Verified Assumption]",
                                   dangerRating: 1,
                                   level: "Fortunately",
                                   status: GoShieldCheck,
@@ -73,31 +73,31 @@ export const Case2Tree: TreeNode = {
 
         // Branch B – Real-time Alerts
         {
-          name: "Realtime waarschuwingen voorkomen financiële schade",
+          name: "(F) Realtime waarschuwingen voorkomen financiële schade [Assumption Under Review]",
           dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
             {
-              name: "Realtime detectie verbruikt veel rekenkracht",
+              name: "(U) Realtime detectie verbruikt veel rekenkracht (Danger Rating: 3) [Weakness Under Review]",
               dangerRating: 3,
               level: "Unfortunately",
               status: GoShield,
               children: [
                 {
-                  name: "Systeem optimaliseert door laag-risico transacties te batchen",
+                  name: "(F) Systeem optimaliseert door laag-risico transacties te batchen [Assumption Under Review]",
                   dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
                     {
-                      name: "Batching veroorzaakt vertraging bij transacties met gemiddeld risico",
+                      name: "(U) Batching veroorzaakt vertraging bij transacties met gemiddeld risico (Danger Rating: 2) [Weakness Under Review]",
                       dangerRating: 2,
                       level: "Unfortunately",
                       status: GoShield,
                       children: [
                         {
-                          name: "Caching van gemiddeld risico segmenten versnelt verwerking",
+                          name: "(F) Caching van gemiddeld risico segmenten versnelt verwerking [Assumption Under Review]",
                           dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
@@ -108,13 +108,13 @@ export const Case2Tree: TreeNode = {
                   ]
                 },
                 {
-                  name: "Hardware wordt opgeschaald tijdens piekmomenten",
+                  name: "(F) Hardware wordt opgeschaald tijdens piekmomenten [Assumption Under Review]",
                   dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
                     {
-                      name: "Opschalen verhoogt operationele kosten aanzienlijk",
+                      name: "(U) Opschalen verhoogt operationele kosten aanzienlijk (Danger Rating: 5) [Weakness]",
                       dangerRating: 5,
                       level: "Unfortunately",
                       status: GoShield
@@ -128,25 +128,25 @@ export const Case2Tree: TreeNode = {
 
         // Branch C – Model Transparency
         {
-          name: "Team voegt uitlegbaarheidstools toe om modelbeslissingen te verduidelijken",
+          name: "(F) Team voegt uitlegbaarheidstools toe om modelbeslissingen te verduidelijken [Assumption Under Review]",
           dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
             {
-              name: "Uitlegbaarheid onthult gevoelige modellogica aan interne medewerkers",
+              name: "(U) Uitlegbaarheid onthult gevoelige modellogica aan interne medewerkers (Danger Rating: 22) [Weakness Under Review]",
               dangerRating: 22,
               level: "Unfortunately",
               status: GoShield,
               children: [
                 {
-                  name: "Toegang wordt beperkt tot geverifieerde accounts",
+                  name: "(F) Toegang wordt beperkt tot geverifieerde accounts [Assumption Under Review]",
                   dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
                     {
-                      name: "Accountbeheer veroorzaakt administratieve overhead",
+                      name: "(U) Accountbeheer veroorzaakt administratieve overhead (Danger Rating: 3) [Weakness]",
                       dangerRating: 3,
                       level: "Unfortunately",
                       status: GoShield
@@ -154,32 +154,32 @@ export const Case2Tree: TreeNode = {
                   ]
                 },
                 {
-              name: "Alternatieve aanpak: beperkte uitleg beschikbaar voor enkel senior teamleden",
+              name: "(F) Alternatieve aanpak: beperkte uitleg beschikbaar voor enkel senior teamleden [Assumption Under Review]",
               dangerRating: 2,
               level: "Fortunately",
               status: GoShieldCheck,
               children: [
                 {
-                      name: "Junior teamleden interpreteren beslissingen op hun eigen manier",
+                      name: "(U) Junior teamleden interpreteren beslissingen op hun eigen manier (Danger Rating: 3) [Weakness Under Review]",
                       dangerRating: 3,
                       level: "Unfortunately",
                       status: GoShield,
                       children: [
                         {
-                          name: "Bespreken de beslissingen in een volgende vergadering",
+                          name: "(F) Bespreken de beslissingen in een volgende vergadering [Assumption Under Review]",
                           dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
                         },
                         {
-                          name: "Junior teamleden besluiten alle servers uit te schakelen om fraude te stoppen",
+                          name: "(F) Junior teamleden besluiten alle servers uit te schakelen om fraude te stoppen [Assumption Under Review]",
                           dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
                             {
-                              name: "Teamleden raken in paniek door foutieve interpretatie",
+                              name: "(U) Teamleden raken in paniek door foutieve interpretatie van modeloutput (Danger Rating: 7) [Weakness]",
                               dangerRating: 7,
                               level: "Unfortunately",
                               status: GoShield
@@ -197,37 +197,37 @@ export const Case2Tree: TreeNode = {
 
         // Branch D – Retraining & Model Drift
         {
-          name: "Continue training versnelt aanpassing aan nieuwe fraude­patronen",
+          name: "(F) Continue training versnelt aanpassing aan nieuwe fraude­patronen [Assumption Under Review]",
           dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
             {
-              name: "Model drift kan nieuwe, ongeziene fouten introduceren",
+              name: "(U) Model drift kan nieuwe, ongeziene fouten introduceren (Danger Rating: 4) [Weakness Under Review]",
               dangerRating: 4,
               level: "Unfortunately",
               status: GoShield,
               children: [
                 {
-                  name: "Drift-detectiesysteem toegevoegd om modelgedrag te monitoren",
+                  name: "(F) Drift-detectiesysteem toegevoegd om modelgedrag te monitoren [Assumption Under Review]",
                   dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
                     {
-                      name: "Driftalarmen veroorzaken alert-moeheid bij engineers",
+                      name: "(U) Driftalarmen veroorzaken alert-moeheid bij engineers (Danger Rating: 20) [Weakness Under Review]",
                       dangerRating: 20,
                       level: "Unfortunately",
                       status: GoShield,
                       children: [
                         {
-                          name: "Prioritering van alerts vermindert mentale belasting",
+                          name: "(F) Prioritering van alerts vermindert mentale belasting [Assumption Under Review]",
                           dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
                             {
-                              name: "Engineers negeren lage-prioriteitsmeldingen die soms kritiek blijken",
+                              name: "(U) Engineers negeren lage-prioriteitsmeldingen die soms kritiek blijken te zijn (Danger Rating: 8) [Weakness]",
                               dangerRating: 8,
                               level: "Unfortunately",
                               status: GoShield
