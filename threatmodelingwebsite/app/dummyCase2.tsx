@@ -124,46 +124,10 @@ export const Case2Tree: TreeNode = {
           status: GoShieldCheck,
           children: [
             {
-              name: "(U) Uitlegbaarheid onthult gevoelige modellogica aan interne medewerkers (Danger Rating: 22) [Weakness Under Review]",
+              name: "(U) Uitlegbaarheid onthult gevoelige modellogica aan interne medewerkers (Danger Rating: 22) [Weakness]",
               dangerRating: 22,
               level: "Unfortunately",
               status: GoShield,
-              children: [
-                {
-              name: "(F) Beperkte uitleg beschikbaar voor enkel senior teamleden [Assumption Under Review]",
-              level: "Fortunately",
-              status: GoShieldCheck,
-              children: [
-                {
-                      name: "(U) Junior teamleden interpreteren beslissingen op hun eigen manier (Danger Rating: 3) [Weakness Under Review]",
-                      dangerRating: 3,
-                      level: "Unfortunately",
-                      status: GoShield,
-                      children: [
-                        {
-                          name: "(F) Bespreken de beslissingen in een volgende vergadering [Assumption Under Review]",
-                          level: "Fortunately",
-                          status: GoShieldCheck,
-                          statusColor: "green"
-                        },
-                        {
-                          name: "(F) Junior teamleden besluiten alle servers uit te schakelen om fraude te stoppen [Assumption Under Review]",
-                          level: "Fortunately",
-                          status: GoShieldCheck,
-                          children: [
-                            {
-                              name: "(U) Teamleden raken in paniek door foutieve interpretatie van modeloutput (Danger Rating: 7) [Weakness]",
-                              dangerRating: 7,
-                              level: "Unfortunately",
-                              status: GoShield
-                            }
-                          ]
-                        }
-                      ]
-                    }
-              ]
-            }
-              ]
             },
           ]
         },
