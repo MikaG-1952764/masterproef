@@ -210,7 +210,8 @@ export const Case2Tree: TreeNode = {
                         {
                           name: "Regelmatige peer-reviews van data pipelines",
                           level: "Fortunately",
-                          status: GoShieldCheck
+                          status: GoShieldCheck,
+                          statusColor: "green"
                         }
                       ]
                     }
@@ -238,7 +239,8 @@ export const Case2Tree: TreeNode = {
                         {
                           name: "Automatische audit-rapporten genereren",
                           level: "Fortunately",
-                          status: GoShieldCheck
+                          status: GoShieldCheck,
+                          statusColor: "green"
                         }
                       ]
                     }
