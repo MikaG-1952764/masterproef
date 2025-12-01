@@ -126,8 +126,6 @@ export const Case1Tree: TreeNode = {
                     }
                   ]
                 },
-
-                // Wrapped: probleem was Unfortunately -> Unfortunately, nu: Fortunately wrapper
                 {
                   name: "Risicoanalyse uitgevoerd op log metadata",
                   level: "Fortunately",
@@ -156,8 +154,6 @@ export const Case1Tree: TreeNode = {
                     }
                   ]
                 },
-
-                // Wrapped shadow-IT: insert wrapper Fortunately
                 {
                   name: "Onderzoek naar ongeautoriseerde scripts op servers",
                   level: "Fortunately",
@@ -183,8 +179,6 @@ export const Case1Tree: TreeNode = {
             }
           ]
         },
-
-        // Branch C – Password Policy path
         {
           name: "Team versterkt wachtwoordbeleid (lengte, rotatie, complexiteit)",
           level: "Fortunately",
@@ -276,8 +270,6 @@ export const Case1Tree: TreeNode = {
                     }
                   ]
                 },
-
-                // Wrapped vendor patch issue (was Unfortunately under Unfortunately)
                 {
                   name: "Vendor risico- en patchanalyse uitgevoerd",
                   level: "Fortunately",
