@@ -388,7 +388,7 @@ export default function Page() {
           {!isOpen &&
           <div>
             <button className={`rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300`} 
-            onClick={() => {setOpen(!isOpen); setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo")}}
+            onClick={() => {setRedShieldHovered(false);setOpen(!isOpen); setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo")}}
             onMouseEnter={() => setRedShieldHovered(true)}
             onMouseLeave={() => setRedShieldHovered(false)}>
                 <GoShield color="red" size={24} />
@@ -396,7 +396,7 @@ export default function Page() {
                  {redShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Weaknesses</div>}
             </button>
             <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mt-2 mb-2 hover:bg-gray-300" 
-            onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify")}}
+            onClick={() => {setOrangeShieldHovered(false);setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify")}}
             onMouseEnter={() => setOrangeShieldHovered(true)}
             onMouseLeave={() => setOrangeShieldHovered(false)}>
               <GoShield color="orange" size={24} />
@@ -404,7 +404,7 @@ export default function Page() {
               {orangeShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Weaknesses Under Review</div>}
             </button>
             <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mb-2 hover:bg-gray-300" 
-            onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}
+            onClick={() => {setOrangeCheckShieldHovered(false);setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}
             onMouseEnter={() => setOrangeCheckShieldHovered(true)}
             onMouseLeave={() => setOrangeCheckShieldHovered(false)}>
               <GoShieldCheck color="orange" size={24} />
@@ -412,7 +412,7 @@ export default function Page() {
               {orangeCheckShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Assumptions Under Review</div>}
             </button> 
             <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300" 
-            onClick={() => {setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished")}}
+            onClick={() => {setGreenCheckShieldHovered(false);setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished")}}
             onMouseEnter={() => setGreenCheckShieldHovered(true)}
             onMouseLeave={() => setGreenCheckShieldHovered(false)}>
               <GoShieldCheck color="green" size={24} />

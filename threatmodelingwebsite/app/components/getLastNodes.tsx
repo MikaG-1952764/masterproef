@@ -17,7 +17,7 @@ export function getLastRedNodes(node: TreeNode): TreeNode[] {
     const hasChildren = allChildren.length > 0;
 
     // red leaf
-    if (current.level.toLowerCase() === "unfortunately" && !hasChildren) {
+    if (current.level.toLowerCase() === "unfortunately" && !hasChildren && current.statusColor !== "blue") {
       result.push(current);
     }
 
@@ -45,7 +45,7 @@ export function getRedNodesToCheck(node: TreeNode): TreeNode[] {
     ];
     const hasChildren = allChildren.length > 0;
 
-    if (current.level.toLowerCase() === "unfortunately" && hasChildren) {
+    if (current.level.toLowerCase() === "unfortunately" && hasChildren && current.statusColor !== "green") {
       result.push(current);
     }
 
@@ -72,7 +72,7 @@ export function getGreenNodesToCheck(node: TreeNode): TreeNode[] {
       ...(current._children || []),
     ];
 
-    if (current.level.toLowerCase() === "fortunately" && current.status === GoShieldCheck) {
+    if (current.level.toLowerCase() === "fortunately" && current.status === GoShieldCheck && current.statusColor !== "green") {
       result.push(current);
     }
 
