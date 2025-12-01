@@ -165,11 +165,81 @@ export const Case2Tree: TreeNode = {
                               name: "Engineers negeren lage-prioriteitsmeldingen die soms kritiek blijken",
                               dangerRating: 8,
                               level: "Unfortunately",
-                              status: GoShield
+                              status: GoShield,
+                              children: [
+                                {
+                                  name: "Aanpassing van thresholds en periodieke review van alert policies",
+                                  level: "Fortunately",
+                                  status: GoShieldCheck,
+                                  statusColor: "green"
+                                },
+                                {
+                                  name: "Automatische correlatie van alerts om redundantie te verminderen",
+                                  level: "Fortunately",
+                                  status: GoShieldCheck,
+                                  statusColor: "green"
+                                }
+                              ]
                             }
                               ]
                         },
                         
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: "Onjuiste of verouderde trainingsdata beïnvloedt modelprestaties",
+              dangerRating: 15,
+              level: "Unfortunately",
+              status: GoShield,
+              children: [
+                {
+                  name: "Data-validatie en preprocessing pipeline toegevoegd",
+                  level: "Fortunately",
+                  status: GoShieldCheck,
+                  children: [
+                    {
+                      name: "Fouten in preprocessing kunnen bias in model introduceren",
+                      dangerRating: 12,
+                      level: "Unfortunately",
+                      status: GoShield,
+                      children: [
+                        {
+                          name: "Regelmatige peer-reviews van data pipelines",
+                          level: "Fortunately",
+                          status: GoShieldCheck
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: "Continue retraining kan compliance regels overtreden (bijv. GDPR, bias)",
+              dangerRating: 18,
+              level: "Unfortunately",
+              status: GoShield,
+              children: [
+                {
+                  name: "Model audits en fairness checks ingevoerd",
+                  level: "Fortunately",
+                  status: GoShieldCheck,
+                  children: [
+                    {
+                      name: "Audits verhogen administratieve overhead",
+                      dangerRating: 6,
+                      level: "Unfortunately",
+                      status: GoShield,
+                      children: [
+                        {
+                          name: "Automatische audit-rapporten genereren",
+                          level: "Fortunately",
+                          status: GoShieldCheck
+                        }
                       ]
                     }
                   ]
