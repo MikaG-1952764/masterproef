@@ -18,6 +18,7 @@ export interface TreeNode {
   dangerRating: number;
   level: string;
   status: IconType;
+  statusColor?: string;
 }
 
 interface TreeVisualizerProps {

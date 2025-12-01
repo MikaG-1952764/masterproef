@@ -4,12 +4,13 @@ import TreeVisualizer from "./TreeVisualizer";
 import type { TreeNode } from "./TreeVisualizer";
 import { useEffect, useState } from "react";
 import SearchBar from "./searchBar";
-import { securityTreeData } from "./dummyCase";
+import { Case2Tree } from "./dummyCase2";
 import { getLastRedNodes, getGreenNodesToCheck, getLastGreenNodesFinished, getRedNodesToCheck } from "./components/getLastNodes";
 import { GoShield, GoShieldCheck, GoX } from "react-icons/go";
 import { getImmediateParent } from "./components/getParent";
 import { CollapseButtons } from "./components/collapseButtons";
 import { ImArrowDown2 } from "react-icons/im";
+import { Case1Tree } from "./dummyCase1";
 
 export function isFortunate(node: TreeNode) : boolean{
     if(node.level == "fortunate") return true;
@@ -256,22 +257,12 @@ export default function Page() {
   }
 
 
-  function computeDangerRating(node: TreeNode) {
-    if (!node.children || node.children.length === 0) return 0;
-    node.children.forEach(computeDangerRating);
-    node.dangerRating = node.children.length;
+  const loadDummyData1 = () => {
+    setTreeData(Case1Tree);
   }
 
-  function addIconStatus(node: TreeNode) {
-    node.status = GoShield;
-    if (node.children) node.children.forEach(addIconStatus);
-    if (node._children) node._children.forEach(addIconStatus);
-  }
-
-  const loadDummyData = () => {
-    setTreeData(securityTreeData);
-    computeDangerRating(securityTreeData);
-    addIconStatus(securityTreeData);
+  const loadDummyData2 = () => {
+    setTreeData(Case2Tree);
   }
 
   const handleReset = () => {
@@ -329,11 +320,17 @@ export default function Page() {
             >
               + Add Tree
             </button>
-            <button
-              onClick={loadDummyData}
+                        <button
+              onClick={loadDummyData1}
               className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-green-700"
             >
-              + Add dummy data
+              + Add data case 1
+            </button>
+            <button
+              onClick={loadDummyData2}
+              className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-green-700"
+            >
+              + Add data case 2
             </button>
           </div>
         ) : (
