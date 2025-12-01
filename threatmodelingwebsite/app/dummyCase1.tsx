@@ -3,7 +3,6 @@ import { GoShield, GoShieldCheck } from "react-icons/go";
 
 export const Case1Tree: TreeNode = {
   name: "Centraal Authenticatiesysteem geïmplementeerd",
-  dangerRating: 1,
   level: "Fortunately",
   status: GoShieldCheck,
   children: [
@@ -17,7 +16,6 @@ export const Case1Tree: TreeNode = {
         // Branch A – MFA path
         {
           name: "MFA gepland wat de veiligheid verhoogt",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -29,7 +27,6 @@ export const Case1Tree: TreeNode = {
               children: [
                 {
                   name: "Nieuwe UX-flow met biometrie vermindert frictie",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -41,7 +38,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "Verwerkingsregister en DPIA opgesteld om privacyrisico’s te beperken",
-                          dangerRating: 3,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
@@ -59,7 +55,6 @@ export const Case1Tree: TreeNode = {
                 },
                 {
                   name: "Gebruikers krijgen optionele MFA-bypasscodes voor reissituaties",
-                  dangerRating: 3,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -71,7 +66,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "Tijdgebaseerde rotatie en automatische ongeldigmaking toegevoegd",
-                          dangerRating: 2,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
@@ -91,7 +85,6 @@ export const Case1Tree: TreeNode = {
                   children: [
                     {
                       name: "VIP-accounts krijgen hardware keys ter compensatie",
-                      dangerRating: 1,
                       level: "Fortunately",
                       status: GoShieldCheck,
                       children: [
@@ -111,7 +104,6 @@ export const Case1Tree: TreeNode = {
         // Branch B – Logging & Monitoring path
         {
           name: "Team voegt gedetailleerde loginpogingen-logging toe",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -123,7 +115,6 @@ export const Case1Tree: TreeNode = {
               children: [
                 {
                   name: "Automatische anomaliedetectie markeert verdachte IP-adressen",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -139,7 +130,6 @@ export const Case1Tree: TreeNode = {
                 // Wrapped: probleem was Unfortunately -> Unfortunately, nu: Fortunately wrapper
                 {
                   name: "Risicoanalyse uitgevoerd op log metadata",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -151,7 +141,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "Encryptie-at-rest en toegangscontrole toegevoegd",
-                          dangerRating: 2,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
@@ -171,7 +160,6 @@ export const Case1Tree: TreeNode = {
                 // Wrapped shadow-IT: insert wrapper Fortunately
                 {
                   name: "Onderzoek naar ongeautoriseerde scripts op servers",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -183,7 +171,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "Shadow-IT gedetecteerd, toegang tot logging endpoints geblokkeerd",
-                          dangerRating: 2,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
@@ -200,7 +187,6 @@ export const Case1Tree: TreeNode = {
         // Branch C – Password Policy path
         {
           name: "Team versterkt wachtwoordbeleid (lengte, rotatie, complexiteit)",
-          dangerRating: 2,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -212,7 +198,6 @@ export const Case1Tree: TreeNode = {
               children: [
                 {
                   name: "Uitrol van wachtwoordmanager verbetert gebruiksgemak",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -224,7 +209,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "End-to-end encryptie ingeschakeld voor alle synchronisatie",
-                          dangerRating: 2,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
@@ -243,7 +227,6 @@ export const Case1Tree: TreeNode = {
               children: [
                 {
                   name: "Team verwijdert verplichte rotatie en schakelt over naar risicogebaseerde resets",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -263,7 +246,6 @@ export const Case1Tree: TreeNode = {
         // Branch D – Third-party Provider path
         {
           name: "Externe authenticatieprovider toegevoegd voor SSO-compatibiliteit",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -275,7 +257,6 @@ export const Case1Tree: TreeNode = {
               children: [
                 {
                   name: "Team richt on-prem fallback-authenticatieserver in",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -287,7 +268,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "Periodieke synchronisatie en monitoring toegevoegd",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
@@ -300,7 +280,6 @@ export const Case1Tree: TreeNode = {
                 // Wrapped vendor patch issue (was Unfortunately under Unfortunately)
                 {
                   name: "Vendor risico- en patchanalyse uitgevoerd",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -312,7 +291,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "Vulnerability scanner detecteert ontbrekende patch",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"

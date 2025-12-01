@@ -125,7 +125,7 @@ export interface TreeNode {
   name: string;
   children?: TreeNode[];
   _children?: TreeNode[];
-  dangerRating: number;
+  dangerRating?: number;
   level: string;
   status: IconType | null;
   statusColor?: string;

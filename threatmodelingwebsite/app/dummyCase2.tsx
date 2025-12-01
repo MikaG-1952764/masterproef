@@ -3,7 +3,6 @@ import { GoShield, GoShieldCheck } from "react-icons/go";
 
 export const Case2Tree: TreeNode = {
   name: "ML-model detecteert frauduleuze transacties",
-  dangerRating: 2,
   level: "Fortunately",
   status: GoShieldCheck,
   children: [
@@ -17,7 +16,6 @@ export const Case2Tree: TreeNode = {
         // Branch A – Improving Model Accuracy
         {
           name: "Meer historische data verhoogt de nauwkeurigheid",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -29,7 +27,6 @@ export const Case2Tree: TreeNode = {
               children: [
                 {
                   name: "Data wordt geanonimiseerd vóór training",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -41,7 +38,6 @@ export const Case2Tree: TreeNode = {
                       children: [
                         {
                           name: "Feature engineering verbetert prestaties op een veilige manier",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
@@ -53,7 +49,6 @@ export const Case2Tree: TreeNode = {
                               children: [
                                 {
                                   name: "Modelcompressie minimaliseert overhead",
-                                  dangerRating: 1,
                                   level: "Fortunately",
                                   status: GoShieldCheck,
                                   statusColor: "green"
@@ -74,7 +69,6 @@ export const Case2Tree: TreeNode = {
         // Branch B – Real-time Alerts
         {
           name: "Realtime waarschuwingen voorkomen financiële schade",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -86,7 +80,6 @@ export const Case2Tree: TreeNode = {
               children: [
                 {
                   name: "Systeem optimaliseert door laag-risico transacties te batchen",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -98,7 +91,6 @@ export const Case2Tree: TreeNode = {
                       children: [
                         {
                           name: "Caching van gemiddeld risico segmenten versnelt verwerking",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
@@ -109,7 +101,6 @@ export const Case2Tree: TreeNode = {
                 },
                 {
                   name: "Hardware wordt opgeschaald tijdens piekmomenten",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -129,7 +120,6 @@ export const Case2Tree: TreeNode = {
         // Branch C – Model Transparency
         {
           name: "Team voegt uitlegbaarheidstools toe om modelbeslissingen te verduidelijken",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -141,7 +131,6 @@ export const Case2Tree: TreeNode = {
               children: [
                 {
                   name: "Toegang wordt beperkt tot geverifieerde accounts",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -155,7 +144,6 @@ export const Case2Tree: TreeNode = {
                 },
                 {
               name: "Alternatieve aanpak: beperkte uitleg beschikbaar voor enkel senior teamleden",
-              dangerRating: 2,
               level: "Fortunately",
               status: GoShieldCheck,
               children: [
@@ -167,14 +155,12 @@ export const Case2Tree: TreeNode = {
                       children: [
                         {
                           name: "Bespreken de beslissingen in een volgende vergadering",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
                         },
                         {
                           name: "Junior teamleden besluiten alle servers uit te schakelen om fraude te stoppen",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
@@ -198,7 +184,6 @@ export const Case2Tree: TreeNode = {
         // Branch D – Retraining & Model Drift
         {
           name: "Continue training versnelt aanpassing aan nieuwe fraude­patronen",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -210,7 +195,6 @@ export const Case2Tree: TreeNode = {
               children: [
                 {
                   name: "Drift-detectiesysteem toegevoegd om modelgedrag te monitoren",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -222,7 +206,6 @@ export const Case2Tree: TreeNode = {
                       children: [
                         {
                           name: "Prioritering van alerts vermindert mentale belasting",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
