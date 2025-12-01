@@ -15,7 +15,7 @@ export interface TreeNode {
   name: string;
   children?: TreeNode[];
   _children?: TreeNode[];
-  dangerRating: number;
+  dangerRating?: number;
   level: string;
   status: IconType;
   statusColor?: string;
@@ -180,7 +180,7 @@ export default function TreeVisualizer({
                   parent.data.children = parent.data.children?.filter(
                     c => c !== node.data
                   );
-                  parent.data.dangerRating--;
+
                   if (parent.data.children?.length === 0)
                     parent.data.children = undefined;
                   setTreeData({ ...data });
@@ -193,7 +193,6 @@ export default function TreeVisualizer({
                 onClick={e => {
                   e.stopPropagation();
                   if (!node.data.children) node.data.children = [];
-                  node.data.dangerRating++;
                   const childLevel =
                     node.data.level === "fortunate"
                       ? "unfortunate"

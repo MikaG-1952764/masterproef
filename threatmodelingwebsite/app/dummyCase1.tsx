@@ -3,7 +3,6 @@ import { GoShield, GoShieldCheck } from "react-icons/go";
 
 export const Case1Tree: TreeNode = {
   name: "(F) Centraal Authenticatiesysteem geïmplementeerd",
-  dangerRating: 1,
   level: "Fortunately [Assumption Under Review]",
   status: GoShieldCheck,
   children: [
