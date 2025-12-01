@@ -3,7 +3,6 @@ import { GoShield, GoShieldCheck } from "react-icons/go";
 
 export const Case2Tree: TreeNode = {
   name: "(F) ML-model detecteert frauduleuze transacties",
-  dangerRating: 2,
   level: "Fortunately [Assumption Under Review]",
   status: GoShieldCheck,
   children: [
@@ -16,9 +15,8 @@ export const Case2Tree: TreeNode = {
 
         // Branch A – Improving Model Accuracy
         {
-          name: "(F) Meer historische data verhoogt de nauwkeurigheid",
-          dangerRating: 1,
-          level: "Fortunately [Completed]",
+          name: "(F) Meer historische data verhoogt de nauwkeurigheid [Completed]",
+          level: "Fortunately",
           status: GoShieldCheck,
           children: [
             {
@@ -29,7 +27,6 @@ export const Case2Tree: TreeNode = {
               children: [
                 {
                   name: "(F) Data wordt geanonimiseerd vóór training [Completed]",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -41,7 +38,6 @@ export const Case2Tree: TreeNode = {
                       children: [
                         {
                           name: "(F) Feature engineering verbetert prestaties op een veilige manier [Completed]",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
@@ -53,7 +49,6 @@ export const Case2Tree: TreeNode = {
                               children: [
                                 {
                                   name: "(F) Modelcompressie minimaliseert overhead [Verified Assumption]",
-                                  dangerRating: 1,
                                   level: "Fortunately",
                                   status: GoShieldCheck,
                                   statusColor: "green"
@@ -74,7 +69,6 @@ export const Case2Tree: TreeNode = {
         // Branch B – Real-time Alerts
         {
           name: "(F) Realtime waarschuwingen voorkomen financiële schade [Assumption Under Review]",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -86,7 +80,6 @@ export const Case2Tree: TreeNode = {
               children: [
                 {
                   name: "(F) Systeem optimaliseert door laag-risico transacties te batchen [Assumption Under Review]",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -98,7 +91,6 @@ export const Case2Tree: TreeNode = {
                       children: [
                         {
                           name: "(F) Caching van gemiddeld risico segmenten versnelt verwerking [Assumption Under Review]",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
@@ -109,7 +101,6 @@ export const Case2Tree: TreeNode = {
                 },
                 {
                   name: "(F) Hardware wordt opgeschaald tijdens piekmomenten [Assumption Under Review]",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -129,7 +120,6 @@ export const Case2Tree: TreeNode = {
         // Branch C – Model Transparency
         {
           name: "(F) Team voegt uitlegbaarheidstools toe om modelbeslissingen te verduidelijken [Assumption Under Review]",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -141,7 +131,6 @@ export const Case2Tree: TreeNode = {
               children: [
                 {
                   name: "(F) Toegang wordt beperkt tot geverifieerde accounts [Assumption Under Review]",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -155,7 +144,6 @@ export const Case2Tree: TreeNode = {
                 },
                 {
               name: "(F) Alternatieve aanpak: beperkte uitleg beschikbaar voor enkel senior teamleden [Assumption Under Review]",
-              dangerRating: 2,
               level: "Fortunately",
               status: GoShieldCheck,
               children: [
@@ -167,14 +155,12 @@ export const Case2Tree: TreeNode = {
                       children: [
                         {
                           name: "(F) Bespreken de beslissingen in een volgende vergadering [Assumption Under Review]",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
                         },
                         {
                           name: "(F) Junior teamleden besluiten alle servers uit te schakelen om fraude te stoppen [Assumption Under Review]",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
@@ -198,7 +184,6 @@ export const Case2Tree: TreeNode = {
         // Branch D – Retraining & Model Drift
         {
           name: "(F) Continue training versnelt aanpassing aan nieuwe fraude­patronen [Assumption Under Review]",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -210,7 +195,6 @@ export const Case2Tree: TreeNode = {
               children: [
                 {
                   name: "(F) Drift-detectiesysteem toegevoegd om modelgedrag te monitoren [Assumption Under Review]",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -222,7 +206,6 @@ export const Case2Tree: TreeNode = {
                       children: [
                         {
                           name: "(F) Prioritering van alerts vermindert mentale belasting [Assumption Under Review]",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [

@@ -16,7 +16,6 @@ export const Case1Tree: TreeNode = {
         // Branch A – MFA path
         {
           name: "(F) MFA gepland wat de veiligheid verhoogt [Assumption Under Review]",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -28,7 +27,6 @@ export const Case1Tree: TreeNode = {
               children: [
                 {
                   name: "(F) Nieuwe UX-flow met biometrie vermindert frictie [Assumption Under Review]",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -40,7 +38,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "(F) Verwerkingsregister en DPIA opgesteld om privacyrisico’s te beperken [Assumption Under Review]",
-                          dangerRating: 3,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
@@ -58,7 +55,6 @@ export const Case1Tree: TreeNode = {
                 },
                 {
                   name: "(F) Gebruikers krijgen optionele MFA-bypasscodes voor reissituaties [Completed]",
-                  dangerRating: 3,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -70,7 +66,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "(F) Tijdgebaseerde rotatie en automatische ongeldigmaking toegevoegd [Verified Assumption]",
-                          dangerRating: 2,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
@@ -90,7 +85,6 @@ export const Case1Tree: TreeNode = {
                   children: [
                     {
                       name: "(F) VIP-accounts krijgen hardware keys ter compensatie [Assumption Under Review]",
-                      dangerRating: 1,
                       level: "Fortunately",
                       status: GoShieldCheck,
                       children: [
@@ -110,7 +104,6 @@ export const Case1Tree: TreeNode = {
         // Branch B – Logging & Monitoring path
         {
           name: "(F) Team voegt gedetailleerde loginpogingen-logging toe [Assumption Under Review]",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -122,7 +115,6 @@ export const Case1Tree: TreeNode = {
               children: [
                 {
                   name: "(F) Automatische anomaliedetectie markeert verdachte IP-adressen [Assumption Under Review]",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -134,11 +126,8 @@ export const Case1Tree: TreeNode = {
                     }
                   ]
                 },
-
-                // Wrapped: probleem was Unfortunately -> Unfortunately, nu: Fortunately wrapper
                 {
                   name: "(F) Risicoanalyse uitgevoerd op log metadata [Assumption Under Review]",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -150,7 +139,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "(F) Encryptie-at-rest en toegangscontrole toegevoegd [Assumption Under Review]",
-                          dangerRating: 2,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           children: [
@@ -166,11 +154,8 @@ export const Case1Tree: TreeNode = {
                     }
                   ]
                 },
-
-                // Wrapped shadow-IT: insert wrapper Fortunately
                 {
                   name: "(F) Onderzoek naar ongeautoriseerde scripts op servers [Assumption Under Review]",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -182,7 +167,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "(F) Shadow-IT gedetecteerd, toegang tot logging endpoints geblokkeerd [Assumption Under Review]",
-                          dangerRating: 2,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
@@ -199,7 +183,6 @@ export const Case1Tree: TreeNode = {
         // Branch C – Password Policy path
         {
           name: "(F) Team versterkt wachtwoordbeleid (lengte, rotatie, complexiteit) [Assumption Under Review]",
-          dangerRating: 2,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -211,7 +194,6 @@ export const Case1Tree: TreeNode = {
               children: [
                 {
                   name: "(F) Uitrol van wachtwoordmanager verbetert gebruiksgemak [Assumption Under Review]",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -223,7 +205,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "(F) End-to-end encryptie ingeschakeld voor alle synchronisatie [Assumption Under Review]",
-                          dangerRating: 2,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
@@ -242,7 +223,6 @@ export const Case1Tree: TreeNode = {
               children: [
                 {
                   name: "(F) Team verwijdert verplichte rotatie en schakelt over naar risicogebaseerde resets [Assumption Under Review]",
-                  dangerRating: 1,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -262,7 +242,6 @@ export const Case1Tree: TreeNode = {
         // Branch D – Third-party Provider path
         {
           name: "(F) Externe authenticatieprovider toegevoegd voor SSO-compatibiliteit [Assumption Under Review]",
-          dangerRating: 1,
           level: "Fortunately",
           status: GoShieldCheck,
           children: [
@@ -274,7 +253,6 @@ export const Case1Tree: TreeNode = {
               children: [
                 {
                   name: "(F) Team richt on-prem fallback-authenticatieserver in [Assumption Under Review]",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -286,7 +264,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "(F) Periodieke synchronisatie en monitoring toegevoegd [Verified Assumption]",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
@@ -295,11 +272,8 @@ export const Case1Tree: TreeNode = {
                     }
                   ]
                 },
-
-                // Wrapped vendor patch issue (was Unfortunately under Unfortunately)
                 {
                   name: "(F) Vendor risico- en patchanalyse uitgevoerd [Assumption Under Review]",
-                  dangerRating: 2,
                   level: "Fortunately",
                   status: GoShieldCheck,
                   children: [
@@ -311,7 +285,6 @@ export const Case1Tree: TreeNode = {
                       children: [
                         {
                           name: "(F) Vulnerability scanner detecteert ontbrekende patch [Assumption Under Review]",
-                          dangerRating: 1,
                           level: "Fortunately",
                           status: GoShieldCheck,
                           statusColor: "green"
