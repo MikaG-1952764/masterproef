@@ -130,20 +130,7 @@ export const Case2Tree: TreeNode = {
               status: GoShield,
               children: [
                 {
-                  name: "(F) Toegang wordt beperkt tot geverifieerde accounts [Assumption Under Review]",
-                  level: "Fortunately",
-                  status: GoShieldCheck,
-                  children: [
-                    {
-                      name: "(U) Accountbeheer veroorzaakt administratieve overhead (Danger Rating: 3) [Weakness]",
-                      dangerRating: 3,
-                      level: "Unfortunately",
-                      status: GoShield
-                    }
-                  ]
-                },
-                {
-              name: "(F) Alternatieve aanpak: beperkte uitleg beschikbaar voor enkel senior teamleden [Assumption Under Review]",
+              name: "(F) Beperkte uitleg beschikbaar voor enkel senior teamleden [Assumption Under Review]",
               level: "Fortunately",
               status: GoShieldCheck,
               children: [

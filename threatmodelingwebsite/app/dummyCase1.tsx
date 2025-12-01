@@ -252,27 +252,6 @@ export const Case1Tree: TreeNode = {
               status: GoShield,
               children: [
                 {
-                  name: "(F) Team richt on-prem fallback-authenticatieserver in [Assumption Under Review]",
-                  level: "Fortunately",
-                  status: GoShieldCheck,
-                  children: [
-                    {
-                      name: "(U) On-prem fallback synchroniseert credentials vertraagd (Danger Rating: 5) [Weakness Under Review]",
-                      dangerRating: 5,
-                      level: "Unfortunately",
-                      status: GoShield,
-                      children: [
-                        {
-                          name: "(F) Periodieke synchronisatie en monitoring toegevoegd [Verified Assumption]",
-                          level: "Fortunately",
-                          status: GoShieldCheck,
-                          statusColor: "green"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
                   name: "(F) Vendor risico- en patchanalyse uitgevoerd [Assumption Under Review]",
                   level: "Fortunately",
                   status: GoShieldCheck,
