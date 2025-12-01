@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { GoShield, GoShieldCheck } from "react-icons/go";
 import { TreeNode } from "../TreeVisualizer";
+import { tree } from "d3";
 
 export default function IconSelectorButton({
   treeNode,
@@ -19,7 +20,9 @@ export default function IconSelectorButton({
 
   // 🟢 Determine correct icon color based on node level
   const getDefaultIcon = () => {
-    if (treeNode.level.toLowerCase() === "fortunately") {
+    if (treeNode.level.toLowerCase() === "fortunately" && treeNode.statusColor === "green") {
+      return <GoShieldCheck size={16} color="green" />;
+    } else if (treeNode.level.toLowerCase() === "fortunately" && (treeNode.statusColor === "orange" || treeNode.statusColor === undefined)) {
       return <GoShieldCheck size={16} color="orange" />;
     } else if (treeNode.level.toLowerCase() === "unfortunately" && hasChildren) {
       return <GoShield size={16} color="orange" />;
@@ -83,7 +86,7 @@ export default function IconSelectorButton({
             {treeNode.status === GoShield && treeNode.level.toLowerCase() === "fortunately" && (
                 <p className="text-xs text-black mt-1">Assumption to verify</p>
             )}
-            {treeNode.status === GoShieldCheck && (!treeNode._children || !treeNode.children) && treeNode.level.toLowerCase() === "fortunately" && (
+            {treeNode.status === GoShieldCheck && (!treeNode._children && !treeNode.children) && treeNode.level.toLowerCase() === "fortunately" && (
                 <p className="text-xs text-black mt-1">Verified assumption</p>
             )}
             {treeNode.status === GoShieldCheck && (treeNode._children || treeNode.children) && (
@@ -106,6 +109,7 @@ export default function IconSelectorButton({
                 e.stopPropagation();
                 setSelectedIcon(icon);
                 treeNode.status = icon.type;
+                treeNode.statusColor = icon.props.color;
                 setTreeData({ ...data });
                 setOpen(false);
               }}
@@ -127,6 +131,7 @@ export default function IconSelectorButton({
                 e.stopPropagation();
                 setSelectedIcon(icon);
                 treeNode.status = icon.type;
+                treeNode.statusColor = icon.props.color;
                 setTreeData({ ...data });
                 setOpen(false);
               }}
@@ -148,6 +153,7 @@ export default function IconSelectorButton({
                 e.stopPropagation();
                 setSelectedIcon(icon);
                 treeNode.status = icon.type;
+                treeNode.statusColor = icon.props.color;
                 setTreeData({ ...data });
                 setOpen(false);
               }}

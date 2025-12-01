@@ -4,7 +4,6 @@ import * as d3 from "d3";
 import { useEffect, useState } from "react";
 import { GoChevronDown, GoChevronUp, GoTrash, GoShield, GoInfo } from "react-icons/go";
 import { RiAddBoxLine } from "react-icons/ri";
-import { BsDot } from "react-icons/bs";
 import IconSelectorButton from "./components/iconButton";
 import { Node } from "./Node";
 import { getImmediateParent, getParentsAbove } from "./components/getParent";
@@ -129,6 +128,7 @@ export interface TreeNode {
   dangerRating: number;
   level: string;
   status: IconType | null;
+  statusColor?: string;
 }
 
 interface TreeVisualizerProps {

@@ -72,7 +72,7 @@ export function getGreenNodesToCheck(node: TreeNode): TreeNode[] {
       ...(current._children || []),
     ];
 
-    if (current.level.toLowerCase() === "fortunately" && current.status === GoShield) {
+    if (current.level.toLowerCase() === "fortunately" && current.status === GoShieldCheck) {
       result.push(current);
     }
 
@@ -102,7 +102,8 @@ export function getLastGreenNodesFinished(node: TreeNode): TreeNode[] {
     if (
       current.level.toLowerCase() === "fortunately" &&
       !hasChildren &&
-      current.status === GoShieldCheck
+      current.status === GoShieldCheck &&
+      current.statusColor === "green"
     ) {
       result.push(current);
     }
