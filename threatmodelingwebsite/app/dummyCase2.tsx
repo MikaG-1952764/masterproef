@@ -164,11 +164,83 @@ export const Case2Tree: TreeNode = {
                               name: "(U) Engineers negeren lage-prioriteitsmeldingen die soms kritiek blijken te zijn (Danger Rating: 8) [Weakness]",
                               dangerRating: 8,
                               level: "Unfortunately",
-                              status: GoShield
+                              status: GoShield,
+                              children: [
+                                {
+                                  name: "(F) Aanpassing van thresholds en periodieke review van alert policies [Verified Assumption]",
+                                  level: "Fortunately",
+                                  status: GoShieldCheck,
+                                  statusColor: "green"
+                                },
+                                {
+                                  name: "(F) Automatische correlatie van alerts om redundantie te verminderen [Verified Assumption]",
+                                  level: "Fortunately",
+                                  status: GoShieldCheck,
+                                  statusColor: "green"
+                                }
+                              ]
                             }
                               ]
                         },
                         
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: "(U) Onjuiste of verouderde trainingsdata beïnvloedt modelprestaties negatief (Danger Rating: 15) [Weakness Under Review]",
+              dangerRating: 15,
+              level: "Unfortunately",
+              status: GoShield,
+              children: [
+                {
+                  name: "(F) Data-validatie en preprocessing pipeline toegevoegd [Assumption Under Review]",
+                  level: "Fortunately",
+                  status: GoShieldCheck,
+                  children: [
+                    {
+                      name: "(U) Fouten in preprocessing kunnen bias in model introduceren (Danger Rating: 12) [Weakness Under Review]",
+                      dangerRating: 12,
+                      level: "Unfortunately",
+                      status: GoShield,
+                      children: [
+                        {
+                          name: "(F) Regelmatige peer-reviews van data pipelines [Verified Assumption]",
+                          level: "Fortunately",
+                          status: GoShieldCheck,
+                          statusColor: "green"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: "(U) Continue retraining kan compliance regels overtreden (bijv. GDPR, bias) (Danger Rating: 18) [Weakness Under Review]",
+              dangerRating: 18,
+              level: "Unfortunately",
+              status: GoShield,
+              children: [
+                {
+                  name: "(F) Model audits en fairness checks ingevoerd [Assumption Under Review]",
+                  level: "Fortunately",
+                  status: GoShieldCheck,
+                  children: [
+                    {
+                      name: "(U) Audits verhogen administratieve overhead (Danger Rating: 6) [Weakness Under Review]",
+                      dangerRating: 6,
+                      level: "Unfortunately",
+                      status: GoShield,
+                      children: [
+                        {
+                          name: "(F) Automatische audit-rapporten genereren [Verified Assumption]",
+                          level: "Fortunately",
+                          status: GoShieldCheck,
+                          statusColor: "green"
+                        }
                       ]
                     }
                   ]
