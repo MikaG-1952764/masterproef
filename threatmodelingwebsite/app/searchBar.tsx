@@ -49,7 +49,11 @@ export default function SearchBar({
       setHighlightIndex(0);
 
       if (found.length) {
-        setCurrentNode(found[0]); // scroll to first match
+        setCurrentNode(found[0]); 
+        setTimeout(() => {
+                        const el = document.getElementById(`node-${found[0].name}`);
+                        el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      }, 50);// scroll to first match
       }
     },
     [treeData, setHighlightedNodes, setCurrentNode]
@@ -67,7 +71,11 @@ export default function SearchBar({
     if (e.key === "Enter" && matches.length > 0) {
       const nextIndex = (highlightIndex + 1) % matches.length;
       setHighlightIndex(nextIndex);
-      setCurrentNode(matches[nextIndex]); // scroll to next match
+      setCurrentNode(matches[nextIndex]); 
+      setTimeout(() => {
+                        const el = document.getElementById(`node-${matches[nextIndex].name}`);
+                        el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      }, 50);
     }
   };
 
