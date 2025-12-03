@@ -13,10 +13,10 @@ import { CollapseButtons } from "./components/collapseButtons";
 import { ImArrowDown2 } from "react-icons/im";
 import { FiTriangle } from "react-icons/fi";
 
-export function isFortunate(node: TreeNode) : boolean{
-    if(node.level.toLowerCase() == "fortunately") return true;
-    return false;
-  }
+export function isFortunate(node: TreeNode): boolean {
+  if (node.level.toLowerCase() == "fortunately") return true;
+  return false;
+}
 
 export default function Page() {
   const [treeData, setTreeData] = useState<TreeNode | null>(null);
@@ -38,8 +38,8 @@ export default function Page() {
   const [orangeShieldHovered, setOrangeShieldHovered] = useState(false);
   const [orangeCheckShieldHovered, setOrangeCheckShieldHovered] = useState(false);
   const [greenCheckShieldHovered, setGreenCheckShieldHovered] = useState(false);
-  
-  
+
+
   const handleAddTree = () => {
     const rootName = prompt("Enter name for the root node:");
     setTreeData({
@@ -62,7 +62,7 @@ export default function Page() {
     setGreenNodesFinished(getGreenNodesFinished);
   }, [treeData]);
 
-  function expandPathToNode(node: TreeNode, root: TreeNode): boolean{
+  function expandPathToNode(node: TreeNode, root: TreeNode): boolean {
     const path: TreeNode[] = [];
 
     // Build path from root to node
@@ -106,7 +106,7 @@ export default function Page() {
     return false
   }
 
-  function ShowNodes({ treeNodes, sideBar }: { treeNodes: TreeNode[] , sideBar?: string}) {
+  function ShowNodes({ treeNodes, sideBar }: { treeNodes: TreeNode[], sideBar?: string }) {
     const [tooltip, setTooltip] = useState<{
       visible: boolean;
       x: number;
@@ -151,45 +151,44 @@ export default function Page() {
     }
 
     return (
-      <div className="mt-6 h-[79vh] overflow-y-auto border border-gray-300 rounded relative">
+      <div className="mt-6 h-[70vh] overflow-y-auto border border-gray-300 rounded relative">
         {treeNodes.map((element, index) => (
           <div key={index} className="relative">
             <div className="flex flex-row">
-              {treeNodes.at(1)?.level.toLowerCase() === "unfortunately" && sideBar==="shields" && (
+              {treeNodes.at(1)?.level.toLowerCase() === "unfortunately" && sideBar === "shields" && (
                 <div className="flex items-center justify-center gap-2">
-                <div className="relative flex items-center justify-center w-8 h-8">
-                  <FiTriangle color="red" size={30} />
-                  <span className="absolute top-2 inset-0 flex items-center justify-center text-black text-[12px] font-bold">
-                    {element.dangerRating}
-                  </span>
-                </div>
+                  <div className="relative flex items-center justify-center w-8 h-8">
+                    <FiTriangle color="red" size={30} />
+                    <span className="absolute top-2 inset-0 flex items-center justify-center text-black text-[12px] font-bold">
+                      {element.dangerRating}
+                    </span>
+                  </div>
 
-                {/* Andere box */}
-                <div className="text-center p-1.5 w-10 h-10 bg-red-200 border-black border-2 rounded text-black">
-                  U
+                  {/* Andere box */}
+                  <div className="flex items-center justify-center w-10 h-[54px] bg-red-200 border-black border-2 rounded text-black">
+                    U
+                  </div>
                 </div>
-              </div>
               )}
-              {treeNodes.at(1)?.level.toLowerCase() === "fortunately" && sideBar==="shields" && (
-              <div className="text-center p-1.5 m-1 w-10 h-10 bg-green-200 border-black border-2 rounded text-black">F</div>
+              {treeNodes.at(1)?.level.toLowerCase() === "fortunately" && sideBar === "shields" && (
+                <div className="flex justify-center items-center m-1 w-10 h-[54px] bg-green-200 border-black border-2 rounded text-black">F</div>
               )}
-              {sideBar==="shields" ? (
+              {sideBar === "shields" ? (
                 <button
-                  className={`text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200 ${
-                    isFortunate(element) ? "bg-green-200" : "bg-red-200"
-                  }`}
+                  className={`text-black text-[14px] border-2 border-black p-2 m-1 h-[54px] rounded w-[98%] active:bg-gray-200 ${isFortunate(element) ? "bg-green-200" : "bg-red-200"
+                    }`}
                   onClick={() => {
-                      if (expandPathToNode(element, treeData!)){
-                        setCurrentNode(element);
-                        setTimeout(() => {
+                    if (expandPathToNode(element, treeData!)) {
+                      setCurrentNode(element);
+                      setTimeout(() => {
                         const el = document.getElementById(`node-${element.name}`);
                         el?.scrollIntoView({ behavior: "smooth", block: "center" });
                         setOpen(false);
                       }, 50);
-                      } else {
-                        expandPathToNode(element, treeData!);
-                        setTreeData({ ...treeData! });
-                        setTimeout(() => {
+                    } else {
+                      expandPathToNode(element, treeData!);
+                      setTreeData({ ...treeData! });
+                      setTimeout(() => {
                         setCurrentNode(element);
                         setOpen(false);
                       }, 0);
@@ -198,7 +197,8 @@ export default function Page() {
                         el?.scrollIntoView({ behavior: "smooth", block: "center" });
                         setOpen(false);
                       }, 50);
-                    setOpen(false);}
+                      setOpen(false);
+                    }
                   }}
                   onMouseEnter={(e) => showParentsAtMouse(e, element)}
                   onMouseMove={(e) => moveParentsAtMouse(e)}
@@ -206,52 +206,52 @@ export default function Page() {
                 >
                   <p>{element.name}</p>
                 </button>
-              ): (
+              ) : (
                 <div>
-                  {index!=0 && <ImArrowDown2 className="flex items-center w-full" color="black" size={24}/>}
+                  {index != 0 && <ImArrowDown2 className="flex items-center w-full" color="black" size={24} />}
                   <div className="flex flex-row">
-                    { element.level.toLowerCase() === "unfortunately" && sideBar==="parents" && (
-                    <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-red-200 border-black border-2 rounded text-black text-[14px]">U</div>)
+                    {element.level.toLowerCase() === "unfortunately" && sideBar === "parents" && (
+                      <div className="flex items-center justify-center m-1 w-10 h-[50px] bg-red-200 border-black border-2 rounded text-black text-[14px]">U</div>)
                     }
-                    { element.level.toLowerCase() === "fortunately" && sideBar==="parents" && (
-                    <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-green-200 border-black border-2 rounded text-black text-[14px]">F</div>)
+                    {element.level.toLowerCase() === "fortunately" && sideBar === "parents" && (
+                      <div className="flex items-center justify-center m-1 w-10 h-[50px] bg-green-200 border-black border-2 rounded text-black text-[14px]">F</div>)
                     }
                     <button
-                    className={`text-black text-[14px] border-2 border-black m-1 h-[30px] w-[25vw] rounded active:bg-gray-200 cursor-pointer ${
-                      isFortunate(element) ? "bg-green-200" : "bg-red-200"
-                    }`}
-                    onClick={() => {
-                        if (expandPathToNode(element, treeData!)){
+                      className={`text-black text-[14px] border-2 border-black m-1 h-[50px] w-[25vw] rounded active:bg-gray-200 cursor-pointer ${isFortunate(element) ? "bg-green-200" : "bg-red-200"
+                        }`}
+                      onClick={() => {
+                        if (expandPathToNode(element, treeData!)) {
                           setCurrentNode(element);
                           setTimeout(() => {
-                          const el = document.getElementById(`node-${element.name}`);
-                          el?.scrollIntoView({ behavior: "smooth", block: "center" });
-                        }, 50);
+                            const el = document.getElementById(`node-${element.name}`);
+                            el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                          }, 50);
                         } else {
                           expandPathToNode(element, treeData!);
                           setTreeData({ ...treeData! });
                           setTimeout(() => {
-                          setCurrentNode(element);
+                            setCurrentNode(element);
+                            setOpen(false);
+                          }, 0);
+                          setTimeout(() => {
+                            const el = document.getElementById(`node-${element.name}`);
+                            el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                          }, 50);
                           setOpen(false);
-                        }, 0);
-                        setTimeout(() => {
-                          const el = document.getElementById(`node-${element.name}`);
-                          el?.scrollIntoView({ behavior: "smooth", block: "center" });
-                        }, 50);
-                      setOpen(false);}
-                    }}
-                  >
-                    <p>{element.name}</p>
-                  </button>
+                        }
+                      }}
+                    >
+                      <p>{element.name}</p>
+                    </button>
+                  </div>
                 </div>
-              </div>
               )}
             </div>
           </div>
         ))}
 
         {/* Tooltip that follows the mouse */}
-        {tooltip.visible && tooltip.parent &&(
+        {tooltip.visible && tooltip.parent && (
           <div
             className={`fixed z-50 border p-2 shadow rounded max-w-xs text-sm ${isFortunate(tooltip.parent) ? "bg-green-200" : "bg-red-200"}`}
             style={{
@@ -289,7 +289,7 @@ export default function Page() {
       <h1 className="text-2xl font-bold mb-4 text-center text-black">Fortunately–Unfortunately Tree</h1>
 
       {/* Fixed search bar */}
-      {(treeData)&& (
+      {(treeData) && (
         <div className="fixed right-40 top-10 w-[300px] z-50">
           <CollapseButtons treeData={treeData!} setTreeData={setTreeData!} />
           <SearchBar
@@ -302,10 +302,10 @@ export default function Page() {
 
       <div>
         {openParentSummary && (
-          <div className="absolute flex flex-col w-[30vw] h-[100vh] top-0 left-0 z-100 bg-gray-300 border-2 border-black rounded-[20px] p-4">
+          <div className="absolute flex flex-col w-[32vw] h-[100vh] top-0 left-0 z-100 bg-gray-300 border-2 border-black rounded-[20px] p-4">
             <div className="flex flex-row">
               <h2 className="text-black text-xl font-bold flex-1 mt-5 ml-4">Parents above current node</h2>
-              <button className="flex justify-end mt-2" onClick={() => {setOpenParentSummary(false)}}><GoX size={50} color="black"></GoX></button>
+              <button className="flex justify-end mt-2" onClick={() => { setOpenParentSummary(false) }}><GoX size={50} color="black"></GoX></button>
             </div>
             {(!parentsAbove || parentsAbove.length === 0) ? (
               <div className="text-red-400 text-[20px] mt-4 ml-4">No parents available.</div>
@@ -318,43 +318,43 @@ export default function Page() {
 
       <div
         className={`absolute top-0 right-0 transition-all duration-500 ease-in-out 
-          ${isOpen 
-            ? "w-[50vw] h-[100vh] border-2 border-black rounded-[20px] bg-gray-200 z-100" 
+          ${isOpen
+            ? "w-[50vw] h-[100vh] border-2 border-black rounded-[20px] bg-gray-200 z-100"
             : "w-[50px] h-[50px] right-10 top-10 border-transparent"
           }`}
       >
-        {isOpen && 
+        {isOpen &&
           <div className="flex flex-col">
-            <button className="flex justify-end p-2 mt-2" onClick={() => {setOpen(!isOpen)}}><GoX size={50} color="black"></GoX></button>
+            <button className="flex justify-end p-2 mt-2" onClick={() => { setOpen(!isOpen) }}><GoX size={50} color="black"></GoX></button>
             <div className="flex flex-row justify-between gap-2 ml-2 mr-2">
-              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='todo' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
-                onClick={() => {setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo")}}>
+              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab === 'todo' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
+                onClick={() => { setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo") }}>
                 <div className="text-[15px]">
                   Weaknesses
-                  <GoShield className="inline ml-2" color="red"/>
+                  <GoShield className="inline ml-2" color="red" />
                 </div>
               </button>
-              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='verify' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
-                onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify")}}>
+              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab === 'verify' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
+                onClick={() => { setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify") }}>
                 <div className="text-[15px]">
                   Weaknesses Under Review
-                  <GoShield className="inline ml-2" color="orange"/>
+                  <GoShield className="inline ml-2" color="orange" />
                 </div>
               </button>
             </div>
             <div className="flex flex-row justify-between mt-2 gap-2 ml-2 mr-2">
-              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='check' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
-                onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}>
+              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab === 'check' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
+                onClick={() => { setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check") }}>
                 <div className="text-[15px]">
                   Assumptions Under Review
-                  <GoShieldCheck className="inline ml-2" color="orange"/>
+                  <GoShieldCheck className="inline ml-2" color="orange" />
                 </div>
               </button>
-              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab==='finished' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
-                      onClick={() => {setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished")}}>
+              <button className={`border-2 border-black h-[40px] flex-1 rounded-[20] font-bold ${activeNodeTab === 'finished' ? 'bg-gray-300 text-black' : 'bg-white text-black'} active:bg-gray-400 `}
+                onClick={() => { setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished") }}>
                 <div className="text-[15px]">
                   Verified assumptions
-                  <GoShieldCheck className="inline ml-2" color="green"/>
+                  <GoShieldCheck className="inline ml-2" color="green" />
                 </div>
               </button>
             </div>
@@ -386,40 +386,40 @@ export default function Page() {
         }
         <div className="absolute top-5 right-0 flex flex-col items-center">
           {!isOpen &&
-          <div>
-            <button className={`rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300`} 
-            onClick={() => {setRedShieldHovered(false);setOpen(!isOpen); setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo")}}
-            onMouseEnter={() => setRedShieldHovered(true)}
-            onMouseLeave={() => setRedShieldHovered(false)}>
+            <div>
+              <button className={`rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300`}
+                onClick={() => { setRedShieldHovered(false); setOpen(!isOpen); setDisplayRedNodes(true); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("todo") }}
+                onMouseEnter={() => setRedShieldHovered(true)}
+                onMouseLeave={() => setRedShieldHovered(false)}>
                 <GoShield color="red" size={24} />
                 <p className="text-black">[{redNodes.length}]</p>
-                 {redShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Weaknesses</div>}
-            </button>
-            <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mt-2 mb-2 hover:bg-gray-300" 
-            onClick={() => {setOrangeShieldHovered(false);setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify")}}
-            onMouseEnter={() => setOrangeShieldHovered(true)}
-            onMouseLeave={() => setOrangeShieldHovered(false)}>
-              <GoShield color="orange" size={24} />
-              <p className="text-black">[{redNodesToVerify.length}]</p>
-              {orangeShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Weaknesses Under Review</div>}
-            </button>
-            <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mb-2 hover:bg-gray-300" 
-            onClick={() => {setOrangeCheckShieldHovered(false);setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check")}}
-            onMouseEnter={() => setOrangeCheckShieldHovered(true)}
-            onMouseLeave={() => setOrangeCheckShieldHovered(false)}>
-              <GoShieldCheck color="orange" size={24} />
-              <p className="text-black">[{greenNodes.length}]</p>
-              {orangeCheckShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Assumptions Under Review</div>}
-            </button> 
-            <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300" 
-            onClick={() => {setGreenCheckShieldHovered(false);setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished")}}
-            onMouseEnter={() => setGreenCheckShieldHovered(true)}
-            onMouseLeave={() => setGreenCheckShieldHovered(false)}>
-              <GoShieldCheck color="green" size={24} />
-              <p className="text-black">[{greenNodesFinished.length}]</p>
-              {greenCheckShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Verified Assumptions</div>}
-            </button>  
-          </div>}
+                {redShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Weaknesses</div>}
+              </button>
+              <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mt-2 mb-2 hover:bg-gray-300"
+                onClick={() => { setOrangeShieldHovered(false); setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(true); setActiveNodeTab("verify") }}
+                onMouseEnter={() => setOrangeShieldHovered(true)}
+                onMouseLeave={() => setOrangeShieldHovered(false)}>
+                <GoShield color="orange" size={24} />
+                <p className="text-black">[{redNodesToVerify.length}]</p>
+                {orangeShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Weaknesses Under Review</div>}
+              </button>
+              <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 mb-2 hover:bg-gray-300"
+                onClick={() => { setOrangeCheckShieldHovered(false); setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(true); setDisplayGreenNodesFinished(false); setDisplayRedNodesToVerify(false); setActiveNodeTab("check") }}
+                onMouseEnter={() => setOrangeCheckShieldHovered(true)}
+                onMouseLeave={() => setOrangeCheckShieldHovered(false)}>
+                <GoShieldCheck color="orange" size={24} />
+                <p className="text-black">[{greenNodes.length}]</p>
+                {orangeCheckShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Assumptions Under Review</div>}
+              </button>
+              <button className="rounded-2xl h-10 w-16 border-2 border-black items-center flex justify-center bg-gray-200 active:bg-gray-400 hover:bg-gray-300"
+                onClick={() => { setGreenCheckShieldHovered(false); setOpen(!isOpen); setDisplayRedNodes(false); setDisplayGreenNodes(false); setDisplayGreenNodesFinished(true); setDisplayRedNodesToVerify(false); setActiveNodeTab("finished") }}
+                onMouseEnter={() => setGreenCheckShieldHovered(true)}
+                onMouseLeave={() => setGreenCheckShieldHovered(false)}>
+                <GoShieldCheck color="green" size={24} />
+                <p className="text-black">[{greenNodesFinished.length}]</p>
+                {greenCheckShieldHovered && <div className="absolute z-100 right-16 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Verified Assumptions</div>}
+              </button>
+            </div>}
         </div>
       </div>
 
@@ -453,8 +453,8 @@ export default function Page() {
             >
               Reset Tree
             </button>
-            
-            <div className="overflow-auto w-[95vw] h-[90vh] pr-[60px]">
+
+            <div className="overflow-auto w-[95vw] h-[80vh] pr-[60px]">
               <TreeVisualizer
                 data={treeData}
                 setTreeData={setTreeData}

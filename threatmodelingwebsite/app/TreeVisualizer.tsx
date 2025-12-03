@@ -38,7 +38,7 @@ function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: Tr
       >
         <FiTriangle size={100} color="red"></FiTriangle>
         <span className="absolute inset-0 top-4 text-black font-bold text-sm">
-            {node.dangerRating}
+          {node.dangerRating}
         </span>
         {dangerRatingHover &&
           <div className="absolute z-20 -right-26 -top-6 w-30 bg-white border border-black rounded shadow-lg text-black text-[14px]">Danger rating</div>
@@ -64,12 +64,12 @@ function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: Tr
 
             {openImpact && (
               <div className="absolute mt-1 bg-white border rounded shadow p-1 z-50 w-full">
-                {[1,2,3,4,5].map((value) => (
+                {[1, 2, 3, 4, 5].map((value) => (
                   <button
                     key={value}
                     onClick={() => {
                       setImpact(value);
-                      node.dangerRating = value*likelihood;
+                      node.dangerRating = value * likelihood;
                       setOpenImpact(false);
                       setTreeData({ ...data });
                     }}
@@ -96,12 +96,12 @@ function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: Tr
 
             {openLikelihood && (
               <div className="absolute mt-1 bg-white border rounded shadow p-1 z-50 w-full">
-                {[1,2,3,4,5].map((value) => (
+                {[1, 2, 3, 4, 5].map((value) => (
                   <button
                     key={value}
                     onClick={() => {
                       setLikelihood(value);
-                      node.dangerRating = impact*value;
+                      node.dangerRating = impact * value;
                       setOpenLikelihood(false);
                       // trigger parent update by re-setting the root data reference
                       setTreeData({ ...data });
@@ -228,11 +228,11 @@ export default function TreeVisualizer({
               ${currentNode === node.data ? "ring-4 ring-red-600 bg-red-100" : ""}`}
             style={{ marginLeft: `${node.depth * INDENT_PX}px` }}
           >
-            <div className="flex flex-col items-center gap-2">              
+            <div className="flex flex-col items-center gap-2">
               {/* Node visual */}
               <div className="relative flex flex-col" id={`node-${node.data.name}`} key={i} >
                 <div className="node-wrapper">
-                  {node.data.level.toLowerCase() === "unfortunately" && 
+                  {node.data.level.toLowerCase() === "unfortunately" &&
                     (
                       <div>
                         {node.data.level.toLowerCase() === "unfortunately" && (
@@ -241,134 +241,135 @@ export default function TreeVisualizer({
                       </div>
                     )
                   }
-                  <button className="absolute rounded-full right-2 -top-1 hover:bg-gray-400 cursor-pointer" 
-                  onMouseEnter={() =>{ setInfoHover(true); setHoveredInfoNode(node.data)}} onMouseLeave={()=> {setInfoHover(false); setHoveredInfoNode(null)}}
-                  onClick={() => {
-                    setOpenParentSummary?.(true);
-                    setParentsAbove(getParentsAbove(node.data, data));
-                  }}>
+                  <button className="absolute rounded-full right-2 -top-1 hover:bg-gray-400 cursor-pointer"
+                    onMouseEnter={() => { setInfoHover(true); setHoveredInfoNode(node.data) }} onMouseLeave={() => { setInfoHover(false); setHoveredInfoNode(null) }}
+                    onClick={() => {
+                      setOpenParentSummary?.(true);
+                      setParentsAbove(getParentsAbove(node.data, data));
+                    }}>
                     <GoInfo size={16} color="black" pointerEvents={"none"}></GoInfo>
-                    {infoHover && node.data===hoveredInfoNode &&
+                    {infoHover && node.data === hoveredInfoNode &&
                       <div className="absolute z-20 -right-42 -top-6 w-40 bg-white border border-black rounded shadow-lg text-black text-[14px]">Show branch summary</div>
                     }
                   </button>
                   <p className="text-gray-400 text-[12px] ml-5">{node.data.level}</p>
                   {editingNode === node.data ? (
-                  <input
-                    className="border p-1 text-sm text-black rounded w-[600px] bg-gray-200"
-                    autoFocus
-                    value={editValue}
-                    onChange={e => setEditValue(e.target.value)}
-                    onBlur={() => {
-                      editingNode.name = editValue.trim() || editingNode.name;
-                      setEditingNode(null);
-                      setTreeData({ ...data });
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
+                    <input
+                      className="border p-1 text-sm text-black rounded w-[600px] bg-gray-200"
+                      autoFocus
+                      value={editValue}
+                      onChange={e => setEditValue(e.target.value)}
+                      onBlur={() => {
                         editingNode.name = editValue.trim() || editingNode.name;
                         setEditingNode(null);
                         setTreeData({ ...data });
-                      }
-                      if (e.key === "Escape") {
-                        setEditingNode(null);
-                      }
-                    }}
-                  />
-                ) : (                
-                  <div className="cursor-pointer" onMouseEnter={e => showParentsAtMouse(e, node.data)} onMouseMove={e => moveParentsAtMouse(e)} onMouseLeave={hideParents} onClick={() => 
-                    {setEditingNode(node.data);
-                    setEditValue(node.data.name);
-                    setTreeData({ ...data });}}>
-                    <Node name={node.data.name} level={node.data.level} />
-                  </div>
-                )}
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          editingNode.name = editValue.trim() || editingNode.name;
+                          setEditingNode(null);
+                          setTreeData({ ...data });
+                        }
+                        if (e.key === "Escape") {
+                          setEditingNode(null);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <div className="cursor-pointer" onMouseEnter={e => showParentsAtMouse(e, node.data)} onMouseMove={e => moveParentsAtMouse(e)} onMouseLeave={hideParents} onClick={() => {
+                      setEditingNode(node.data);
+                      setEditValue(node.data.name);
+                      setTreeData({ ...data });
+                    }}>
+                      <Node name={node.data.name} level={node.data.level} />
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div className="flex gap-2 opacity-0 group-hover:opacity-100 ml-3">
                 <IconSelectorButton treeNode={node.data} setTreeData={setTreeData} data={data} />
                 <div className="flex flex-row">
-                {node.data.children &&
+                  {node.data.children &&
+                    <button
+                      className="cursor-pointer text-black opacity-0 group-hover:opacity-100 font-bold px-1"
+                      onClick={e => {
+                        e.stopPropagation();
+                        if (node.data.children) {
+                          node.data._children = node.data.children;
+                          node.data.children = undefined;
+                        } else if (node.data._children) {
+                          node.data.children = node.data._children;
+                          node.data._children = undefined;
+                        }
+                        setTreeData({ ...data });
+                      }}
+                    >
+                      {node.data.children ? <GoChevronDown size={20} /> : <GoChevronUp size={20} />}
+                    </button>}
+                  {node.data._children &&
+                    <button
+                      className="cursor-pointer text-black opacity-100 font-bold px-1"
+                      onClick={e => {
+                        e.stopPropagation();
+                        if (node.data.children) {
+                          node.data._children = node.data.children;
+                          node.data.children = undefined;
+                        } else if (node.data._children) {
+                          node.data.children = node.data._children;
+                          node.data._children = undefined;
+                        }
+                        setTreeData({ ...data });
+                      }}
+                    >
+                      {node.data.children ? <GoChevronDown size={20} /> : <GoChevronUp size={20} />}
+                    </button>}
+                  {node.data._children &&
+                    <p className="text-black">{node.data._children!.length}</p>}
+                </div>
+
                 <button
-                  className="cursor-pointer text-black opacity-0 group-hover:opacity-100 font-bold px-1"
+                  className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
                   onClick={e => {
                     e.stopPropagation();
-                    if (node.data.children) {
-                      node.data._children = node.data.children;
-                      node.data.children = undefined;
-                    } else if (node.data._children) {
-                      node.data.children = node.data._children;
-                      node.data._children = undefined;
-                    }
+                    const confirmDeletion = window.confirm(`Are you sure you want to delete the node "${node.data.name}"?`)
+                    if (!confirmDeletion) return;
+                    const parent = node.parent;
+                    if (!parent) return;
+                    parent.data.children = parent.data.children?.filter(
+                      c => c !== node.data
+                    );
+                    if (parent.data.children?.length === 0)
+                      parent.data.children = undefined;
                     setTreeData({ ...data });
                   }}
                 >
-                  {node.data.children ? <GoChevronDown size={20} /> : <GoChevronUp size={20} />}
-                </button>}
-                {node.data._children &&
+                  <GoTrash size={15} />
+                </button>
                 <button
-                  className="cursor-pointer text-black opacity-100 font-bold px-1"
+                  className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
                   onClick={e => {
                     e.stopPropagation();
-                    if (node.data.children) {
-                      node.data._children = node.data.children;
-                      node.data.children = undefined;
-                    } else if (node.data._children) {
-                      node.data.children = node.data._children;
-                      node.data._children = undefined;
-                    }
+                    if (!node.data.children) node.data.children = [];
+                    const childLevel =
+                      node.data.level.toLowerCase() === "fortunately"
+                        ? "unfortunately"
+                        : "fortunately";
+                    node.data.children.push({
+                      name: "New node",
+                      dangerRating: 1,
+                      level: childLevel,
+                      status: GoShield,
+                    });
+                    const newChild = node.data.children[node.data.children.length - 1];
+                    setEditingNode(newChild);
+                    setEditValue(newChild.name);
                     setTreeData({ ...data });
+
                   }}
                 >
-                  {node.data.children ? <GoChevronDown size={20} /> : <GoChevronUp size={20} />}
-                </button>}
-                {node.data._children &&
-                  <p className="text-black">{node.data._children!.length}</p>}
-              </div>
-
-              <button
-                className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
-                onClick={e => {
-                  e.stopPropagation();
-                  const confirmDeletion = window.confirm(`Are you sure you want to delete the node "${node.data.name}"?`)
-                  if(!confirmDeletion) return;
-                  const parent = node.parent;
-                  if (!parent) return;
-                  parent.data.children = parent.data.children?.filter(
-                    c => c !== node.data
-                  );
-                  if (parent.data.children?.length === 0)
-                    parent.data.children = undefined;
-                  setTreeData({ ...data });
-                }}
-              >
-                <GoTrash size={15} />
-              </button>
-              <button
-                className="cursor-pointer text-black font-bold px-1 opacity-0 group-hover:opacity-100"
-                onClick={e => {
-                  e.stopPropagation();
-                  if (!node.data.children) node.data.children = [];
-                  const childLevel =
-                    node.data.level.toLowerCase() === "fortunately"
-                      ? "unfortunately"
-                      : "fortunately";
-                  node.data.children.push({
-                    name: "New node",
-                    dangerRating: 1,
-                    level: childLevel,
-                    status: GoShield,
-                  });
-                  const newChild = node.data.children[node.data.children.length - 1];
-                  setEditingNode(newChild);
-                  setEditValue(newChild.name);
-                  setTreeData({ ...data });
-
-                }}
-              >
-                <RiAddBoxLine size={17} />
-              </button>
+                  <RiAddBoxLine size={17} />
+                </button>
               </div>
             </div>
           </div>
