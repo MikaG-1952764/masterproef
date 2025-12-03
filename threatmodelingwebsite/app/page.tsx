@@ -12,10 +12,10 @@ import { CollapseButtons } from "./components/collapseButtons";
 import { ImArrowDown2 } from "react-icons/im";
 import { Case1Tree } from "./dummyCase1";
 
-export function isFortunate(node: TreeNode) : boolean{
-    if(node.level == "fortunate") return true;
-    return false;
-  }
+export function isFortunate(node: TreeNode): boolean {
+  if (node.level == "fortunate") return true;
+  return false;
+}
 
 export default function Page() {
   const [treeData, setTreeData] = useState<TreeNode | null>(null);
@@ -37,8 +37,8 @@ export default function Page() {
   const [orangeShieldHovered, setOrangeShieldHovered] = useState(false);
   const [orangeCheckShieldHovered, setOrangeCheckShieldHovered] = useState(false);
   const [greenCheckShieldHovered, setGreenCheckShieldHovered] = useState(false);
-  
-  
+
+
   const handleAddTree = () => {
     const rootName = prompt("Enter name for the root node:");
     setTreeData({
@@ -61,7 +61,7 @@ export default function Page() {
     setGreenNodesFinished(getGreenNodesFinished);
   }, [treeData]);
 
-  function expandPathToNode(node: TreeNode, root: TreeNode): boolean{
+  function expandPathToNode(node: TreeNode, root: TreeNode): boolean {
     const path: TreeNode[] = [];
 
     // Build path from root to node
@@ -105,7 +105,7 @@ export default function Page() {
     return false
   }
 
-  function ShowNodes({ treeNodes, sideBar }: { treeNodes: TreeNode[] , sideBar?: string}) {
+  function ShowNodes({ treeNodes, sideBar }: { treeNodes: TreeNode[], sideBar?: string }) {
     const [tooltip, setTooltip] = useState<{
       visible: boolean;
       x: number;
@@ -154,28 +154,27 @@ export default function Page() {
         {treeNodes.map((element, index) => (
           <div key={index} className="relative">
             <div className="flex flex-row">
-              {treeNodes.at(1)?.level === "unfortunate" && sideBar==="shields" && (
-              <div className="text-center p-1.5 m-1 w-10 h-10 bg-red-200 border-black border-2 rounded text-black">U</div>
+              {treeNodes.at(1)?.level === "unfortunate" && sideBar === "shields" && (
+                <div className="text-center p-1.5 m-1 w-10 h-10 bg-red-200 border-black border-2 rounded text-black">U</div>
               )}
-              {treeNodes.at(1)?.level === "fortunate" && sideBar==="shields" && (
-              <div className="text-center p-1.5 m-1 w-10 h-10 bg-green-200 border-black border-2 rounded text-black">F</div>
+              {treeNodes.at(1)?.level === "fortunate" && sideBar === "shields" && (
+                <div className="text-center p-1.5 m-1 w-10 h-10 bg-green-200 border-black border-2 rounded text-black">F</div>
               )}
-              {sideBar==="shields" ? (
+              {sideBar === "shields" ? (
                 <button
-                  className={`text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200 ${
-                    isFortunate(element) ? "bg-green-200" : "bg-red-200"
-                  }`}
+                  className={`text-black border-2 border-black p-2 m-1 h-[40px] rounded w-[98%] active:bg-gray-200 ${isFortunate(element) ? "bg-green-200" : "bg-red-200"
+                    }`}
                   onClick={() => {
-                      if (expandPathToNode(element, treeData!)){
-                        setCurrentNode(element);
-                        setTimeout(() => {
+                    if (expandPathToNode(element, treeData!)) {
+                      setCurrentNode(element);
+                      setTimeout(() => {
                         const el = document.getElementById(`node-${element.name}`);
                         el?.scrollIntoView({ behavior: "smooth", block: "center" });
                       }, 50);
-                      } else {
-                        expandPathToNode(element, treeData!);
-                        setTreeData({ ...treeData! });
-                        setTimeout(() => {
+                    } else {
+                      expandPathToNode(element, treeData!);
+                      setTreeData({ ...treeData! });
+                      setTimeout(() => {
                         setCurrentNode(element);
                         setOpen(false);
                       }, 0);
@@ -183,7 +182,8 @@ export default function Page() {
                         const el = document.getElementById(`node-${element.name}`);
                         el?.scrollIntoView({ behavior: "smooth", block: "center" });
                       }, 50);
-                    setOpen(false);}
+                      setOpen(false);
+                    }
                   }}
                   onMouseEnter={(e) => showParentsAtMouse(e, element)}
                   onMouseMove={(e) => moveParentsAtMouse(e)}
@@ -191,52 +191,52 @@ export default function Page() {
                 >
                   <p>{element.name}</p>
                 </button>
-              ): (
+              ) : (
                 <div>
-                  {index!=0 && <ImArrowDown2 className="flex items-center w-full" color="black" size={24}/>}
+                  {index != 0 && <ImArrowDown2 className="flex items-center w-full" color="black" size={24} />}
                   <div className="flex flex-row">
-                    { element.level === "unfortunate" && sideBar==="parents" && (
-                    <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-red-200 border-black border-2 rounded text-black text-[14px]">U</div>)
+                    {element.level === "unfortunate" && sideBar === "parents" && (
+                      <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-red-200 border-black border-2 rounded text-black text-[14px]">U</div>)
                     }
-                    { element.level === "fortunate" && sideBar==="parents" && (
-                    <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-green-200 border-black border-2 rounded text-black text-[14px]">F</div>)
+                    {element.level === "fortunate" && sideBar === "parents" && (
+                      <div className="flex items-center justify-center m-1 w-10 h-[30px] bg-green-200 border-black border-2 rounded text-black text-[14px]">F</div>)
                     }
                     <button
-                    className={`text-black text-[14px] border-2 border-black m-1 h-[30px] w-[15vw] rounded active:bg-gray-200 ${
-                      isFortunate(element) ? "bg-green-200" : "bg-red-200"
-                    }`}
-                    onClick={() => {
-                        if (expandPathToNode(element, treeData!)){
+                      className={`text-black text-[14px] border-2 border-black m-1 h-[30px] w-[15vw] rounded active:bg-gray-200 ${isFortunate(element) ? "bg-green-200" : "bg-red-200"
+                        }`}
+                      onClick={() => {
+                        if (expandPathToNode(element, treeData!)) {
                           setCurrentNode(element);
                           setTimeout(() => {
-                          const el = document.getElementById(`node-${element.name}`);
-                          el?.scrollIntoView({ behavior: "smooth", block: "center" });
-                        }, 50);
+                            const el = document.getElementById(`node-${element.name}`);
+                            el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                          }, 50);
                         } else {
                           expandPathToNode(element, treeData!);
                           setTreeData({ ...treeData! });
                           setTimeout(() => {
-                          setCurrentNode(element);
+                            setCurrentNode(element);
+                            setOpen(false);
+                          }, 0);
+                          setTimeout(() => {
+                            const el = document.getElementById(`node-${element.name}`);
+                            el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                          }, 50);
                           setOpen(false);
-                        }, 0);
-                        setTimeout(() => {
-                          const el = document.getElementById(`node-${element.name}`);
-                          el?.scrollIntoView({ behavior: "smooth", block: "center" });
-                        }, 50);
-                      setOpen(false);}
-                    }}
-                  >
-                    <p>{element.name}</p>
-                  </button>
+                        }
+                      }}
+                    >
+                      <p>{element.name}</p>
+                    </button>
+                  </div>
                 </div>
-              </div>
               )}
             </div>
           </div>
         ))}
 
         {/* Tooltip that follows the mouse */}
-        {tooltip.visible && tooltip.parent &&(
+        {tooltip.visible && tooltip.parent && (
           <div
             className={`fixed z-50 border p-2 shadow rounded max-w-xs text-sm ${isFortunate(tooltip.parent) ? "bg-green-200" : "bg-red-200"}`}
             style={{
@@ -275,7 +275,7 @@ export default function Page() {
       <h1 className="text-2xl font-bold mb-4 text-center text-black">Fortunately–Unfortunately Tree</h1>
 
       {/* Fixed search bar */}
-      {(treeData)&& (
+      {(treeData) && (
         <div className="fixed right-40 top-10 w-[300px] z-50">
           <CollapseButtons treeData={treeData!} setTreeData={setTreeData!} />
           <SearchBar
@@ -291,7 +291,7 @@ export default function Page() {
           <div className="absolute flex flex-col w-[20vw] h-[100vh] top-0 left-0 z-100 bg-gray-300 border-2 border-black rounded-[20px] p-4">
             <div className="flex flex-row">
               <h2 className="text-black text-xl font-bold flex-1 mt-5 ml-4">Parents above current node</h2>
-              <button className="flex justify-end mt-2" onClick={() => {setOpenParentSummary(false)}}><GoX size={50} color="black"></GoX></button>
+              <button className="flex justify-end mt-2" onClick={() => { setOpenParentSummary(false) }}><GoX size={50} color="black"></GoX></button>
             </div>
             {(!parentsAbove || parentsAbove.length === 0) ? (
               <div className="text-red-400 text-[20px] mt-4 ml-4">No parents available.</div>
@@ -304,8 +304,8 @@ export default function Page() {
 
       <div
         className={`absolute top-0 right-0 transition-all duration-500 ease-in-out 
-          ${isOpen 
-            ? "w-[30vw] h-[100vh] border-2 border-black rounded-[20px] bg-gray-200 z-100" 
+          ${isOpen
+            ? "w-[30vw] h-[100vh] border-2 border-black rounded-[20px] bg-gray-200 z-100"
             : "w-[50px] h-[50px] right-10 top-10 border-transparent"
           }`}
       >
@@ -320,7 +320,7 @@ export default function Page() {
             >
               + Add Tree
             </button>
-                        <button
+            <button
               onClick={loadDummyData1}
               className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-green-700"
             >
@@ -341,8 +341,8 @@ export default function Page() {
             >
               Reset Tree
             </button>
-            
-            <div className="overflow-auto w-[95vw] h-[90vh] pr-[60px]">
+
+            <div className="overflow-auto w-[95vw] h-[80vh] pr-[60px]">
               <TreeVisualizer
                 data={treeData}
                 setTreeData={setTreeData}
