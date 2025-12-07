@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { TreeNode } from "./TreeVisualizer";
 
@@ -32,6 +32,7 @@ export default function SearchBar({
   const [searchTerm, setSearchTerm] = useState("");
   const [highlightIndex, setHighlightIndex] = useState(0);
   const [matches, setMatches] = useState<TreeNode[]>([]);
+  const searchRef = useRef<HTMLDivElement | null>(null);
 
   const handleSearch = useCallback(
     (term: string) => {
@@ -49,11 +50,11 @@ export default function SearchBar({
       setHighlightIndex(0);
 
       if (found.length) {
-        setCurrentNode(found[0]); 
+        setCurrentNode(found[0]);
         setTimeout(() => {
-                        const el = document.getElementById(`node-${found[0].name}`);
-                        el?.scrollIntoView({ behavior: "smooth", block: "center" });
-                      }, 50);// scroll to first match
+          const el = document.getElementById(`node-${found[0].name}`);
+          el?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 50);// scroll to first match
       }
     },
     [treeData, setHighlightedNodes, setCurrentNode]
@@ -61,6 +62,18 @@ export default function SearchBar({
 
   useEffect(() => {
     handleSearch(searchTerm);
+    function handleClickOutside(e: MouseEvent) {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        // buiten de searchbar geklikt
+        setSearchTerm("");
+        setMatches([]);
+        setHighlightedNodes([]);
+        setHighlightIndex(0);
+        setCurrentNode(undefined as any);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [searchTerm, handleSearch]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,31 +84,33 @@ export default function SearchBar({
     if (e.key === "Enter" && matches.length > 0) {
       const nextIndex = (highlightIndex + 1) % matches.length;
       setHighlightIndex(nextIndex);
-      setCurrentNode(matches[nextIndex]); 
+      setCurrentNode(matches[nextIndex]);
       setTimeout(() => {
-                        const el = document.getElementById(`node-${matches[nextIndex].name}`);
-                        el?.scrollIntoView({ behavior: "smooth", block: "center" });
-                      }, 50);
+        const el = document.getElementById(`node-${matches[nextIndex].name}`);
+        el?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 50);
     }
   };
 
   return (
-    <TextField
-      value={searchTerm}
-      onChange={handleInputChange}
-      onKeyDown={handleKeyDown}
-      id="outlined-basic"
-      variant="outlined"
-      fullWidth
-      label="Search for node"
-      slotProps={{
-        input: {
-          style: {
-            backgroundColor: "#9e9e9ed2",
-            borderRadius: "6px",
+    <div ref={searchRef}>
+      <TextField
+        value={searchTerm}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        id="outlined-basic"
+        variant="outlined"
+        fullWidth
+        label="Search for node"
+        slotProps={{
+          input: {
+            style: {
+              backgroundColor: "#9e9e9ed2",
+              borderRadius: "6px",
+            },
           },
-        },
-      }}
-    />
+        }}
+      />
+    </div>
   );
 }

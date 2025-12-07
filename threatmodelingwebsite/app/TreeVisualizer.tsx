@@ -1,7 +1,7 @@
 "use client";
 
 import * as d3 from "d3";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GoChevronDown, GoChevronUp, GoTrash, GoShield, GoInfo } from "react-icons/go";
 import { RiAddBoxLine } from "react-icons/ri";
 import IconSelectorButton from "./components/iconButton";
@@ -22,11 +22,35 @@ function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: Tr
 
   const [dangerRatingHover, setDangerRatingHover] = useState(false);
 
+  const popupRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (!showDanger) return;
+
+      if (
+        popupRef.current?.contains(e.target as Node) ||
+        buttonRef.current?.contains(e.target as Node)
+      ) {
+        return; // click inside → ignore
+      }
+
+      setShowDanger(false);
+      setOpenImpact(false);
+      setOpenLikelihood(false);
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showDanger]);
+
   return (
     <div className="relative">
 
-      {/* The danger rating button */}
+      {/* Danger button */}
       <button
+        ref={buttonRef}
         className="flex items-center justify-center absolute rounded-full h-10 right-10 -top-6 hover:bg-gray-300 cursor-pointer text-black w-10"
         onClick={() => {
           setShowDanger(!showDanger);
@@ -36,18 +60,23 @@ function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: Tr
         onMouseEnter={() => setDangerRatingHover(true)}
         onMouseLeave={() => setDangerRatingHover(false)}
       >
-        <FiTriangle size={100} color="red"></FiTriangle>
+        <FiTriangle size={100} color="red" />
         <span className="absolute inset-0 top-4 text-black font-bold text-sm">
           {node.dangerRating}
         </span>
         {dangerRatingHover &&
-          <div className="absolute z-20 -right-26 -top-6 w-30 bg-white border border-black rounded shadow-lg text-black text-[14px]">Danger rating</div>
+          <div className="absolute z-20 -right-26 -top-6 w-30 bg-white border border-black rounded shadow-lg text-black text-[14px]">
+            Danger rating
+          </div>
         }
       </button>
 
-      {/* Popup with dropdowns */}
+      {/* Popup */}
       {showDanger && (
-        <div className="absolute -top-32 -right-6 w-40 bg-white border-2 border-black rounded shadow-lg p-2 z-50 text-black">
+        <div
+          ref={popupRef}
+          className="absolute -top-32 -right-6 w-40 bg-white border-2 border-black rounded shadow-lg p-2 z-50 text-black"
+        >
           <p className="text-xs font-semibold mb-1">Danger rating: {node.dangerRating}</p>
 
           {/* Impact dropdown */}
@@ -103,7 +132,6 @@ function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: Tr
                       setLikelihood(value);
                       node.dangerRating = impact * value;
                       setOpenLikelihood(false);
-                      // trigger parent update by re-setting the root data reference
                       setTreeData({ ...data });
                     }}
                     className="block w-full text-left px-2 py-1 hover:bg-gray-200 text-sm"
@@ -119,7 +147,6 @@ function NodeDangerPopup({ node, data, setTreeData }: { node: TreeNode; data: Tr
     </div>
   );
 }
-
 
 export interface TreeNode {
   name: string;
